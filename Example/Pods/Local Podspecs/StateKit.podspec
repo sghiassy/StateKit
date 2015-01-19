@@ -10,14 +10,14 @@
 Pod::Spec.new do |s|
   s.name             = "StateKit"
   s.version          = "0.1.0"
-  s.summary          = "A short description of StateKit."
+  s.summary          = "StateKit is a StateChart written for iOS/MacOSX Development"
   s.description      = <<-DESC
-                       An optional longer description of StateKit
+                       StateKit is a framework to model, capture, manipulate and interact with State.
 
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                       StateKit models state in the form of a tree. 
+                       This is different from a Finite State Machine (FSM) that models state as a graph
                        DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/StateKit"
+  s.homepage         = "https://github.com/sghiassy/StateKit"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Shaheen Ghiassy" => "shaheen@groupon.com" }

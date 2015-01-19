@@ -7,6 +7,7 @@
 //
 
 #import "SKViewController.h"
+#import <SKStateChart.h>
 
 @interface SKViewController ()
 
@@ -14,16 +15,29 @@
 
 @implementation SKViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"StateKit!!!";
+    label.font = [UIFont systemFontOfSize:26];
+    label.textColor = [UIColor blueColor];
+    [self.view addSubview:label];
+    [label sizeToFit];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[label]"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:@{@"label":label}]];
+
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(30)-[label]"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:@{@"label":label}]];
+
+    SKStateChart *stateChart = [[SKStateChart alloc] init];
+    [stateChart class];
 }
 
 @end
