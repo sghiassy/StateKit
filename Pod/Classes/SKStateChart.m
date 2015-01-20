@@ -44,22 +44,31 @@ static NSString *kSubStringKey = @"subStates";
     NSAssert(_currentStateTree != nil, @"The stateChart you input does not have a root state");
 }
 
-- (void)initializeDictionaryAsATree:(NSDictionary *)stateTree {
+- (SKState *)initializeDictionaryAsATree:(NSDictionary *)stateTree {
     stateTree = stateTree.mutableCopy; // Cast the dictionary to a mutable copy
+    SKState *state = [[SKState alloc] init];
 
     for (id key in stateTree) {
         NSLog(@"%@", key);
         id value = [stateTree valueForKey:key];
 
         if ([key isEqualToString:kSubStringKey]) {
+            NSDictionary *subStates = (NSDictionary *)value;
+
+            for (id stateKey in subStates) {
+                SKState *subState = [self initializeDictionaryAsATree:[subStates objectForKey:stateKey]];
+                [state setSubState:stateKey forState:subState];
+            }
+
             [self initializeDictionaryAsATree:value];
+        } else {
+            [state setEvent:key forBlock:value];
         }
     }
 
     NSLog(@"Something");
+    return state;
 }
-
-- (void)initializeSubStates:(NSDictionary *)
 
 #pragma mark - Messages
 

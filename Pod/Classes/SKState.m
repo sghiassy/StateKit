@@ -33,7 +33,7 @@
 }
 
 - (void)setSubState:(NSString *)stateName forState:(SKState *)state {
-    [self.subStates setObject:[state copy] forKey:[stateName copy]];
+    [self.subStates setObject:[state copy] forKey:stateName];
 }
 
 @end
