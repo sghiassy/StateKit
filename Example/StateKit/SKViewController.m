@@ -36,6 +36,11 @@
                                              [sc goToState:@"red"];
                                          },
                                          @"subStates":@{
+                                                 @"pink":@{
+                                                         @"enterState":^(SKStateChart *sc) {
+                                                             weakSelf.view.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:200.0f/200.0f blue:200.0f/200.0f alpha:0];
+                                                             weakSelf.stateLabel.text = sc.currentState;
+                                                         }},
                                                  @"red":@{
                                                          @"enterState":^(SKStateChart *sc) {
                                                              weakSelf.view.backgroundColor = [UIColor redColor];
@@ -47,10 +52,17 @@
                                                          @"darker":^(SKStateChart *sc){
                                                              [sc goToState:@"purple"];
                                                          },
+                                                         @"lighter":^(SKStateChart *sc){
+                                                             [sc goToState:@"pink"];
+                                                         },
                                                          @"subStates":@{
                                                                  @"purple":@{
-                                                                     @"enterState":^{
+                                                                     @"enterState":^(SKStateChart *sc) {
                                                                          weakSelf.view.backgroundColor = [UIColor purpleColor];
+                                                                         weakSelf.stateLabel.text = sc.currentState;
+                                                                     },
+                                                                     @"exitState":^(SKStateChart *sc) {
+                                                                         NSLog(@"Something");
                                                                      }
                                                                  }
                                                                },
@@ -71,6 +83,8 @@
     [stateMachine class];
 
     [stateMachine sendMessage:@"userPressedRedButton"];
+    [stateMachine sendMessage:@"darker"];
+    [stateMachine sendMessage:@"lighter"];
 }
 
 - (void)createHeader {

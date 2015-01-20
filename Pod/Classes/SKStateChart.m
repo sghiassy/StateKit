@@ -43,6 +43,8 @@ static NSString *kDefaultRootState = @"root";
 
     if (messageBlock) {
         messageBlock(self);
+    } else {
+        NSLog(@"Something");
     }
 }
 
