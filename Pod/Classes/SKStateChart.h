@@ -22,3 +22,7 @@
 - (NSString *)currentState;
 
 @end
+
+
+typedef void (^StateBlock)(void);
+typedef void (^MessageBlock)(SKStateChart *sc);

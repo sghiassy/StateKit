@@ -8,10 +8,6 @@
 
 #import "SKStateChart.h"
 
-typedef void (^StateBlock)(void);
-typedef void (^MessageBlock)(SKStateChart *this);
-
-
 @interface SKStateChart ()
 
 @property (nonatomic, copy) NSDictionary *stateChart;
@@ -27,10 +23,20 @@ typedef void (^MessageBlock)(SKStateChart *this);
     self = [super init];
 
     if (self) {
-        _stateChart = [stateChart copy];
+        NSDictionary *root = [stateChart objectForKey:@"root"];
+        NSAssert(root != nil, @"The stateChart you input does not have a root state");
+
+        _stateChart = root;
+
+        MessageBlock rootBlock = [_stateChart objectForKey:@"enterState"];
+        rootBlock(self);
     }
 
     return self;
+}
+
+- (void)goToState:(NSString *)goToState {
+
 }
 
 @end
