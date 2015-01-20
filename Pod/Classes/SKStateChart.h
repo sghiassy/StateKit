@@ -14,6 +14,10 @@
 
 - (void)goToState:(NSString *)goToState;
 
+- (void)sendMessage:(NSString *)message;
+
+#pragma mark - Getters
+
 /**
  *  Get the StateChart's current state
  *

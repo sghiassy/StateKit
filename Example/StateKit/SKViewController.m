@@ -51,10 +51,12 @@
                                                  }},
                                          @"blue":@{},
                                          @"messages":@{
-                                                 @"darker":[^(SKStateChart *sc) {
+                                                 @"darker":^(SKStateChart *sc) {
                                                      [sc goToState:@"black"];
-                                                 } copy]
                                                  },
+                                                 @"userPressedRedButton":^(SKStateChart *sc) {
+                                                     [sc goToState:@"red"];
+                                                 }},
                                          @"enterState":^(SKStateChart *sc) {
                                              weakSelf.view.backgroundColor = [UIColor whiteColor];
                                              weakSelf.stateLabel.text = @"init change me";
@@ -63,6 +65,8 @@
 
     SKStateChart *stateMachine = [[SKStateChart alloc] initWithStateChart:stateChart];
     [stateMachine class];
+
+    [stateMachine sendMessage:@"userPressedRedButton"];
 }
 
 - (void)createHeader {
