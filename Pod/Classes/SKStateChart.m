@@ -51,6 +51,8 @@ static NSString *kDefaultRootState = @"root";
     NSDictionary *newState = [self.currentStateTree objectForKey:goToState];
 
     if (newState != nil) {
+        [self didExitState:self.currentStateTree];
+
         self.currentStateTree = newState;
         self.currentStateName = goToState;
         [self didEnterState:self.currentStateTree];
@@ -64,6 +66,14 @@ static NSString *kDefaultRootState = @"root";
 
 - (void)didEnterState:(NSDictionary *)state {
     MessageBlock rootBlock = [state objectForKey:@"enterState"];
+
+    if (rootBlock) {
+        rootBlock(self);
+    }
+}
+
+- (void)didExitState:(NSDictionary *)state {
+    MessageBlock rootBlock = [state objectForKey:@"exitState"];
 
     if (rootBlock) {
         rootBlock(self);
