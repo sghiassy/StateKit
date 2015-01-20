@@ -55,10 +55,10 @@
                                                      [sc goToState:@"black"];
                                                  } copy]
                                                  },
-                                         @"enterState":[^(SKStateChart *sc) {
+                                         @"enterState":^(SKStateChart *sc) {
                                              weakSelf.view.backgroundColor = [UIColor whiteColor];
                                              weakSelf.stateLabel.text = @"init change me";
-                                         } copy]
+                                         }
                                          }};
 
     SKStateChart *stateMachine = [[SKStateChart alloc] initWithStateChart:stateChart];
