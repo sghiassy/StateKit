@@ -8,13 +8,26 @@
 
 #import "SKStateChart.h"
 
+typedef void (^StateBlock)(void);
+typedef void (^MessageBlock)(SKStateChart *this);
+
+
+@interface SKStateChart ()
+
+@property (nonatomic, copy) NSDictionary *stateChart;
+
+@property (nonatomic, copy) NSString *currentState;
+
+@end
+
+
 @implementation SKStateChart
 
-- (instancetype)init {
+- (instancetype)initWithStateChart:(NSDictionary *)stateChart {
     self = [super init];
 
     if (self) {
-        NSAssert(0, @"ASSEEEERT");
+        _stateChart = [stateChart copy];
     }
 
     return self;

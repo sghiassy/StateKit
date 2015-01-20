@@ -10,4 +10,15 @@
 
 @interface SKStateChart : NSObject
 
+- (instancetype)initWithStateChart:(NSDictionary *)stateChart;
+
+- (void)goToState:(NSString *)goToState;
+
+/**
+ *  Get the StateChart's current state
+ *
+ *  @return String representing current state
+ */
+- (NSString *)currentState;
+
 @end
