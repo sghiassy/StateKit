@@ -39,11 +39,22 @@ static NSString *kDefaultRootState = @"root";
 #pragma mark - Messages
 
 - (void)sendMessage:(NSString *)message {
+    NSDictionary *currentStateMessages = [self.currentStateTree objectForKey:@"messages"];
+    MessageBlock messageBlock = [currentStateMessages objectForKey:message];
 
+    if (messageBlock) {
+        messageBlock(self);
+    }
 }
 
 - (void)goToState:(NSString *)goToState {
+    NSDictionary *newState = [self.currentStateTree objectForKey:goToState];
 
+    if (newState != nil) {
+        self.currentStateTree = newState;
+        self.currentStateName = goToState;
+        [self didEnterState:self.currentStateTree];
+    }
 }
 
 #pragma mark - Traveral Methods
