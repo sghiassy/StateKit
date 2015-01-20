@@ -7,6 +7,7 @@
 //
 
 #import "SKStateChart.h"
+#import "SKState.h"
 
 @interface SKStateChart ()
 
@@ -18,6 +19,7 @@
 @end
 
 static NSString *kDefaultRootState = @"root";
+static NSString *kSubStringKey = @"subStates";
 
 
 @implementation SKStateChart
@@ -26,15 +28,38 @@ static NSString *kDefaultRootState = @"root";
     self = [super init];
 
     if (self) {
-        _currentStateName = kDefaultRootState;
-        _currentStateTree = [stateChart objectForKey:_currentStateName];
-        NSAssert(_currentStateTree != nil, @"The stateChart you input does not have a root state");
+        [self setRootState:stateChart];
+        [self initializeDictionaryAsATree:_currentStateTree];
+
         [self didEnterState:_currentStateTree];
         _stateChart = _currentStateTree;
     }
 
     return self;
 }
+
+- (void)setRootState:(NSDictionary *)stateChart {
+    _currentStateName = kDefaultRootState;
+    _currentStateTree = [stateChart objectForKey:_currentStateName];
+    NSAssert(_currentStateTree != nil, @"The stateChart you input does not have a root state");
+}
+
+- (void)initializeDictionaryAsATree:(NSDictionary *)stateTree {
+    stateTree = stateTree.mutableCopy; // Cast the dictionary to a mutable copy
+
+    for (id key in stateTree) {
+        NSLog(@"%@", key);
+        id value = [stateTree valueForKey:key];
+
+        if ([key isEqualToString:kSubStringKey]) {
+            [self initializeDictionaryAsATree:value];
+        }
+    }
+
+    NSLog(@"Something");
+}
+
+- (void)initializeSubStates:(NSDictionary *)
 
 #pragma mark - Messages
 
@@ -62,9 +87,6 @@ static NSString *kDefaultRootState = @"root";
 }
 
 #pragma mark - Traveral Methods
-
-- (BOOL)traverseTreeToState {
-}
 
 - (void)didEnterState:(NSDictionary *)state {
     MessageBlock rootBlock = [state objectForKey:@"enterState"];
