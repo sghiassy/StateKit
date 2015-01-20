@@ -39,8 +39,7 @@ static NSString *kDefaultRootState = @"root";
 #pragma mark - Messages
 
 - (void)sendMessage:(NSString *)message {
-    NSDictionary *currentStateMessages = [self.currentStateTree objectForKey:@"messages"];
-    MessageBlock messageBlock = [currentStateMessages objectForKey:message];
+    MessageBlock messageBlock = [self.currentStateTree objectForKey:message];
 
     if (messageBlock) {
         messageBlock(self);
@@ -48,7 +47,8 @@ static NSString *kDefaultRootState = @"root";
 }
 
 - (void)goToState:(NSString *)goToState {
-    NSDictionary *newState = [self.currentStateTree objectForKey:goToState];
+    NSDictionary *subStates = [self.currentStateTree objectForKey:@"subStates"];
+    NSDictionary *newState = [subStates objectForKey:goToState];
 
     if (newState != nil) {
         [self didExitState:self.currentStateTree];

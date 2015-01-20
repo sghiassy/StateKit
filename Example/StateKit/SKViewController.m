@@ -25,43 +25,47 @@
 
     __weak SKViewController *weakSelf = self;
     NSDictionary *stateChart = @{@"root":@{
-                                         @"red":@{
-                                                 @"enterState":^(SKStateChart *sc) {
-                                                     weakSelf.view.backgroundColor = [UIColor redColor];
-                                                     weakSelf.stateLabel.text = sc.currentState;
-                                                 },
-                                                 @"exitState":^(SKStateChart *sc) {
-                                                     NSLog(@"Did exit %@", sc.currentState);
-                                                 },
-                                                 @"messages":@{
-                                                         @"darker":^(SKStateChart *sc){
-                                                             [sc goToState:@"purple"];
-                                                         }},
-                                                 @"purple":^{
-
-                                                 }},
-                                         @"green":@{
-                                                 @"messages":@{
-                                                         @"darker":^(SKStateChart *sc) {
-                                                             [sc goToState:@"darkGreen"];
-                                                         }
-                                                 },
-                                                 @"darkGreen":^{
-                                                     weakSelf.view.backgroundColor = [UIColor darkGrayColor];
-                                                 }},
-                                         @"blue":@{},
-                                         @"messages":@{
-                                                 @"darker":^(SKStateChart *sc) {
-                                                     [sc goToState:@"black"];
-                                                 },
-                                                 @"userPressedRedButton":^(SKStateChart *sc) {
-                                                     [sc goToState:@"red"];
-                                                 }},
                                          @"enterState":^(SKStateChart *sc) {
                                              weakSelf.view.backgroundColor = [UIColor whiteColor];
                                              weakSelf.stateLabel.text = @"init change me";
+                                         },
+                                         @"darker":^(SKStateChart *sc) {
+                                             [sc goToState:@"black"];
+                                         },
+                                         @"userPressedRedButton":^(SKStateChart *sc) {
+                                             [sc goToState:@"red"];
+                                         },
+                                         @"subStates":@{
+                                                 @"red":@{
+                                                         @"enterState":^(SKStateChart *sc) {
+                                                             weakSelf.view.backgroundColor = [UIColor redColor];
+                                                             weakSelf.stateLabel.text = sc.currentState;
+                                                         },
+                                                         @"exitState":^(SKStateChart *sc) {
+                                                             NSLog(@"Did exit %@", sc.currentState);
+                                                         },
+                                                         @"darker":^(SKStateChart *sc){
+                                                             [sc goToState:@"purple"];
+                                                         },
+                                                         @"subStates":@{
+                                                                 @"purple":@{
+                                                                     @"enterState":^{
+                                                                         weakSelf.view.backgroundColor = [UIColor purpleColor];
+                                                                     }
+                                                                 }
+                                                               },
+                                                         },
+                                                 @"green":@{
+                                                         @"darker":^(SKStateChart *sc) {
+                                                             [sc goToState:@"darkGreen"];
+                                                         },
+                                                         @"darkGreen":^{
+                                                             weakSelf.view.backgroundColor = [UIColor darkGrayColor];
+                                                         }},
+                                                 @"blue":@{},
+                                                 }
                                          }
-                                         }};
+                                 };
 
     SKStateChart *stateMachine = [[SKStateChart alloc] initWithStateChart:stateChart];
     [stateMachine class];
