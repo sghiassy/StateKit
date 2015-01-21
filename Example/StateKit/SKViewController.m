@@ -11,6 +11,8 @@
 
 @interface SKViewController ()
 
+// Views
+@property (nonatomic, strong) UILabel *appTitle;
 @property (nonatomic, strong) UILabel *stateLabel;
 
 @end
@@ -34,6 +36,9 @@
                                          },
                                          @"userPressedRedButton":^(SKStateChart *sc) {
                                              [sc goToState:@"red"];
+                                         },
+                                         @"userIsFeelingBlue":^(SKStateChart *sc) {
+                                             [sc goToState:@"blue"];
                                          },
                                          @"subStates":@{
                                                  @"pink":@{
@@ -74,7 +79,12 @@
                                                          @"darkGreen":^{
                                                              weakSelf.view.backgroundColor = [UIColor darkGrayColor];
                                                          }},
-                                                 @"blue":@{},
+                                                 @"blue":@{
+                                                         @"enterState":^(SKStateChart *sc){
+                                                             weakSelf.appTitle.textColor = [UIColor blackColor];
+                                                             weakSelf.view.backgroundColor = [UIColor blueColor];
+                                                             weakSelf.stateLabel.text = sc.currentStateName;
+                                                         }},
                                                  }
                                          }
                                  };
@@ -92,26 +102,30 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [stateMachine sendMessage:@"lighter"];
     });
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [stateMachine sendMessage:@"userIsFeelingBlue"];
+    });
 }
 
 - (void)createHeader {
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"StateKit!!!";
-    label.font = [UIFont systemFontOfSize:26];
-    label.textColor = [UIColor blueColor];
-    [self.view addSubview:label];
-    [label sizeToFit];
-    label.translatesAutoresizingMaskIntoConstraints = NO;
+    _appTitle = [[UILabel alloc] init];
+    _appTitle.text = @"StateKit!!!";
+    _appTitle.font = [UIFont systemFontOfSize:26];
+    _appTitle.textColor = [UIColor blueColor];
+    [self.view addSubview:_appTitle];
+    [_appTitle sizeToFit];
+    _appTitle.translatesAutoresizingMaskIntoConstraints = NO;
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[label]"
                                                                       options:0
                                                                       metrics:nil
-                                                                        views:@{@"label":label}]];
+                                                                        views:@{@"label":_appTitle}]];
 
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(30)-[label]"
                                                                       options:0
                                                                       metrics:nil
-                                                                        views:@{@"label":label}]];
+                                                                        views:@{@"label":_appTitle}]];
 }
 
 - (void)createStateLabel {
