@@ -63,10 +63,14 @@
     if (array.count > 0) {
 
         for (id key in array) {
-            keys = [NSString stringWithFormat:@"%@, ", key];
+            if (keys) {
+                keys = [NSString stringWithFormat:@"%@%@,", keys, key];
+            } else {
+                keys = [NSString stringWithFormat:@"%@,", key];
+            }
         }
 
-        keys = [keys substringToIndex:keys.length - 2]; // Remove trailing comma
+        keys = [keys substringToIndex:keys.length - 1]; // Remove trailing comma
     }
 
     return keys;
