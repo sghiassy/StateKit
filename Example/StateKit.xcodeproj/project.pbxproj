@@ -24,6 +24,7 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Instantiation_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Instantiation_Tests.m */; };
+		7AD06C9E1A70609800B63753 /* StateEvents_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD06C9D1A70609800B63753 /* StateEvents_Tests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Instantiation_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Instantiation_Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		7AD06C9D1A70609800B63753 /* StateEvents_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StateEvents_Tests.m; sourceTree = "<group>"; };
 		8A72157B4AA0613F82598503 /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA6FAAA3C1FE29CB70375E8C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		CCAA0CA0FBC6E89BD7537387 /* Pods-StateKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StateKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StateKit/Pods-StateKit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				6003F5BB195388D20070C39A /* Instantiation_Tests.m */,
+				7AD06C9D1A70609800B63753 /* StateEvents_Tests.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 			);
 			path = Tests;
@@ -371,6 +374,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AD06C9E1A70609800B63753 /* StateEvents_Tests.m in Sources */,
 				6003F5BC195388D20070C39A /* Instantiation_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
