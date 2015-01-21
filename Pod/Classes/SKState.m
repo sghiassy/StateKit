@@ -38,6 +38,10 @@
     [self.subStates setObject:state forKey:state.name];
 }
 
+- (SKState *)subState:(NSString *)subStateName {
+    return [self.subStates objectForKey:subStateName];
+}
+
 #pragma mark - Event Messages
 
 - (MessageBlock)blockForMessage:(NSString *)message {

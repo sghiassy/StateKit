@@ -42,7 +42,6 @@ static NSString *kSubStringKey = @"subStates";
 }
 
 - (SKState *)initializeDictionaryAsATree:(NSDictionary *)stateTree withStateName:(NSString *)name andParentState:(SKState *)parentState {
-//    stateTree = stateTree.mutableCopy; // Cast the dictionary to a mutable copy
     SKState *state = [[SKState alloc] init];
     state.name = name;
     state.parentState = parentState;
@@ -120,7 +119,9 @@ static NSString *kSubStringKey = @"subStates";
     // Once we have traversed to the common anscetor - we now go doing until we reach the goToState
     for (NSInteger i = pathToRoot.count - 2; i >= 0; i--) {
         NSString *nextState = [pathToRoot objectAtIndex:i];
-        self.currentState = [self pushState:self.currentState toChildState:nextState];
+        self.currentState = [self.currentState subState:nextState];
+        NSAssert(self.currentState != nil, @"Child state not found from givenState");
+        [self didEnterState:self.currentState];
     }
 }
 
@@ -164,14 +165,6 @@ static NSString *kSubStringKey = @"subStates";
 }
 
 #pragma mark - State Event Methods
-
-- (SKState *)pushState:(SKState *)currentState toChildState:(NSString *)toState {
-    NSDictionary *subStates = [currentState getSubStates];
-    currentState = [subStates objectForKey:toState];
-    NSAssert(currentState != nil, @"Child state not found from givenState");
-    [self didEnterState:currentState];
-    return currentState;
-}
 
 - (SKState *)popStateToParent:(SKState *)currentState {
     [self didExitState:currentState];

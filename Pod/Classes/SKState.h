@@ -21,6 +21,8 @@
 
 - (NSDictionary *)getSubStates;
 
+- (SKState *)subState:(NSString *)subStateName;
+
 - (void)setSubState:(SKState *)state;
 
 @end
