@@ -95,6 +95,20 @@ static NSString *kSubStringKey = @"subStates";
         self.currentState = newState;
         [self didEnterState:self.currentState];
     }
+
+
+    // Build path from node to parent for goToState
+
+    // Now traverse up to root from current state
+        // If the traversed node equals one in the path build previously - exit
+
+    // If we have found a common ancestor
+        // Go up from currentState up to the common ansector
+            // Do exitState as we traverse
+            // Do enterState as we traverse
+        // Once we have traversed to the common anscetor - we now go doing until we reach the goToState
+            // Do exitState as we traverse
+            // Do enterState as we traverse
 }
 
 #pragma mark - State Event Methods
