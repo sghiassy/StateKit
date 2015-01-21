@@ -10,7 +10,12 @@
 
 @interface SKState : NSObject
 
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) SKState *parentState;
+
+- (NSString *)description;
+
 - (void)setEvent:(NSString *)messageName forBlock:(void(^)(void))block;
-- (void)setSubState:(NSString *)stateName forState:(SKState *)state;
+- (void)setSubState:(SKState *)state;
 
 @end

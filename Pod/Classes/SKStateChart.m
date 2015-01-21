@@ -29,7 +29,7 @@ static NSString *kSubStringKey = @"subStates";
 
     if (self) {
         [self setRootState:stateChart];
-        [self initializeDictionaryAsATree:_currentStateTree];
+        [self initializeDictionaryAsATree:_currentStateTree withStateName:kDefaultRootState andParentState:nil];
 
         [self didEnterState:_currentStateTree];
         _stateChart = _currentStateTree;
@@ -44,29 +44,29 @@ static NSString *kSubStringKey = @"subStates";
     NSAssert(_currentStateTree != nil, @"The stateChart you input does not have a root state");
 }
 
-- (SKState *)initializeDictionaryAsATree:(NSDictionary *)stateTree {
-    stateTree = stateTree.mutableCopy; // Cast the dictionary to a mutable copy
+- (SKState *)initializeDictionaryAsATree:(NSDictionary *)stateTree withStateName:(NSString *)name andParentState:(SKState *)parentState {
+//    stateTree = stateTree.mutableCopy; // Cast the dictionary to a mutable copy
     SKState *state = [[SKState alloc] init];
+    state.name = name;
+    state.parentState = parentState;
 
     for (id key in stateTree) {
-        NSLog(@"%@", key);
         id value = [stateTree valueForKey:key];
 
         if ([key isEqualToString:kSubStringKey]) {
             NSDictionary *subStates = (NSDictionary *)value;
 
             for (id stateKey in subStates) {
-                SKState *subState = [self initializeDictionaryAsATree:[subStates objectForKey:stateKey]];
-                [state setSubState:stateKey forState:subState];
+                NSDictionary *subTree = [subStates objectForKey:stateKey];
+                SKState *subState = [self initializeDictionaryAsATree:subTree withStateName:stateKey andParentState:state];
+                [state setSubState:subState];
             }
-
-            [self initializeDictionaryAsATree:value];
         } else {
             [state setEvent:key forBlock:value];
         }
     }
 
-    NSLog(@"Something");
+    NSLog(@"%@", state.description);
     return state;
 }
 
