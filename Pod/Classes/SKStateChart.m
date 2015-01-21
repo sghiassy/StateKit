@@ -73,12 +73,16 @@ static NSString *kSubStringKey = @"subStates";
 #pragma mark - Messages
 
 - (void)sendMessage:(NSString *)message {
-    MessageBlock messageBlock = [self.currentState blockForMessage:message];
+    SKState *statePointer = self.currentState;
+    MessageBlock messageBlock = [statePointer blockForMessage:message];
+
+    while (statePointer != nil && messageBlock == nil) {
+        statePointer = statePointer.parentState;
+        messageBlock = [statePointer blockForMessage:message];
+    }
 
     if (messageBlock) {
         messageBlock(self);
-    } else {
-        NSLog(@"Something");
     }
 }
 
