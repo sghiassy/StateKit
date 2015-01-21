@@ -108,21 +108,21 @@ static NSString *kSubStringKey = @"subStates";
     }
 
     // Build path from node to parent for goToState
-    NSDictionary *pathToRoot = [self pathToRootFromState:toState];
+    NSArray *pathToRoot = [self pathToRootFromState:toState];
 
     // Now traverse up to root from current state
     // If the traversed node equals one in the path build previously - exit
-    BOOL commonParentFound = [pathToRoot valueForKey:self.currentState.name] != nil;
+    BOOL commonParentFound = [pathToRoot containsObject:self.currentState.name];
 
     while (!commonParentFound) {
         self.currentState = [self transitionStateToParent:self.currentState];
-        commonParentFound = [pathToRoot valueForKey:self.currentState.name] != nil;
+        commonParentFound = [pathToRoot containsObject:self.currentState.name];
     }
 
     BOOL toStateFound = self.currentState == toState;
 
     while (!toStateFound) {
-        self.currentState = [self transitionState:self.currentState toChildState:<#(NSString *)#>]
+        self.currentState = [self transitionState:self.currentState toChildState:@"shaheen"];
     }
 
     // If we have found a common ancestor
@@ -134,16 +134,16 @@ static NSString *kSubStringKey = @"subStates";
     // Do enterState as we traverse
 }
 
-- (NSDictionary *)pathToRootFromState:(SKState *)startState {
-    NSMutableDictionary *pathToRoot = [[NSMutableDictionary alloc] init];
+- (NSArray *)pathToRootFromState:(SKState *)startState {
+    NSMutableArray *pathToRoot = [[NSMutableArray alloc] init];
     SKState *curPointer = startState;
 
     while (curPointer != nil) {
-        [pathToRoot setObject:curPointer forKey:curPointer.name];
+        [pathToRoot addObject:curPointer.name];
         curPointer = curPointer.parentState;
     }
 
-    return [[NSDictionary alloc] initWithDictionary:pathToRoot];
+    return [[NSArray alloc] initWithArray:pathToRoot];
 }
 
 - (SKState *)breadthFirstSearchOfState:(NSString *)goToState fromState:(SKState *)root {
