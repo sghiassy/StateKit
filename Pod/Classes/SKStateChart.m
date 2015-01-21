@@ -13,8 +13,6 @@
 
 @interface SKStateChart ()
 
-@property (nonatomic, copy) NSDictionary *stateChart;
-
 @property (nonatomic, strong) SKState *rootState;
 @property (nonatomic, strong) SKState *currentState;
 
@@ -115,14 +113,14 @@ static NSString *kSubStringKey = @"subStates";
     BOOL commonParentFound = [pathToRoot containsObject:self.currentState.name];
 
     while (!commonParentFound) {
-        self.currentState = [self transitionStateToParent:self.currentState];
+        self.currentState = [self popStateToParent:self.currentState];
         commonParentFound = [pathToRoot containsObject:self.currentState.name];
     }
 
     // Once we have traversed to the common anscetor - we now go doing until we reach the goToState
-    for (NSUInteger i = pathToRoot.count; i > 0; i--) {
+    for (NSInteger i = pathToRoot.count - 2; i >= 0; i--) {
         NSString *nextState = [pathToRoot objectAtIndex:i];
-        self.currentState = [self transitionState:self.currentState toChildState:nextState];
+        self.currentState = [self pushState:self.currentState toChildState:nextState];
     }
 }
 
@@ -147,7 +145,7 @@ static NSString *kSubStringKey = @"subStates";
         [queue enqueue:curPointer];
 
         while (queue.count != 0 && foundState == nil) {
-            curPointer = queue.dequeue;
+            curPointer = [queue dequeue];
 
             if ([curPointer.name isEqualToString:goToState]) {
                 foundState = curPointer;
@@ -167,8 +165,7 @@ static NSString *kSubStringKey = @"subStates";
 
 #pragma mark - State Event Methods
 
-- (SKState *)transitionState:(SKState *)currentState toChildState:(NSString *)toState {
-    [self didExitState:currentState];
+- (SKState *)pushState:(SKState *)currentState toChildState:(NSString *)toState {
     NSDictionary *subStates = [currentState getSubStates];
     currentState = [subStates objectForKey:toState];
     NSAssert(currentState != nil, @"Child state not found from givenState");
@@ -176,10 +173,9 @@ static NSString *kSubStringKey = @"subStates";
     return currentState;
 }
 
-- (SKState *)transitionStateToParent:(SKState *)currentState {
+- (SKState *)popStateToParent:(SKState *)currentState {
     [self didExitState:currentState];
     currentState = currentState.parentState;
-    [self didEnterState:currentState];
     return currentState;
 }
 

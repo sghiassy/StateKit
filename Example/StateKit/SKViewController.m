@@ -38,7 +38,7 @@
                                          @"subStates":@{
                                                  @"pink":@{
                                                          @"enterState":^(SKStateChart *sc) {
-                                                             weakSelf.view.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:200.0f/200.0f blue:200.0f/200.0f alpha:0];
+                                                             weakSelf.view.backgroundColor = [UIColor yellowColor];
                                                              weakSelf.stateLabel.text = sc.currentStateName;
                                                          }},
                                                  @"red":@{
@@ -53,7 +53,7 @@
                                                              [sc goToState:@"purple"];
                                                          },
                                                          @"lighter":^(SKStateChart *sc){
-                                                             [sc goToState:@"pink"];
+                                                             [sc traverseToState:@"pink"];
                                                          },
                                                          @"subStates":@{
                                                                  @"purple":@{
@@ -84,7 +84,10 @@
 
     [stateMachine sendMessage:@"userPressedRedButton"];
     [stateMachine sendMessage:@"darker"];
-    [stateMachine sendMessage:@"lighter"];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [stateMachine sendMessage:@"lighter"];
+    });
 }
 
 - (void)createHeader {
