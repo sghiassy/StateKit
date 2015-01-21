@@ -52,6 +52,4 @@ describe(@"SKStateMachine", ^{
     
 });
 
-
-
 SpecEnd
