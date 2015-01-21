@@ -30,10 +30,10 @@
                                              weakSelf.stateLabel.text = @"init change me";
                                          },
                                          @"darker":^(SKStateChart *sc) {
-                                             [sc traverseToState:@"black"];
+                                             [sc goToState:@"black"];
                                          },
                                          @"userPressedRedButton":^(SKStateChart *sc) {
-                                             [sc traverseToState:@"red"];
+                                             [sc goToState:@"red"];
                                          },
                                          @"subStates":@{
                                                  @"pink":@{
@@ -50,10 +50,10 @@
                                                              NSLog(@"Did exit %@", sc.currentStateName);
                                                          },
                                                          @"darker":^(SKStateChart *sc){
-                                                             [sc traverseToState:@"purple"];
+                                                             [sc goToState:@"purple"];
                                                          },
                                                          @"lighter":^(SKStateChart *sc){
-                                                             [sc traverseToState:@"pink"];
+                                                             [sc goToState:@"pink"];
                                                          },
                                                          @"subStates":@{
                                                                  @"purple":@{
@@ -69,7 +69,7 @@
                                                          },
                                                  @"green":@{
                                                          @"darker":^(SKStateChart *sc) {
-                                                             [sc traverseToState:@"darkGreen"];
+                                                             [sc goToState:@"darkGreen"];
                                                          },
                                                          @"darkGreen":^{
                                                              weakSelf.view.backgroundColor = [UIColor darkGrayColor];

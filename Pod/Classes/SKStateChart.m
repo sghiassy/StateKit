@@ -84,7 +84,7 @@ static NSString *kSubStringKey = @"subStates";
     }
 }
 
-- (void)traverseToState:(NSString *)goToState {
+- (void)goToState:(NSString *)goToState {
     // Find node using BFS search
     SKState *toState = [self breadthFirstSearchOfState:goToState fromState:self.rootState];
 

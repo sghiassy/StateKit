@@ -12,7 +12,7 @@
 
 - (instancetype)initWithStateChart:(NSDictionary *)stateChart;
 
-- (void)traverseToState:(NSString *)goToState;
+- (void)goToState:(NSString *)goToState;
 
 - (void)sendMessage:(NSString *)message;
 
