@@ -8,6 +8,7 @@
 
 #import "SKStateChart.h"
 #import "SKState.h"
+#import "NSMutableArray+Queue.h"
 
 
 @interface SKStateChart ()
@@ -95,23 +96,100 @@ static NSString *kSubStringKey = @"subStates";
         self.currentState = newState;
         [self didEnterState:self.currentState];
     }
+}
 
+- (void)traverseToState:(NSString *)goToState {
+    // Find node using BFS search
+    SKState *toState = [self breadthFirstSearchOfState:goToState fromState:self.rootState];
+
+    // Before proceding make sure that we actual found a state of that name
+    if (toState == nil) {
+        return;
+    }
 
     // Build path from node to parent for goToState
+    NSDictionary *pathToRoot = [self pathToRootFromState:toState];
 
     // Now traverse up to root from current state
-        // If the traversed node equals one in the path build previously - exit
+    // If the traversed node equals one in the path build previously - exit
+    BOOL commonParentFound = [pathToRoot valueForKey:self.currentState.name] != nil;
+
+    while (!commonParentFound) {
+        self.currentState = [self transitionStateToParent:self.currentState];
+        commonParentFound = [pathToRoot valueForKey:self.currentState.name] != nil;
+    }
+
+    BOOL toStateFound = self.currentState == toState;
+
+    while (!toStateFound) {
+        self.currentState = [self transitionState:self.currentState toChildState:<#(NSString *)#>]
+    }
 
     // If we have found a common ancestor
-        // Go up from currentState up to the common ansector
-            // Do exitState as we traverse
-            // Do enterState as we traverse
-        // Once we have traversed to the common anscetor - we now go doing until we reach the goToState
-            // Do exitState as we traverse
-            // Do enterState as we traverse
+    // Go up from currentState up to the common ansector
+    // Do exitState as we traverse
+    // Do enterState as we traverse
+    // Once we have traversed to the common anscetor - we now go doing until we reach the goToState
+    // Do exitState as we traverse
+    // Do enterState as we traverse
+}
+
+- (NSDictionary *)pathToRootFromState:(SKState *)startState {
+    NSMutableDictionary *pathToRoot = [[NSMutableDictionary alloc] init];
+    SKState *curPointer = startState;
+
+    while (curPointer != nil) {
+        [pathToRoot setObject:curPointer forKey:curPointer.name];
+        curPointer = curPointer.parentState;
+    }
+
+    return [[NSDictionary alloc] initWithDictionary:pathToRoot];
+}
+
+- (SKState *)breadthFirstSearchOfState:(NSString *)goToState fromState:(SKState *)root {
+    NSMutableArray *queue = [[NSMutableArray alloc] init];
+    SKState *curPointer = root;
+    SKState *foundState = nil;
+
+    if (curPointer != nil) {
+        [queue enqueue:curPointer];
+
+        while (queue.count != 0 && foundState == nil) {
+            curPointer = queue.dequeue;
+
+            if ([curPointer.name isEqualToString:goToState]) {
+                foundState = curPointer;
+                break;
+            }
+
+            NSDictionary *subStates = [curPointer getSubStates];
+            for (id key in subStates) {
+                SKState *subState = [subStates objectForKey:key];
+                [queue enqueue:subState];
+            }
+        }
+    }
+
+    return foundState;
 }
 
 #pragma mark - State Event Methods
+
+- (SKState *)transitionState:(SKState *)currentState toChildState:(NSString *)toState {
+    [self didExitState:currentState];
+    NSDictionary *subStates = [currentState getSubStates];
+    currentState = [subStates objectForKey:toState];
+    NSAssert(currentState != nil, @"Child state not found from givenState");
+    [self didEnterState:currentState];
+    return currentState;
+}
+
+- (SKState *)transitionStateToParent:(SKState *)currentState {
+    [self didExitState:currentState];
+    currentState = currentState.parentState;
+    [self didEnterState:currentState];
+    return currentState;
+}
 
 - (void)didEnterState:(SKState *)state {
     MessageBlock enterBlock = [state blockForMessage:@"enterState"];
