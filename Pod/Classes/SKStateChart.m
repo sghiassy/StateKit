@@ -14,39 +14,32 @@
 
 @property (nonatomic, copy) NSDictionary *stateChart;
 
-@property (nonatomic, copy) NSString *currentStateName;
-@property (nonatomic, strong) NSDictionary *currentStateTree;
-
-//@property (nonatomic, strong) SKState *rootState;
-//@property (nonatomic, strong) SKState *currentState;
+@property (nonatomic, strong) SKState *rootState;
+@property (nonatomic, strong) SKState *currentState;
 
 @end
 
 
-static NSString *kDefaultRootState = @"root";
+static NSString *kDefaultRootStateName = @"root";
 static NSString *kSubStringKey = @"subStates";
 
 
 @implementation SKStateChart
 
+#pragma mark - Object Lifecycle
+
 - (instancetype)initWithStateChart:(NSDictionary *)stateChart {
     self = [super init];
 
     if (self) {
-        [self setRootState:stateChart];
-        [self initializeDictionaryAsATree:_currentStateTree withStateName:kDefaultRootState andParentState:nil];
+        NSDictionary *rootTree = [stateChart objectForKey:kDefaultRootStateName];
+        NSAssert(rootTree != nil, @"The stateChart you input does not have a root state");
+        _rootState = [self initializeDictionaryAsATree:rootTree withStateName:kDefaultRootStateName andParentState:nil];
 
-        [self didEnterState:_currentStateTree];
-        _stateChart = _currentStateTree;
+        [self didEnterState:_rootState];
     }
 
     return self;
-}
-
-- (void)setRootState:(NSDictionary *)stateChart {
-    _currentStateName = kDefaultRootState;
-    _currentStateTree = [stateChart objectForKey:_currentStateName];
-    NSAssert(_currentStateTree != nil, @"The stateChart you input does not have a root state");
 }
 
 - (SKState *)initializeDictionaryAsATree:(NSDictionary *)stateTree withStateName:(NSString *)name andParentState:(SKState *)parentState {
@@ -80,7 +73,7 @@ static NSString *kSubStringKey = @"subStates";
 #pragma mark - Messages
 
 - (void)sendMessage:(NSString *)message {
-    MessageBlock messageBlock = [self.currentStateTree objectForKey:message];
+    MessageBlock messageBlock = [self.currentState blockForMessage:message];
 
     if (messageBlock) {
         messageBlock(self);
@@ -90,39 +83,41 @@ static NSString *kSubStringKey = @"subStates";
 }
 
 - (void)goToState:(NSString *)goToState {
-    NSDictionary *subStates = [self.currentStateTree objectForKey:@"subStates"];
-    NSDictionary *newState = [subStates objectForKey:goToState];
-
-    if (newState != nil) {
-        [self didExitState:self.currentStateTree];
-
-        self.currentStateTree = newState;
-        self.currentStateName = goToState;
-        [self didEnterState:self.currentStateTree];
-    }
+//    NSDictionary *subStates = [self.currentStateTree objectForKey:@"subStates"];
+//    NSDictionary *newState = [subStates objectForKey:goToState];
+//
+//    if (newState != nil) {
+//        [self didExitState:self.currentStateTree];
+//
+//        self.currentStateTree = newState;
+//        self.currentStateName = goToState;
+//        [self didEnterState:self.currentStateTree];
+//    }
 }
 
-#pragma mark - Traveral Methods
+#pragma mark - State Event Methods
 
-- (void)didEnterState:(NSDictionary *)state {
-    MessageBlock rootBlock = [state objectForKey:@"enterState"];
+- (void)didEnterState:(SKState *)state {
+    MessageBlock enterBlock = [state blockForMessage:@"enterState"];
 
-    if (rootBlock) {
-        rootBlock(self);
+    if (enterBlock) {
+        enterBlock(self);
     }
+
+    _currentState = state;
 }
 
-- (void)didExitState:(NSDictionary *)state {
-    MessageBlock rootBlock = [state objectForKey:@"exitState"];
+- (void)didExitState:(SKState *)state {
+    MessageBlock exitBlock = [state blockForMessage:@"exitState"];
 
-    if (rootBlock) {
-        rootBlock(self);
+    if (exitBlock) {
+        exitBlock(self);
     }
 }
 
 #pragma mark - Getters
 
-- (NSString *)currentState {
+- (NSString *)currentStateName {
     return [self.currentStateName copy];
 }
 

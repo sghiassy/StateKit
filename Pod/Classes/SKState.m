@@ -38,6 +38,13 @@
     [self.subStates setObject:state forKey:state.name];
 }
 
+#pragma mark - Event Messages
+
+- (MessageBlock)blockForMessage:(NSString *)message {
+    MessageBlock block = [self.events objectForKey:message];
+    return block;
+}
+
 #pragma mark - Description Methods
 
 - (NSString *)description {

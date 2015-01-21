@@ -16,6 +16,9 @@
 - (NSString *)description;
 
 - (void)setEvent:(NSString *)messageName forBlock:(void(^)(void))block;
+
+- (MessageBlock)blockForMessage:(NSString *)message;
+
 - (void)setSubState:(SKState *)state;
 
 @end
