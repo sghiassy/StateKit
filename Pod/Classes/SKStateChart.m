@@ -9,6 +9,7 @@
 #import "SKStateChart.h"
 #import "SKState.h"
 
+
 @interface SKStateChart ()
 
 @property (nonatomic, copy) NSDictionary *stateChart;
@@ -16,7 +17,11 @@
 @property (nonatomic, copy) NSString *currentStateName;
 @property (nonatomic, strong) NSDictionary *currentStateTree;
 
+//@property (nonatomic, strong) SKState *rootState;
+//@property (nonatomic, strong) SKState *currentState;
+
 @end
+
 
 static NSString *kDefaultRootState = @"root";
 static NSString *kSubStringKey = @"subStates";

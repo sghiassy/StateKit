@@ -23,6 +23,6 @@
  *
  *  @return String representing current state
  */
-- (NSString *)currentState;
+- (NSString *)currentStateName;
 
 @end

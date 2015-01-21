@@ -39,15 +39,15 @@
                                                  @"pink":@{
                                                          @"enterState":^(SKStateChart *sc) {
                                                              weakSelf.view.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:200.0f/200.0f blue:200.0f/200.0f alpha:0];
-                                                             weakSelf.stateLabel.text = sc.currentState;
+                                                             weakSelf.stateLabel.text = sc.currentStateName;
                                                          }},
                                                  @"red":@{
                                                          @"enterState":^(SKStateChart *sc) {
                                                              weakSelf.view.backgroundColor = [UIColor redColor];
-                                                             weakSelf.stateLabel.text = sc.currentState;
+                                                             weakSelf.stateLabel.text = sc.currentStateName;
                                                          },
                                                          @"exitState":^(SKStateChart *sc) {
-                                                             NSLog(@"Did exit %@", sc.currentState);
+                                                             NSLog(@"Did exit %@", sc.currentStateName);
                                                          },
                                                          @"darker":^(SKStateChart *sc){
                                                              [sc goToState:@"purple"];
@@ -59,7 +59,7 @@
                                                                  @"purple":@{
                                                                      @"enterState":^(SKStateChart *sc) {
                                                                          weakSelf.view.backgroundColor = [UIColor purpleColor];
-                                                                         weakSelf.stateLabel.text = sc.currentState;
+                                                                         weakSelf.stateLabel.text = sc.currentStateName;
                                                                      },
                                                                      @"exitState":^(SKStateChart *sc) {
                                                                          NSLog(@"Something");
