@@ -83,4 +83,11 @@
     return keys;
 }
 
+#pragma mark - Getters
+
+// Return subStates as an immutable dictionary
+- (NSDictionary *)getSubStates {
+    return [[NSDictionary alloc] initWithDictionary:self.subStates];
+}
+
 @end

@@ -83,16 +83,14 @@ static NSString *kSubStringKey = @"subStates";
 }
 
 - (void)goToState:(NSString *)goToState {
-//    NSDictionary *subStates = [self.currentStateTree objectForKey:@"subStates"];
-//    NSDictionary *newState = [subStates objectForKey:goToState];
-//
-//    if (newState != nil) {
-//        [self didExitState:self.currentStateTree];
-//
-//        self.currentStateTree = newState;
-//        self.currentStateName = goToState;
-//        [self didEnterState:self.currentStateTree];
-//    }
+    NSDictionary *subStates = [self.currentState getSubStates];
+    SKState *newState = [subStates objectForKey:goToState];
+
+    if (newState != nil) {
+        [self didExitState:self.currentState];
+        self.currentState = newState;
+        [self didEnterState:self.currentState];
+    }
 }
 
 #pragma mark - State Event Methods
@@ -118,7 +116,7 @@ static NSString *kSubStringKey = @"subStates";
 #pragma mark - Getters
 
 - (NSString *)currentStateName {
-    return [self.currentStateName copy];
+    return [self.currentState.name copy];
 }
 
 @end

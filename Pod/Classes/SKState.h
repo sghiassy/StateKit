@@ -19,6 +19,8 @@
 
 - (MessageBlock)blockForMessage:(NSString *)message;
 
+- (NSDictionary *)getSubStates;
+
 - (void)setSubState:(SKState *)state;
 
 @end
