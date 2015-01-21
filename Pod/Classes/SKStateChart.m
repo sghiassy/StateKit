@@ -119,19 +119,11 @@ static NSString *kSubStringKey = @"subStates";
         commonParentFound = [pathToRoot containsObject:self.currentState.name];
     }
 
-    BOOL toStateFound = self.currentState == toState;
-
-    while (!toStateFound) {
-        self.currentState = [self transitionState:self.currentState toChildState:@"shaheen"];
-    }
-
-    // If we have found a common ancestor
-    // Go up from currentState up to the common ansector
-    // Do exitState as we traverse
-    // Do enterState as we traverse
     // Once we have traversed to the common anscetor - we now go doing until we reach the goToState
-    // Do exitState as we traverse
-    // Do enterState as we traverse
+    for (NSUInteger i = pathToRoot.count; i > 0; i--) {
+        NSString *nextState = [pathToRoot objectAtIndex:i];
+        self.currentState = [self transitionState:self.currentState toChildState:nextState];
+    }
 }
 
 - (NSArray *)pathToRootFromState:(SKState *)startState {
