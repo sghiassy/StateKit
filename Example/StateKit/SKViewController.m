@@ -30,10 +30,10 @@
                                              weakSelf.stateLabel.text = @"init change me";
                                          },
                                          @"darker":^(SKStateChart *sc) {
-                                             [sc goToState:@"black"];
+                                             [sc traverseToState:@"black"];
                                          },
                                          @"userPressedRedButton":^(SKStateChart *sc) {
-                                             [sc goToState:@"red"];
+                                             [sc traverseToState:@"red"];
                                          },
                                          @"subStates":@{
                                                  @"pink":@{
@@ -50,7 +50,7 @@
                                                              NSLog(@"Did exit %@", sc.currentStateName);
                                                          },
                                                          @"darker":^(SKStateChart *sc){
-                                                             [sc goToState:@"purple"];
+                                                             [sc traverseToState:@"purple"];
                                                          },
                                                          @"lighter":^(SKStateChart *sc){
                                                              [sc traverseToState:@"pink"];
@@ -69,7 +69,7 @@
                                                          },
                                                  @"green":@{
                                                          @"darker":^(SKStateChart *sc) {
-                                                             [sc goToState:@"darkGreen"];
+                                                             [sc traverseToState:@"darkGreen"];
                                                          },
                                                          @"darkGreen":^{
                                                              weakSelf.view.backgroundColor = [UIColor darkGrayColor];
@@ -80,7 +80,6 @@
                                  };
 
     SKStateChart *stateMachine = [[SKStateChart alloc] initWithStateChart:stateChart];
-    [stateMachine class];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [stateMachine sendMessage:@"userPressedRedButton"];

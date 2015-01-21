@@ -12,7 +12,6 @@
 
 - (instancetype)initWithStateChart:(NSDictionary *)stateChart;
 
-- (void)goToState:(NSString *)goToState;
 - (void)traverseToState:(NSString *)goToState;
 
 - (void)sendMessage:(NSString *)message;

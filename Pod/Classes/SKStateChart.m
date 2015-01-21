@@ -84,17 +84,6 @@ static NSString *kSubStringKey = @"subStates";
     }
 }
 
-- (void)goToState:(NSString *)goToState {
-    NSDictionary *subStates = [self.currentState getSubStates];
-    SKState *newState = [subStates objectForKey:goToState];
-
-    if (newState != nil) {
-        [self didExitState:self.currentState];
-        self.currentState = newState;
-        [self didEnterState:self.currentState];
-    }
-}
-
 - (void)traverseToState:(NSString *)goToState {
     // Find node using BFS search
     SKState *toState = [self breadthFirstSearchOfState:goToState fromState:self.rootState];
@@ -117,7 +106,8 @@ static NSString *kSubStringKey = @"subStates";
     }
 
     // Once we have traversed to the common anscetor - we now go doing until we reach the goToState
-    for (NSInteger i = pathToRoot.count - 2; i >= 0; i--) {
+    NSInteger index = [pathToRoot indexOfObject:self.currentState.name];
+    for (NSInteger i = index - 1; i >= 0; i--) {
         NSString *nextState = [pathToRoot objectAtIndex:i];
         self.currentState = [self.currentState subState:nextState];
         NSAssert(self.currentState != nil, @"Child state not found from givenState");
