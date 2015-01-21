@@ -66,7 +66,9 @@ static NSString *kSubStringKey = @"subStates";
         }
     }
 
-    NSLog(@"%@", state.description);
+    NSString *description = state.description;
+
+    NSLog(@"%@", description);
     return state;
 }
 

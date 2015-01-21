@@ -62,7 +62,7 @@
     // Iterate through events and create string from them
     if (array.count > 0) {
 
-        for (id key in self.events) {
+        for (id key in array) {
             keys = [NSString stringWithFormat:@"%@, ", key];
         }
 
