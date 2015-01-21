@@ -3,3 +3,9 @@
 #endif
 
 #import "Pods-StateKit-environment.h"
+
+@class SKStateChart;
+
+// Type Defines
+typedef void (^StateBlock)(void);
+typedef void (^MessageBlock)(SKStateChart *sc);
