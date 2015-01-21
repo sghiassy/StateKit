@@ -9,6 +9,7 @@
 #import "SKStateChart.h"
 #import "SKState.h"
 #import "NSMutableArray+Queue.h"
+#import "SKTypeDefs.h"
 
 
 @interface SKStateChart ()

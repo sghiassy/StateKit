@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SKTypeDefs.h"
 
 @interface SKState : NSObject
 

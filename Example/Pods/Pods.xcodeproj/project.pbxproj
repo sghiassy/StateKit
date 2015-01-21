@@ -53,6 +53,8 @@
 		75283AB499AC5868AE4A8416 /* EXPMatchers+beFalsy.h in Headers */ = {isa = PBXBuildFile; fileRef = 9223E78956BE366EB4EC3EE2 /* EXPMatchers+beFalsy.h */; };
 		77560C4D88D82FD1E8501387 /* SKState.m in Sources */ = {isa = PBXBuildFile; fileRef = 58729411DE1BD3A10F8578CD /* SKState.m */; };
 		79CF58D9A47B1677DC2AE485 /* Pods-Tests-Expecta-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 388F9706EC9D33FE75883E17 /* Pods-Tests-Expecta-dummy.m */; };
+		7A4D8FAE1A70494600A98EBC /* SKTypeDefs.h in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D8FAD1A70494600A98EBC /* SKTypeDefs.h */; };
+		7A4D8FAF1A70494600A98EBC /* SKTypeDefs.h in Sources */ = {isa = PBXBuildFile; fileRef = 7A4D8FAD1A70494600A98EBC /* SKTypeDefs.h */; };
 		7A554C781A6F5A6200AC2C38 /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A554C771A6F5A6200AC2C38 /* NSMutableArray+Queue.m */; };
 		7BF8C3A7C696CA2215A29C9A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB25B610EED0BED7B142825E /* Foundation.framework */; };
 		7D9B8A146BBB39ACB251557F /* EXPMatchers+beGreaterThanOrEqualTo.h in Headers */ = {isa = PBXBuildFile; fileRef = 81CF223D1F0E662DBC3209B5 /* EXPMatchers+beGreaterThanOrEqualTo.h */; };
@@ -240,6 +242,7 @@
 		773A33D4F92FBC883FF8B215 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		78D35405DFA91D599CFEB8CB /* Pods-Tests-Specta-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Tests-Specta-Private.xcconfig"; sourceTree = "<group>"; };
 		78EDF0D12DFF2AF39EBF24EA /* libPods-StateKit-StateKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StateKit-StateKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A4D8FAD1A70494600A98EBC /* SKTypeDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKTypeDefs.h; path = Pod/Classes/SKTypeDefs.h; sourceTree = "<group>"; };
 		7A554C761A6F5A6200AC2C38 /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Queue.h"; path = "Pod/Classes/NSMutableArray+Queue.h"; sourceTree = "<group>"; };
 		7A554C771A6F5A6200AC2C38 /* NSMutableArray+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Queue.m"; path = "Pod/Classes/NSMutableArray+Queue.m"; sourceTree = "<group>"; };
 		7A8F4F2297F0068E21B54E2E /* Pods-StateKit-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-StateKit-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -491,6 +494,7 @@
 				58729411DE1BD3A10F8578CD /* SKState.m */,
 				0BB1429DFB7CDFB6E33A15FB /* SKStateChart.h */,
 				68242052DE572FA6B49390C0 /* SKStateChart.m */,
+				7A4D8FAD1A70494600A98EBC /* SKTypeDefs.h */,
 				7A554C761A6F5A6200AC2C38 /* NSMutableArray+Queue.h */,
 				7A554C771A6F5A6200AC2C38 /* NSMutableArray+Queue.m */,
 				D9D48895F99C714C9F365482 /* Support Files */,
@@ -986,6 +990,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9D1E6156A67F1EB0C3F9E7D /* Pods-Tests-dummy.m in Sources */,
+				7A4D8FAF1A70494600A98EBC /* SKTypeDefs.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1005,6 +1010,7 @@
 			files = (
 				8CBE5521F324639DA30BEF21 /* Pods-StateKit-dummy.m in Sources */,
 				7A554C781A6F5A6200AC2C38 /* NSMutableArray+Queue.m in Sources */,
+				7A4D8FAE1A70494600A98EBC /* SKTypeDefs.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
