@@ -96,7 +96,8 @@ describe(@"SKStateMachine", ^{
         expect(stateChart.currentState.name).to.equal(@"loading");
     });
 
-    it(@"sending the event refreshData will call the api and transition to the loading state", ^{
+    it(@"sending the event apiSuccess will transition the state chart to the pageVisible state", ^{
+        expect(stateChart.currentState.name).to.equal(@"loading");
         [verifyCount(viewMock, times(1)) showLoadingScreen];
         [verifyCount(viewMock, times(0)) showPage];
         [verifyCount(apiMock, times(1)) fetchData];
