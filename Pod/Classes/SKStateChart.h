@@ -7,22 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+@class SKState;
 
 @interface SKStateChart : NSObject
+
+@property (nonatomic, strong, readonly) SKState *currentState;
 
 - (instancetype)initWithStateChart:(NSDictionary *)stateChart;
 
 - (void)goToState:(NSString *)goToState;
 
 - (void)sendMessage:(NSString *)message;
-
-#pragma mark - Getters
-
-/**
- *  Get the StateChart's current state
- *
- *  @return String representing current state
- */
-- (NSString *)currentStateName;
 
 @end

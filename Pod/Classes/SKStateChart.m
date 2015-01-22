@@ -15,7 +15,7 @@
 @interface SKStateChart ()
 
 @property (nonatomic, strong) SKState *rootState;
-@property (nonatomic, strong) SKState *currentState;
+@property (nonatomic, strong, readwrite) SKState *currentState;
 
 @end
 
@@ -35,8 +35,7 @@ static NSString *kSubStringKey = @"subStates";
         NSDictionary *rootTree = [stateChart objectForKey:kDefaultRootStateName];
         NSAssert(rootTree != nil, @"The stateChart you input does not have a root state");
         _rootState = [self initializeDictionaryAsATree:rootTree withStateName:kDefaultRootStateName andParentState:nil];
-
-        [self didEnterState:_rootState];
+        [self transitionCurrentStateToSubState:_rootState];
     }
 
     return self;
@@ -102,7 +101,7 @@ static NSString *kSubStringKey = @"subStates";
     BOOL commonParentFound = [pathToRoot containsObject:self.currentState.name];
 
     while (!commonParentFound) {
-        self.currentState = [self popStateToParent:self.currentState];
+        [self popCurrentStateToParentState];
         commonParentFound = [pathToRoot containsObject:self.currentState.name];
     }
 
@@ -110,9 +109,9 @@ static NSString *kSubStringKey = @"subStates";
     NSInteger index = [pathToRoot indexOfObject:self.currentState.name];
     for (NSInteger i = index - 1; i >= 0; i--) {
         NSString *nextState = [pathToRoot objectAtIndex:i];
-        self.currentState = [self.currentState subState:nextState];
-        NSAssert(self.currentState != nil, @"Child state not found from givenState");
-        [self didEnterState:self.currentState];
+        SKState *subState = [self.currentState subState:nextState];
+        NSAssert(subState != nil, @"Child state not found from givenState");
+        [self transitionCurrentStateToSubState:subState];
     }
 }
 
@@ -155,26 +154,22 @@ static NSString *kSubStringKey = @"subStates";
     return foundState;
 }
 
-#pragma mark - State Event Methods
+#pragma mark - State Transition Methods
 
-- (SKState *)popStateToParent:(SKState *)currentState {
-    [self didExitState:currentState];
-    currentState = currentState.parentState;
-    return currentState;
-}
+- (void)transitionCurrentStateToSubState:(SKState *)subState {
+    _currentState = subState;
 
-- (void)didEnterState:(SKState *)state {
-    _currentState = state;
-    
-    MessageBlock enterBlock = [state blockForMessage:@"enterState"];
+    MessageBlock enterBlock = [subState blockForMessage:@"enterState"];
 
     if (enterBlock) {
         enterBlock(self);
     }
 }
 
-- (void)didExitState:(SKState *)state {
-    MessageBlock exitBlock = [state blockForMessage:@"exitState"];
+- (void)popCurrentStateToParentState {
+    MessageBlock exitBlock = [_currentState blockForMessage:@"exitState"]; // Must grab exit block before changing state
+
+    _currentState = _currentState.parentState;
 
     if (exitBlock) {
         exitBlock(self);
