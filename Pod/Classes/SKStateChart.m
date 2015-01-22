@@ -175,10 +175,4 @@ static NSString *kSubStringKey = @"subStates";
     }
 }
 
-#pragma mark - Getters
-
-- (NSString *)currentStateName {
-    return [self.currentState.name copy];
-}
-
 @end

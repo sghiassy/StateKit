@@ -16,6 +16,7 @@
 
 #import "MockAPI.h"
 #import "MockView.h"
+#import "MockLogger.h"
 
 SpecBegin(StateChart_State_Traversal)
 
@@ -24,25 +25,24 @@ describe(@"SKStateMachine", ^{
     __block SKStateChart *stateChart;
     __block id apiMock;
     __block id viewMock;
+    __block id logMock;
 
     NSDictionary *chart = @{@"root":
                                 @{@"enterState":^(SKStateChart *sc) {
                                     [sc goToState:@"loading"];
-                                },
-                                  @"refreshData":^(SKStateChart *sc) {
-                                      // fetch new data from api
                                   },
                                   @"apiFailed":^(SKStateChart *sc) {
-                                      //
+                                      [logMock log:@"apiFailed"];
+                                      [sc goToState:@"errorView"];
+                                  },
+                                  @"apiSuccess":^(SKStateChart *sc) {
+                                      [sc goToState:@"pageVisible"];
                                   },
                                   @"subStates":@{
                                           @"loading": @{
                                                   @"enterState":^(SKStateChart *sc) {
                                                       [viewMock showLoadingScreen];
                                                       [apiMock fetchData];
-                                                  },
-                                                  @"apiSuccess":^(SKStateChart *sc) {
-                                                      [sc goToState:@"pageVisible"];
                                                   }},
                                           @"pageVisible": @{
                                                   @"enterState":^(SKStateChart *sc) {
@@ -53,36 +53,23 @@ describe(@"SKStateMachine", ^{
                                                   },
                                                   @"subStates":@{
                                                           @"map":@{
-                                                                  @"enterState":^(SKStateChart *sc) {
-                                                                      // tell view to setup map
-                                                                  },
-                                                                  @"exitState":^(SKStateChart *sc) {
-                                                                      // dealloc the map when exiting the map state
-                                                                  },
                                                                   @"apiFailed":^(SKStateChart *sc) {
+                                                                      [logMock log:@"apiFailed-in-map-state"];
                                                                       [sc goToState:@"mapErrorView"];
                                                                   },
                                                                   @"userPressedListViewButton":^(SKStateChart *sc) {
                                                                       [sc goToState:@"pageVisible"];
                                                                   },
-                                                                  @"subStates":@{
-                                                                          @"mapErrorView":@{
-                                                                                  @"enterState":^(SKStateChart *sc) {
-                                                                                      // tell the map to show the *map* error view
-                                                                                  }}
-                                                                          }
+                                                                  @"subStates":@{@"mapErrorView":@{}}
                                                                   },
-                                                          @"errorView":@{
-                                                                  @"enterState":^(SKStateChart *sc) {
-                                                                      // tell view to show the error view
-                                                                  }}
-                                                          },
+                                                          @"errorView":@{},
                                                   }
                                           }
                                   }
-                            };
+                                  }};
 
     beforeEach(^{
+        logMock = mock([MockLogger class]);
         apiMock = mock([MockAPI class]);
         viewMock = mock([MockView class]);
         stateChart = [[SKStateChart alloc] initWithStateChart:chart];
@@ -94,13 +81,13 @@ describe(@"SKStateMachine", ^{
 
     it(@"per the stateChart the first state is loading", ^{
         expect(stateChart.currentState.name).to.equal(@"loading");
+        [verifyCount(viewMock, times(1)) showLoadingScreen];
+        [verifyCount(viewMock, times(0)) showPage];
+        [verifyCount(apiMock, times(1)) fetchData];
     });
 
     it(@"sending the event apiSuccess will transition the state chart to the pageVisible state", ^{
         expect(stateChart.currentState.name).to.equal(@"loading");
-        [verifyCount(viewMock, times(1)) showLoadingScreen];
-        [verifyCount(viewMock, times(0)) showPage];
-        [verifyCount(apiMock, times(1)) fetchData];
 
         // Now send the message that the API succeeded
         [stateChart sendMessage:@"apiSuccess"];
@@ -108,6 +95,45 @@ describe(@"SKStateMachine", ^{
         [verifyCount(viewMock, times(1)) showPage];
     });
 
+    it(@"the stateChart will transition to the map state when the user pressed the map view button", ^{
+        expect(stateChart.currentState.name).to.equal(@"loading");
+
+        // If we send a message to the state chart where the state is not in, the message is ignored
+        [stateChart sendMessage:@"userPressedShowMapButton"];
+        expect(stateChart.currentState.name).to.equal(@"loading"); // Nothing changed
+
+        // So we have to get the state chart into the right state for the user to be able to press the map button
+        [stateChart sendMessage:@"apiSuccess"];
+        expect(stateChart.currentState.name).to.equal(@"pageVisible");
+        [verifyCount(viewMock, times(1)) showPage];
+
+        [stateChart sendMessage:@"userPressedShowMapButton"];
+        expect(stateChart.currentState.name).to.equal(@"map");
+    });
+
+    describe(@"Map State", ^{
+
+        beforeEach(^{
+            [stateChart sendMessage:@"apiSuccess"];
+            [stateChart sendMessage:@"userPressedShowMapButton"];
+            expect(stateChart.currentState.name).to.equal(@"map");
+        });
+
+        it(@"sending the message apiFailed moves to mapErrorView", ^{
+            [stateChart sendMessage:@"apiFailed"];
+            expect(stateChart.currentState.name).to.equal(@"mapErrorView");
+        });
+
+        it(@"sending the message apiFailed moves calls the sub method and NOT the top-level message", ^{
+            [verifyCount(logMock, times(0)) log:@"apiFailed"];
+            [verifyCount(logMock, times(0)) log:@"apiFailed-in-map-state"];
+            [stateChart sendMessage:@"apiFailed"];
+
+            expect(stateChart.currentState.name).to.equal(@"mapErrorView");
+            [verifyCount(logMock, times(0)) log:@"apiFailed"];
+            [verifyCount(logMock, times(1)) log:@"apiFailed-in-map-state"];
+        });
+    });
 });
 
 SpecEnd
