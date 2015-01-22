@@ -87,7 +87,7 @@ describe(@"SKStateMachine", ^{
     });
 
     it(@"per the stateChart the first state is loading", ^{
-        expect(stateChart.currentStateName).to.equal(@"loading");
+        expect(stateChart.currentState.name).to.equal(@"loading");
     });
 
 });

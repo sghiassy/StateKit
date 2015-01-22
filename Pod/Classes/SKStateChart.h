@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class SKState;
+#import "SKState.h" // Including definition in public header to keep user's import definitions cleaner
 
 @interface SKStateChart : NSObject
 
