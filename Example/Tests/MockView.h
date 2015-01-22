@@ -12,4 +12,6 @@
 
 - (void)showLoadingScreen;
 
+- (void)showPage;
+
 @end

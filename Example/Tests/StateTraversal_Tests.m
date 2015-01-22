@@ -46,7 +46,7 @@ describe(@"SKStateMachine", ^{
                                                   }},
                                           @"pageVisible": @{
                                                   @"enterState":^(SKStateChart *sc) {
-                                                      // tell view to grab newly available data
+                                                      [viewMock showPage];
                                                   },
                                                   @"userPressedShowMapButton":^(SKStateChart *sc) {
                                                       [sc goToState:@"map"];
@@ -97,12 +97,14 @@ describe(@"SKStateMachine", ^{
     });
 
     it(@"sending the event refreshData will call the api and transition to the loading state", ^{
-//        OCMVerify([[viewMock expect] showLoadingScreen]);
-//
-//        OCMStub([apiMock fetchData]).andDo(^(NSInvocation *invocation) {
-//            [stateChart sendMessage:@"apiSuccess"];
-//            expect(stateChart.currentState.name).to.equal(@"pageVisible");
-//        });
+        [verifyCount(viewMock, times(1)) showLoadingScreen];
+        [verifyCount(viewMock, times(0)) showPage];
+        [verifyCount(apiMock, times(1)) fetchData];
+
+        // Now send the message that the API succeeded
+        [stateChart sendMessage:@"apiSuccess"];
+        expect(stateChart.currentState.name).to.equal(@"pageVisible");
+        [verifyCount(viewMock, times(1)) showPage];
     });
 
 });
