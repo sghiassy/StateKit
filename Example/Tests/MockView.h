@@ -10,4 +10,6 @@
 
 @interface MockView : NSObject
 
+- (void)showLoadingScreen;
+
 @end

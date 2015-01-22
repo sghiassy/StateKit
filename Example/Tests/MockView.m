@@ -10,4 +10,8 @@
 
 @implementation MockView
 
+- (void)showLoadingScreen {
+    
+}
+
 @end

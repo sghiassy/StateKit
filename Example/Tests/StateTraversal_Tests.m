@@ -32,8 +32,8 @@ describe(@"SKStateMachine", ^{
                                   @"subStates":@{
                                           @"loading": @{
                                                   @"enterState":^(SKStateChart *sc) {
-                                                      // make api call
-                                                      // show loading spinner in view
+                                                      [viewMock showLoadingScreen];
+                                                      [apiMock fetchData];
                                                   },
                                                   @"apiSuccess":^(SKStateChart *sc) {
                                                       [sc goToState:@"pageVisible"];
@@ -88,6 +88,15 @@ describe(@"SKStateMachine", ^{
 
     it(@"per the stateChart the first state is loading", ^{
         expect(stateChart.currentState.name).to.equal(@"loading");
+    });
+
+    it(@"sending the event refreshData will call the api and transition to the loading state", ^{
+        OCMVerify([[viewMock expect] showLoadingScreen]);
+
+        OCMStub([apiMock fetchData]).andDo(^(NSInvocation *invocation) {
+            [stateChart sendMessage:@"apiSuccess"];
+            expect(stateChart.currentState.name).to.equal(@"pageVisible");
+        });
     });
 
 });
