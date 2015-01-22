@@ -164,13 +164,13 @@ static NSString *kSubStringKey = @"subStates";
 }
 
 - (void)didEnterState:(SKState *)state {
+    _currentState = state;
+    
     MessageBlock enterBlock = [state blockForMessage:@"enterState"];
 
     if (enterBlock) {
         enterBlock(self);
     }
-
-    _currentState = state;
 }
 
 - (void)didExitState:(SKState *)state {

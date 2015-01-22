@@ -21,7 +21,7 @@ describe(@"SKStateMachine", ^{
 
     NSDictionary *chart = @{@"root":
                                 @{@"enterState":^(SKStateChart *sc) {
-//                                    [sc goToState:@"loading"];
+                                    [sc goToState:@"loading"];
                                 },
                                   @"refreshData":^(SKStateChart *sc) {
                                       // fetch new data from api
@@ -86,10 +86,10 @@ describe(@"SKStateMachine", ^{
         expect(stateChart).to.beTruthy();
     });
 
-    it(@"the default state is root", ^{
-        expect(stateChart.currentStateName).to.equal(@"root");
+    it(@"per the stateChart the first state is loading", ^{
+        expect(stateChart.currentStateName).to.equal(@"loading");
     });
-    
+
 });
 
 SpecEnd
