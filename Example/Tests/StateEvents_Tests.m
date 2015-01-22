@@ -7,7 +7,13 @@
 //
 
 #import <SKStateChart.h>
-#import <OCMock.h>
+
+#define HC_SHORTHAND
+#import <OCHamcrest/OCHamcrest.h>
+
+#define MOCKITO_SHORTHAND
+#import <OCMockito/OCMockito.h>
+
 
 SpecBegin(StateChart_State_Events)
 
@@ -19,34 +25,36 @@ describe(@"SKStateMachine", ^{
     });
 
     it(@"the enter state will be called on root on init", ^{
-        id mock = OCMClassMock([NSString class]);
+        // mock creation
+        NSMutableArray *mockArray = mock([NSMutableArray class]);
 
         NSDictionary *chart = @{@"root":@{
                                         @"enterState":^(SKStateChart *sc) {
-                                            [mock uppercaseString];
+                                            [mockArray addObject:@"one"];
                                         }}};
 
         SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 
-        OCMVerify([[mock expect] uppercaseString]);
+        // verify addObject method was called with parameter @"one"
+        [verify(mockArray) addObject:@"one"];
 
         expect(stateChart).toNot.beNil();
     });
 
     it(@"if you misspell the enterState, it will obviously not be called", ^{
-        id mock = OCMClassMock([NSString class]);
-
-        [[mock reject] uppercaseString];
+        // mock creation
+        NSMutableArray *mockArray = mock([NSMutableArray class]);
 
         NSDictionary *chart = @{@"root":@{
-                                        @"enterSState":^(SKStateChart *sc) {
-                                            [mock uppercaseString];
+                                        @"enterStatez":^(SKStateChart *sc) {
+                                            [mockArray addObject:@"one"];
                                         }}};
 
         SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 
-        OCMVerify([[mock reject] uppercaseString]);
-        
+        // verification the addObject method was never called
+        [verifyCount(mockArray, never()) addObject:@"one"];
+
         expect(stateChart).toNot.beNil();
     });
     

@@ -9,5 +9,5 @@ target 'Tests', :exclusive => true do
 
   pod 'Specta', '~> 0.2.1', :inhibit_warnings => true
   pod 'Expecta'
-  pod 'OCMock'
+  pod 'OCMockito', '~> 1.0'
 end

@@ -1,12 +1,14 @@
 PODS:
   - Expecta (0.3.1)
-  - OCMock (3.1.2)
+  - OCHamcrest (4.1.1)
+  - OCMockito (1.4.0):
+    - OCHamcrest (~> 4.0)
   - Specta (0.2.1)
   - StateKit (0.1.0)
 
 DEPENDENCIES:
   - Expecta
-  - OCMock
+  - OCMockito (~> 1.0)
   - Specta (~> 0.2.1)
   - StateKit (from `../`)
 
@@ -16,7 +18,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
-  OCMock: ecdd510b73ef397f2f97274785c1e87fd147c49f
+  OCHamcrest: af1c7c5ea345de69ea6c9c2958f65f3044e5c420
+  OCMockito: 991936bb775cc4c27f063d38f5e17b9161fbd21c
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
   StateKit: 5e8832fd4b9a236a0a940d7f5a1f93ee12e11cbe
 

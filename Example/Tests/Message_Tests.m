@@ -7,7 +7,6 @@
 //
 
 #import <SKStateChart.h>
-#import <OCMock.h>
 
 SpecBegin(StateChart_Messages)
 
