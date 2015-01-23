@@ -29,6 +29,7 @@ describe(@"SKStateMachine", ^{
 
     NSDictionary *chart = @{@"root":
                                 @{@"enterState":^(SKStateChart *sc) {
+                                    [logMock log:@"entered root state"];
                                     [sc goToState:@"loading"];
                                   },
                                   @"apiFailed":^(SKStateChart *sc) {
@@ -38,21 +39,39 @@ describe(@"SKStateMachine", ^{
                                   @"apiSuccess":^(SKStateChart *sc) {
                                       [sc goToState:@"pageVisible"];
                                   },
+                                  @"userPressedCloseAppButton":^(SKStateChart *sc) {
+                                      [sc goToState:@"closed"];
+                                  },
                                   @"subStates":@{
-                                          @"loading": @{
+                                          @"closed":@{
                                                   @"enterState":^(SKStateChart *sc) {
+                                                      [logMock log:@"entered closed state"];
+                                                  }},
+                                          @"loading":@{
+                                                  @"enterState":^(SKStateChart *sc) {
+                                                      [logMock log:@"entered loading state"];
                                                       [viewMock showLoadingScreen];
                                                       [apiMock fetchData];
                                                   }},
-                                          @"pageVisible": @{
+                                          @"pageVisible":@{
                                                   @"enterState":^(SKStateChart *sc) {
+                                                      [logMock log:@"entered pageVisible state"];
                                                       [viewMock showPage];
+                                                  },
+                                                  @"exitState":^(SKStateChart *sc) {
+                                                      [logMock log:@"exited pageVisible state"];
                                                   },
                                                   @"userPressedShowMapButton":^(SKStateChart *sc) {
                                                       [sc goToState:@"map"];
                                                   },
                                                   @"subStates":@{
                                                           @"map":@{
+                                                                  @"enterState":^{
+                                                                      [logMock log:@"entered map state"];
+                                                                  },
+                                                                  @"exitState":^(SKStateChart *sc) {
+                                                                      [logMock log:@"exited map state"];
+                                                                  },
                                                                   @"apiFailed":^(SKStateChart *sc) {
                                                                       [logMock log:@"apiFailed-in-map-state"];
                                                                       [sc goToState:@"mapErrorView"];
@@ -60,7 +79,15 @@ describe(@"SKStateMachine", ^{
                                                                   @"userPressedListViewButton":^(SKStateChart *sc) {
                                                                       [sc goToState:@"pageVisible"];
                                                                   },
-                                                                  @"subStates":@{@"mapErrorView":@{}}
+                                                                  @"subStates":@{
+                                                                          @"mapErrorView":@{
+                                                                                  @"enterState":^(SKStateChart *sc){
+                                                                                      [logMock log:@"entered mapErrorView state"];
+                                                                                  },
+                                                                                  @"exitState":^(SKStateChart *sc) {
+                                                                                      [logMock log:@"exited mapErrorView state"];
+                                                                                  }},
+                                                                          }
                                                                   },
                                                           @"errorView":@{},
                                                   }
@@ -127,11 +154,79 @@ describe(@"SKStateMachine", ^{
         it(@"sending the message apiFailed moves calls the sub method and NOT the top-level message", ^{
             [verifyCount(logMock, times(0)) log:@"apiFailed"];
             [verifyCount(logMock, times(0)) log:@"apiFailed-in-map-state"];
+
             [stateChart sendMessage:@"apiFailed"];
 
             expect(stateChart.currentState.name).to.equal(@"mapErrorView");
             [verifyCount(logMock, times(0)) log:@"apiFailed"];
             [verifyCount(logMock, times(1)) log:@"apiFailed-in-map-state"];
+        });
+    });
+
+    describe(@"Enter State Traversals", ^{
+
+        it(@"as you traverse down into substates, the enter method called on all states it enters into", ^{
+            [verifyCount(logMock, times(1)) log:@"entered root state"];
+            [verifyCount(logMock, times(1)) log:@"entered loading state"];
+            [verifyCount(logMock, times(0)) log:@"entered pageVisible state"];
+            [verifyCount(logMock, times(0)) log:@"entered map state"];
+            [verifyCount(logMock, times(0)) log:@"entered mapErrorView state"];
+            [verifyCount(logMock, times(0)) log:@"entered closed state"];
+
+            [stateChart sendMessage:@"apiSuccess"];
+
+            [verifyCount(logMock, times(1)) log:@"entered root state"];
+            [verifyCount(logMock, times(1)) log:@"entered loading state"];
+            [verifyCount(logMock, times(1)) log:@"entered pageVisible state"];
+            [verifyCount(logMock, times(0)) log:@"entered map state"];
+            [verifyCount(logMock, times(0)) log:@"entered mapErrorView state"];
+            [verifyCount(logMock, times(0)) log:@"entered closed state"];
+
+            [stateChart sendMessage:@"userPressedShowMapButton"];
+
+            [verifyCount(logMock, times(1)) log:@"entered root state"];
+            [verifyCount(logMock, times(1)) log:@"entered loading state"];
+            [verifyCount(logMock, times(1)) log:@"entered pageVisible state"];
+            [verifyCount(logMock, times(1)) log:@"entered map state"];
+            [verifyCount(logMock, times(0)) log:@"entered mapErrorView state"];
+            [verifyCount(logMock, times(0)) log:@"entered closed state"];
+
+            [stateChart sendMessage:@"apiFailed"];
+
+            [verifyCount(logMock, times(1)) log:@"entered root state"];
+            [verifyCount(logMock, times(1)) log:@"entered loading state"];
+            [verifyCount(logMock, times(1)) log:@"entered pageVisible state"];
+            [verifyCount(logMock, times(1)) log:@"entered map state"];
+            [verifyCount(logMock, times(1)) log:@"entered mapErrorView state"];
+            [verifyCount(logMock, times(0)) log:@"entered closed state"];
+        });
+    });
+
+    describe(@"Exit State Traversals", ^{
+
+        beforeEach(^{
+            // Get the statechart into the mapErrorViewState
+            [stateChart sendMessage:@"apiSuccess"];
+            [stateChart sendMessage:@"userPressedShowMapButton"];
+            [stateChart sendMessage:@"apiFailed"];
+        });
+
+        it(@"is in the map error view state", ^{
+            expect(stateChart.currentState.name).to.equal(@"mapErrorView");
+        });
+
+        it(@"with a state change that traverses up the tree, all the exitState methods will be called", ^{
+            [verifyCount(logMock, times(0)) log:@"exited mapErrorView state"];
+            [verifyCount(logMock, times(0)) log:@"exited map state"];
+            [verifyCount(logMock, times(0)) log:@"exited pageVisible state"];
+            [verifyCount(logMock, times(0)) log:@"entered closed state"];
+
+            [stateChart sendMessage:@"userPressedCloseAppButton"];
+
+            [verifyCount(logMock, times(1)) log:@"exited mapErrorView state"];
+            [verifyCount(logMock, times(1)) log:@"exited map state"];
+            [verifyCount(logMock, times(1)) log:@"exited pageVisible state"];
+            [verifyCount(logMock, times(1)) log:@"entered closed state"];
         });
     });
 });
