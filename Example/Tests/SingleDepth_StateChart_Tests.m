@@ -23,7 +23,8 @@ describe(@"SKStateMachine", ^{
     __block SKStateChart *stateChart;
     __block id logMock;
 
-    NSDictionary *chart = @{@"root":@{
+    NSDictionary *chart = @{@"bad_root":@{},
+                            @"root":@{
                                     @"enterState":^(SKStateChart *sc) {
                                         NSString *message = [NSString stringWithFormat:@"entered %@ state", sc.currentState.name];
                                         [logMock log:message];
@@ -142,12 +143,13 @@ describe(@"SKStateMachine", ^{
         expect(stateChart.currentState.name).to.equal(@"level:1");
         [stateChart sendMessage:@"popToParentState"];
         expect(stateChart.currentState.name).to.equal(@"root");
+
+        // Trying to go past root with a bogus state does not cause a problem
         [stateChart sendMessage:@"popToParentState"];
         expect(stateChart.currentState.name).to.equal(@"root");
         [stateChart sendMessage:@"popToParentState"];
         expect(stateChart.currentState.name).to.equal(@"root");
     });
-    
 });
 
 SpecEnd
