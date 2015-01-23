@@ -48,6 +48,10 @@ describe(@"SKStateMachine", ^{
         expect(stateChart).to.beTruthy();
     });
 
+    it(@"Sending non-existing messages does nothing", ^{
+        [stateChart sendMessage:@"asdghasd;gijdsaf;alsdkfj"];
+    });
+
     it(@"The current state will respond to events", ^{
         [verifyCount(logMock, times(0)) log:@"waka_waka was called"];
 
