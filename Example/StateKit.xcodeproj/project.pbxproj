@@ -26,6 +26,7 @@
 		6003F5BC195388D20070C39A /* Instantiation_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Instantiation_Tests.m */; };
 		7A4EB7D01A71C13100634D91 /* MockLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A4EB7CF1A71C13100634D91 /* MockLogger.m */; };
 		7A4EB7D21A71D5DF00634D91 /* SingleDepth_StateChart_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A4EB7D11A71D5DF00634D91 /* SingleDepth_StateChart_Tests.m */; };
+		7A8C86011A7303320081A543 /* CrazyStateTransition_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C86001A7303320081A543 /* CrazyStateTransition_Tests.m */; };
 		7AB0CF731A7195BD0091374D /* MockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB0CF721A7195BD0091374D /* MockView.m */; };
 		7AB0CF761A7195DD0091374D /* MockAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB0CF751A7195DD0091374D /* MockAPI.m */; };
 		7AD06C9E1A70609800B63753 /* StateEvents_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD06C9D1A70609800B63753 /* StateEvents_Tests.m */; };
@@ -72,6 +73,7 @@
 		7A4EB7CE1A71C13100634D91 /* MockLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockLogger.h; sourceTree = "<group>"; };
 		7A4EB7CF1A71C13100634D91 /* MockLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockLogger.m; sourceTree = "<group>"; };
 		7A4EB7D11A71D5DF00634D91 /* SingleDepth_StateChart_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleDepth_StateChart_Tests.m; sourceTree = "<group>"; };
+		7A8C86001A7303320081A543 /* CrazyStateTransition_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrazyStateTransition_Tests.m; sourceTree = "<group>"; };
 		7AB0CF711A7195BD0091374D /* MockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockView.h; sourceTree = "<group>"; };
 		7AB0CF721A7195BD0091374D /* MockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockView.m; sourceTree = "<group>"; };
 		7AB0CF741A7195DD0091374D /* MockAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockAPI.h; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				7AD06C9F1A7063B600B63753 /* Message_Tests.m */,
 				7AD06CA11A70722400B63753 /* StateTraversal_Tests.m */,
 				7A4EB7D11A71D5DF00634D91 /* SingleDepth_StateChart_Tests.m */,
+				7A8C86001A7303320081A543 /* CrazyStateTransition_Tests.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 			);
 			path = Tests;
@@ -406,6 +409,7 @@
 				7AD06C9E1A70609800B63753 /* StateEvents_Tests.m in Sources */,
 				7AD06CA01A7063B600B63753 /* Message_Tests.m in Sources */,
 				6003F5BC195388D20070C39A /* Instantiation_Tests.m in Sources */,
+				7A8C86011A7303320081A543 /* CrazyStateTransition_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,11 +16,14 @@
 @property (nonatomic, strong) SKState *rootState;
 @property (nonatomic, strong, readwrite) SKState *currentState;
 
+@property (nonatomic, assign) NSUInteger stackCount;
+
 @end
 
 
 static NSString *kDefaultRootStateName = @"root";
 static NSString *kSubStringKey = @"subStates";
+static NSUInteger kMaxStackCount = 100;
 
 
 @implementation SKStateChart
@@ -31,6 +34,7 @@ static NSString *kSubStringKey = @"subStates";
     self = [super init];
 
     if (self) {
+        _stackCount = 0;
         NSDictionary *rootTree = [stateChart objectForKey:kDefaultRootStateName];
         NSAssert(rootTree != nil, @"The stateChart you input does not have a root state");
         _rootState = [self initializeDictionaryAsATree:rootTree withStateName:kDefaultRootStateName andParentState:nil];
@@ -84,6 +88,9 @@ static NSString *kSubStringKey = @"subStates";
 }
 
 - (void)goToState:(NSString *)goToState {
+    self.stackCount += 1; // We keep track of a stack count so that the stateChart user doesn't put themselves into an infinite loop
+    NSAssert(self.stackCount <= kMaxStackCount, @"Your stackCount (aka state transitions has reached the max threshold - you may have an infiinite loop in your state tree");
+
     // Find node using BFS search
     SKState *toState = [self breadthFirstSearchOfState:goToState fromState:self.rootState];
 
@@ -112,6 +119,8 @@ static NSString *kSubStringKey = @"subStates";
         NSAssert(subState != nil, @"Child state not found from givenState");
         [self transitionCurrentStateToSubState:subState];
     }
+
+    self.stackCount = 0;
 }
 
 - (NSArray *)pathToRootFromState:(SKState *)startState {
