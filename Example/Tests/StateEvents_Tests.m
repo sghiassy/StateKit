@@ -44,7 +44,7 @@ describe(@"SKStateMachine", ^{
     it(@"if you misspell the enterState, it will obviously not be called", ^{
         logMock = mock([MockLogger class]);
         NSDictionary *chart = @{@"root":@{
-                                        @"enterStateZZ":^(SKStateChart *sc) {
+                                        @"enterStatez":^(SKStateChart *sc) {
                                             [logMock log:@"entered root state"];
                                             }
                                         }
