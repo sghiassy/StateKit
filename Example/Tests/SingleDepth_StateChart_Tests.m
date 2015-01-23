@@ -53,6 +53,9 @@ describe(@"SKStateMachine", ^{
                                             [sc goToState:newStateName];
                                         }
                                     },
+                                    @"yellWaka":^(SKStateChart *sc) {
+                                        [logMock log:@"wakaRoot"];
+                                    },
                                     @"subStates":@{
                                             @"level:1":@{
                                                     @"enterState":^(SKStateChart *sc) {
@@ -62,6 +65,9 @@ describe(@"SKStateMachine", ^{
                                                     @"exitState":^(SKStateChart *sc) {
                                                         NSString *message = [NSString stringWithFormat:@"exited %@ state", sc.currentState.name];
                                                         [logMock log:message];
+                                                    },
+                                                    @"yellWaka":^(SKStateChart *sc) {
+                                                        [logMock log:@"waka1"];
                                                     },
                                                     @"subStates":@{
                                                             @"level:2":@{
@@ -73,6 +79,9 @@ describe(@"SKStateMachine", ^{
                                                                         NSString *message = [NSString stringWithFormat:@"exited %@ state", sc.currentState.name];
                                                                         [logMock log:message];
                                                                     },
+                                                                    @"yellWaka":^(SKStateChart *sc) {
+                                                                        [logMock log:@"waka2"];
+                                                                    },
                                                                     @"subStates":@{
                                                                             @"level:3":@{
                                                                                     @"enterState":^(SKStateChart *sc) {
@@ -83,6 +92,9 @@ describe(@"SKStateMachine", ^{
                                                                                         NSString *message = [NSString stringWithFormat:@"exited %@ state", sc.currentState.name];
                                                                                         [logMock log:message];
                                                                                     },
+                                                                                    @"yellWaka":^(SKStateChart *sc) {
+                                                                                        [logMock log:@"waka3"];
+                                                                                    },
                                                                                     @"subStates":@{
                                                                                             @"level:4":@{
                                                                                                     @"enterState":^(SKStateChart *sc) {
@@ -92,6 +104,9 @@ describe(@"SKStateMachine", ^{
                                                                                                     @"exitState":^(SKStateChart *sc) {
                                                                                                         NSString *message = [NSString stringWithFormat:@"exited %@ state", sc.currentState.name];
                                                                                                         [logMock log:message];
+                                                                                                    },
+                                                                                                    @"yellWaka":^(SKStateChart *sc) {
+                                                                                                        [logMock log:@"waka4"];
                                                                                                     }}
                                                                                             }
                                                                                     }
@@ -149,6 +164,100 @@ describe(@"SKStateMachine", ^{
         expect(stateChart.currentState.name).to.equal(@"root");
         [stateChart sendMessage:@"popToParentState"];
         expect(stateChart.currentState.name).to.equal(@"root");
+    });
+
+    it(@"sending a message", ^{
+        expect(stateChart.currentState.name).to.equal(@"root");
+        [verifyCount(logMock, times(0)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(0)) log:@"waka1"];
+        [verifyCount(logMock, times(0)) log:@"waka2"];
+        [verifyCount(logMock, times(0)) log:@"waka3"];
+        [verifyCount(logMock, times(0)) log:@"waka4"];
+        [stateChart sendMessage:@"yellWaka"];
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(0)) log:@"waka1"];
+        [verifyCount(logMock, times(0)) log:@"waka2"];
+        [verifyCount(logMock, times(0)) log:@"waka3"];
+        [verifyCount(logMock, times(0)) log:@"waka4"];
+
+
+        [stateChart sendMessage:@"goDownAState"];
+        expect(stateChart.currentState.name).to.equal(@"level:1");
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(0)) log:@"waka1"];
+        [verifyCount(logMock, times(0)) log:@"waka2"];
+        [verifyCount(logMock, times(0)) log:@"waka3"];
+        [verifyCount(logMock, times(0)) log:@"waka4"];
+        [stateChart sendMessage:@"yellWaka"];
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(1)) log:@"waka1"];
+        [verifyCount(logMock, times(0)) log:@"waka2"];
+        [verifyCount(logMock, times(0)) log:@"waka3"];
+        [verifyCount(logMock, times(0)) log:@"waka4"];
+
+
+        [stateChart sendMessage:@"goDownAState"];
+        expect(stateChart.currentState.name).to.equal(@"level:2");
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(1)) log:@"waka1"];
+        [verifyCount(logMock, times(0)) log:@"waka2"];
+        [verifyCount(logMock, times(0)) log:@"waka3"];
+        [verifyCount(logMock, times(0)) log:@"waka4"];
+        [stateChart sendMessage:@"yellWaka"];
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(1)) log:@"waka1"];
+        [verifyCount(logMock, times(1)) log:@"waka2"];
+        [verifyCount(logMock, times(0)) log:@"waka3"];
+        [verifyCount(logMock, times(0)) log:@"waka4"];
+
+
+        [stateChart sendMessage:@"goDownAState"];
+        expect(stateChart.currentState.name).to.equal(@"level:3");
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(1)) log:@"waka1"];
+        [verifyCount(logMock, times(1)) log:@"waka2"];
+        [verifyCount(logMock, times(0)) log:@"waka3"];
+        [verifyCount(logMock, times(0)) log:@"waka4"];
+        [stateChart sendMessage:@"yellWaka"];
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(1)) log:@"waka1"];
+        [verifyCount(logMock, times(1)) log:@"waka2"];
+        [verifyCount(logMock, times(1)) log:@"waka3"];
+        [verifyCount(logMock, times(0)) log:@"waka4"];
+
+
+
+        [stateChart sendMessage:@"goDownAState"];
+        expect(stateChart.currentState.name).to.equal(@"level:4");
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(1)) log:@"waka1"];
+        [verifyCount(logMock, times(1)) log:@"waka2"];
+        [verifyCount(logMock, times(1)) log:@"waka3"];
+        [verifyCount(logMock, times(0)) log:@"waka4"];
+        [stateChart sendMessage:@"yellWaka"];
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(1)) log:@"waka1"];
+        [verifyCount(logMock, times(1)) log:@"waka2"];
+        [verifyCount(logMock, times(1)) log:@"waka3"];
+        [verifyCount(logMock, times(1)) log:@"waka4"];
+
+
+
+        [stateChart sendMessage:@"goDownAState"];
+        [stateChart sendMessage:@"goDownAState"];
+        [stateChart sendMessage:@"goDownAState"];
+        expect(stateChart.currentState.name).to.equal(@"level:4");
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(1)) log:@"waka1"];
+        [verifyCount(logMock, times(1)) log:@"waka2"];
+        [verifyCount(logMock, times(1)) log:@"waka3"];
+        [verifyCount(logMock, times(1)) log:@"waka4"];
+        [stateChart sendMessage:@"yellWaka"];
+        [verifyCount(logMock, times(1)) log:@"wakaRoot"];
+        [verifyCount(logMock, times(1)) log:@"waka1"];
+        [verifyCount(logMock, times(1)) log:@"waka2"];
+        [verifyCount(logMock, times(1)) log:@"waka3"];
+        [verifyCount(logMock, times(2)) log:@"waka4"];
     });
 });
 
