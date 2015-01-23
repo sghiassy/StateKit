@@ -14,7 +14,7 @@
 @interface SKStateChart ()
 
 @property (nonatomic, strong) SKState *rootState;
-@property (nonatomic, strong, readwrite) SKState *currentState;
+@property (nonatomic, strong) SKState *currentState;
 
 @end
 
@@ -70,48 +70,56 @@ static NSString *kSubStringKey = @"subStates";
 #pragma mark - Messages
 
 - (void)sendMessage:(NSString *)message {
-    SKState *statePointer = self.currentState;
-    MessageBlock messageBlock = [statePointer blockForMessage:message];
+    @synchronized(self) { // Make thread-safe
 
-    while (statePointer != nil && messageBlock == nil) {
-        statePointer = statePointer.parentState;
-        messageBlock = [statePointer blockForMessage:message];
-    }
+        SKState *statePointer = self.currentState;
+        MessageBlock messageBlock = [statePointer blockForMessage:message];
 
-    if (messageBlock) {
-        messageBlock(self);
-    }
+        while (statePointer != nil && messageBlock == nil) {
+            statePointer = statePointer.parentState;
+            messageBlock = [statePointer blockForMessage:message];
+        }
+
+        if (messageBlock) {
+            messageBlock(self);
+        }
+
+    };
 }
 
 - (void)goToState:(NSString *)goToState {
-    // Find node using BFS search
-    SKState *toState = [self breadthFirstSearchOfState:goToState fromState:self.rootState];
+    @synchronized(self) {
+    
+        // Find node using BFS search
+        SKState *toState = [self breadthFirstSearchOfState:goToState fromState:self.rootState];
 
-    // Before proceding make sure that we actual found a state of that name
-    if (toState == nil) {
-        return;
-    }
+        // Before proceding make sure that we actual found a state of that name
+        if (toState == nil) {
+            return;
+        }
 
-    // Build path from node to parent for goToState
-    NSArray *pathToRoot = [self pathToRootFromState:toState];
+        // Build path from node to parent for goToState
+        NSArray *pathToRoot = [self pathToRootFromState:toState];
 
-    // Now traverse up to root from current state
-    // If the traversed node equals one in the path build previously - exit
-    BOOL commonParentFound = [pathToRoot containsObject:self.currentState.name];
+        // Now traverse up to root from current state
+        // If the traversed node equals one in the path build previously - exit
+        BOOL commonParentFound = [pathToRoot containsObject:self.currentState.name];
 
-    while (!commonParentFound) {
-        [self popCurrentStateToParentState];
-        commonParentFound = [pathToRoot containsObject:self.currentState.name];
-    }
+        while (!commonParentFound) {
+            [self popCurrentStateToParentState];
+            commonParentFound = [pathToRoot containsObject:self.currentState.name];
+        }
 
-    // Once we have traversed to the common anscetor - we now go doing until we reach the goToState
-    NSInteger index = [pathToRoot indexOfObject:self.currentState.name];
-    for (NSInteger i = index - 1; i >= 0; i--) {
-        NSString *nextState = [pathToRoot objectAtIndex:i];
-        SKState *subState = [self.currentState subState:nextState];
-        NSAssert(subState != nil, @"Child state not found from givenState");
-        [self transitionCurrentStateToSubState:subState];
-    }
+        // Once we have traversed to the common anscetor - we now go doing until we reach the goToState
+        NSInteger index = [pathToRoot indexOfObject:self.currentState.name];
+        for (NSInteger i = index - 1; i >= 0; i--) {
+            NSString *nextState = [pathToRoot objectAtIndex:i];
+            SKState *subState = [self.currentState subState:nextState];
+            NSAssert(subState != nil, @"Child state not found from givenState");
+            [self transitionCurrentStateToSubState:subState];
+        }
+
+    };
 }
 
 - (NSArray *)pathToRootFromState:(SKState *)startState {
@@ -172,6 +180,14 @@ static NSString *kSubStringKey = @"subStates";
 
     if (exitBlock) {
         exitBlock(self);
+    }
+}
+
+#pragma mark - Getters
+
+- (SKState *)currentState {
+    @synchronized(self) {
+        return _currentState;
     }
 }
 

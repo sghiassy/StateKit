@@ -11,7 +11,7 @@
 
 @interface SKStateChart : NSObject
 
-@property (nonatomic, strong, readonly) SKState *currentState;
+- (SKState *)currentState;
 
 - (instancetype)initWithStateChart:(NSDictionary *)stateChart;
 
