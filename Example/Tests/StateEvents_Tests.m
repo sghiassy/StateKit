@@ -7,6 +7,7 @@
 //
 
 #import <SKStateChart.h>
+#import "MockLogger.h"
 
 #define HC_SHORTHAND
 #import <OCHamcrest/OCHamcrest.h>
@@ -19,43 +20,40 @@ SpecBegin(StateChart_State_Events)
 
 describe(@"SKStateMachine", ^{
 
+    __block SKStateChart *stateChart;
+    __block id logMock;
+
+    NSDictionary *chart = @{@"root":@{
+                                    @"enterState":^(SKStateChart *sc) {
+                                        [logMock log:@"entered root state"];
+                                    }}};
+
+    beforeEach(^{
+        logMock = mock([MockLogger class]);
+        stateChart = [[SKStateChart alloc] initWithStateChart:chart];
+    });
+
     it(@"can be instantiated", ^{
-        SKStateChart *stateChart = [[SKStateChart alloc] init];
         expect(stateChart).to.beTruthy();
     });
 
     it(@"the enter state will be called on root on init", ^{
-        // mock creation
-        NSMutableArray *mockArray = mock([NSMutableArray class]);
-
-        NSDictionary *chart = @{@"root":@{
-                                        @"enterState":^(SKStateChart *sc) {
-                                            [mockArray addObject:@"one"];
-                                        }}};
-
-        SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
-
-        // verify addObject method was called with parameter @"one"
-        [verify(mockArray) addObject:@"one"];
-
-        expect(stateChart).toNot.beNil();
+        [verifyCount(logMock, times(1)) log:@"entered root state"];
     });
 
     it(@"if you misspell the enterState, it will obviously not be called", ^{
-        // mock creation
-        NSMutableArray *mockArray = mock([NSMutableArray class]);
-
+        logMock = mock([MockLogger class]);
         NSDictionary *chart = @{@"root":@{
-                                        @"enterStatez":^(SKStateChart *sc) {
-                                            [mockArray addObject:@"one"];
-                                        }}};
+                                        @"enterStateZZ":^(SKStateChart *sc) {
+                                            [logMock log:@"entered root state"];
+                                            }
+                                        }
+                                };
 
-        SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
+        __unused SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 
         // verification the addObject method was never called
-        [verifyCount(mockArray, never()) addObject:@"one"];
-
-        expect(stateChart).toNot.beNil();
+        [verifyCount(logMock, times(0)) log:@"entered root state"];
     });
     
 });
