@@ -129,49 +129,40 @@ Messages are first sent to the current state to see if there is a receieved for 
 Here is an example of message bubbling and how it works in various situations. Assume the following state chart:
 
 ```objective-c
-    NSDictionary *chart = @{@"root":@{
-                                    @"subStates":@{
-                                            @"a":@{
-                                                    @"subStates":@{
-                                                            @"d":@{
-                                                                    @"userPressedButton":^(SKStateChart *sc) {
-                                                                        NSLog(@"state d says hi");
-                                                                    },
-                                                                    @"subStates":@{
-                                                                            @"j":@{}
-                                                                            }
-                                                                    }
-                                                            }
-                                                    },
-                                            @"b":@{
-                                                    @"userPressedButton":^(SKStateChart *sc) {
-                                                        NSLog(@"state b says hi");
-                                                    },
-                                                    @"subStates":@{
-                                                            @"e":@{},
-                                                            @"f":@{
-                                                                    @"subStates":@{
-                                                                            @"g":@{
-                                                                                    @"userPressedButton":^(SKStateChart *sc) {
-                                                                                        NSLog(@"state g says hi");
-                                                                                    },
-                                                                                    @"subStates":@{
-                                                                                            @"h":@{},
-                                                                                            @"i":@{}
-                                                                                            }
-                                                                                    }
-                                                                            }
-                                                                    }
-                                                            }
-                                                    },
-                                            @"c":@{
-                                                    @"subStates":@{
-                                                            @"k":@{}
-                                                            }
-                                                    }
-                                            }
-                                    }
-                            };
+NSDictionary *chart = @{@"root":@{
+                              @"subStates":@{
+                                      @"a":@{
+                                              @"subStates":@{
+                                                      @"d":@{
+                                                              @"userPressedButton":^(SKStateChart *sc) {
+                                                                  NSLog(@"state d says hi");
+                                                              },
+                                                              @"subStates":@{
+                                                                      @"j":@{}
+                                                                      }
+                                                              }
+                                                      }
+                                              },
+                                      @"b":@{
+                                              @"userPressedButton":^(SKStateChart *sc) {
+                                                  NSLog(@"state b says hi");
+                                              },
+                                              @"subStates":@{
+                                                      @"e":@{},
+                                                      @"f":@{
+                                                              @"subStates":@{
+                                                                      @"g":@{
+                                                                              @"userPressedButton":^(SKStateChart *sc) {
+                                                                                  NSLog(@"state g says hi");
+                                                                              },
+                                                                              @"subStates":@{
+                                                                                      @"h":@{},
+                                                                                      @"i":@{}
+                                                                                      }}}}}},
+                                      @"c":@{
+                                              @"subStates":@{
+                                                      @"k":@{}
+                                                      }}}}};
 ```
 
 Which would translate itself into the following tree:
@@ -204,6 +195,7 @@ Here is a table showing the output of sending the message `userPressedButton` to
 State Traversals are another important aspect of a state chart. When transitioning from one state to another state the state chart does not directly go from one to another. Instead the state chart traverses the tree to get from one state to another. This tree traversal, combined with [State Events](#state-events) makes for a really power combination for memory management and application flow-control.
 
 The logic to transition from one state to another takes on the following steps
+
 1. The state chart does a [breadth first search](http://en.wikipedia.org/wiki/Breadth-first_search) on the underlying [tree data structure](http://en.wikipedia.org/wiki/Tree_%28data_structure%29) to find the state to transition to.
 2. The state chart then find the [lowest common anscestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor) between the two states.
 3. The state chart then traverses up the tree from the current state to the lowest common ancestor. As the state chart traverses up the tree it will run the `exitState` block of each state it touches if they are present on the state.
@@ -212,29 +204,37 @@ The logic to transition from one state to another takes on the following steps
 
 Graphically, this would look like:
 
-<img title="State Traversal Visual Example" src="http://lnk.ghiassy.com/1yWJPVl" width="500" />
+<img title="State Traversal Visual Example" src="http://cl.ly/image/2B2f1G030D0K/Screen%20Shot%202015-01-24%20at%202.03.15%20PM.png" width="500" />
 
 ## State Events
 
-As the state chart 
+As the state chart [traverses states](#state-traversals), it will check each state it touches and run event blocks on the state if they are present. Adding event blocks to a state is not required.
+
+As the state chart traverses down into the state it will run the `enterState` block if present. And as the state chart traverses up the tree it will run the `exitState` block if its present.
+
+<img title="State Traversal Visual Example" src="http://cl.ly/image/2B2f1G030D0K/Screen%20Shot%202015-01-24%20at%202.03.15%20PM.png" width="300" />
+
+In the above example, the `exitState` block would be run on state `G` and `D`. Furthermore it would run the `enterState` block on states `E` and `H`. Note that nothing was run on state `B`since we did not enter or exit that state.
 
 ## Dos and Don'ts
 
 ### Don't tell the StateChart what state to go to
 
-Many developers new to start charts naturally gravitate to telling the state chart what state to move to. DON'T DO THIS. The outside world tells the state chart what is going on by sending it messages and its the state chart's job to manipulate state.
+Many developers new to start charts naturally gravitate to telling the state chart what state to move to. DON'T DO THIS. The outside world tells the state chart what is going on by sending it messages and its the state chart's job interpret the message and change states if necessary.
 
-DO
-```objective-c
-[stateChart sendMessage:@"userPressedTheRedButton"]
-```
 
 DONT
 ```objective-c
 [statechart goToState:"red"];
 ```
+DO
 
-INSTEAD DO
+```objective-c
+[stateChart sendMessage:@"userPressedTheRedButton"]
+```
+
+Then in your state chart DO:
+
 ```objective-c
 @"userPressedTheRedButton":^(SKStateChart *sc) {
     [sc goToState:@"red"];
@@ -243,13 +243,13 @@ INSTEAD DO
 
 ### Don't be scared to send lots of messages - even garbage ones
 
-Sending messages to the state chart is one of its key operations. Don't be scared to send lots of messages. And don't be scared to send messages that aren't valid - many times that's good coding practice.
+Sending messages to the state chart is one of its key operations. Don't be scared to send lots of messages. And don't be scared to send messages that aren't currently valid - many times that's good coding practice.
 
-For example, think of a timer. Every minute on the minute it sends the message "minuteUpdated" to the state chart. If the state chart is in a state that it cares about receiving the message "minuteUpdated" it can do its thing. If its in a state that it doesn't care about the message "minuteUpdated", then nothing happens. This is a good thing.
+For example, think of a timer. Every minute on the minute it sends the message "minuteUpdated" to the state chart. If the state chart is in a state that it cares about receiving the message "minuteUpdated" it can choose to take action. If the state chart is in a state that it doesn't care about the message "minuteUpdated", then nothing happens - this is a good thing.
 
 ### Don't cram all your logic into the state chart
 
-The state chart is like the conducter of a symphony. It knows all the players and tells them when to play their instrutment. But it doesn't play the instruments for them. Likewise the state chart should call functions but detailed logic should stay out of the stay chart
+The state chart is like the conducter of a symphony. It knows all the players and tells them when to play their instrument. But it doesn't play the instruments for them. Likewise the state chart should call functions but detailed logic should stay out of the stay chart.
 
 DO
 
@@ -275,9 +275,11 @@ DONT
 
 ### Keep state names unique
 
-### Don't put goToState statements in exitState blocks
+When traversing to a new state, the state chart does a breadth-first-search of the tree, start at root to find the new state. While state names are not enforced to be unique, the outcome of the bfs search might produce unexpected results. So its best to avoid duplicate state names.
 
+### Be careful putting goToStates instructions in state event blocks
 
+When transition between states, the state chart will call [event blocks](#state-events) as it traverses the tree. Be careful putting `goToState` directives in these blocks because you can take your state chart for awhile ride before it reaches it end destination.
 
 ### Don't reference self in the state chart
 
@@ -306,7 +308,7 @@ NSDictionary *chart = @{@"root":@{
 
 #### Inifinite Loop
 
-You can create
+It is possible to create a valid state chart that transition states indefinitly. The chart will throw an exception if there are more than 100 state transitions in one operation
 
 ## Why use a StateChart?
 
@@ -385,25 +387,17 @@ This works (rolling my eyes) but your application now depends on network latency
 
 ## StateKit is NOT a Finite State Machine
 
-The Finite-State-Machine pattern ([FSM](http://en.wikipedia.org/wiki/Finite-state_machine)) is an excellent and well proven pattern - but StateKit is not a traditional FSM but it is a type of FSM well suited for application development.
+Statekit is a type of [Finite State Machine](http://en.wikipedia.org/wiki/Finite-state_machine) but not a FSM in the classical sense.
 
-FSMs manage application state as a graph - StateKit manages state as a tree. And while all trees are graphs, not all graphs are trees. This distinction, while subtle, is important. 
+FSMs manage state as a graph - StateKit manages state as a tree. And while all trees are graphs, not all graphs are trees. This distinction, while subtle, is important.
 
-For example, in a graph any node can directly point to any other node. Conversely in a tree, getting from one node to another requires traversing the tree by passing through the least-common-anscetor. This traversal has great properties for application development. 
+Additionally State Kit adds event logic and tree traversal logic that allows for rapid application development.
 
-With experience you will be able to recognize which problems are better represented in a StartTree vs. a FSM.
+With experience you will be able to recognize which problems are better represented in a StartChart vs. a Finite State Machine.
 
-If you are looking for a Finite State Machine in the traditional sense see these repos:
+If you are looking for a Finite State Machine in the classical sense see these repos:
 - [TransitionKit](https://github.com/blakewatters/TransitionKit)
 - [StateMachine](https://github.com/luisobo/StateMachine)
-
-## Usage
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-
-none
 
 ## Unit Tests
 
@@ -417,6 +411,15 @@ StateKit is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
     pod "StateKit"
+
+Import StateKit into the necessary class
+
+    #import <SKStateChart.h>
+
+and instantiate your state chart
+
+    NSDictionary *chart = @{@"root":@{}};
+    SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 
 #### If you like StateKit, star it on GitHub to help spread the word,
 
