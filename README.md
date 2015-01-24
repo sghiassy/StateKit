@@ -70,8 +70,8 @@ As we perform this state transition from `loading` state to `regularView` state 
   - [Messages](#a-states-messages)
   - [Sub States](#sub-states)
 - [Messages](#messages)
-  - [Message Bubbling](#Message-Bubbling)
-    - [Message Bubbling Example](#An-Example)
+  - [Message Bubbling](#message-bubbling)
+    - [Message Bubbling Example](#an-example)
 - [State Traversals](#state-traversals)
 - [State Events](#state-events)
 
@@ -135,11 +135,11 @@ Events are at the heart of a state chart. After the state chart has been created
 
 Messages are sent to the current state and bubble up until a receiver intercepts the message. If the current state and none of the current state's parent states have a reciever for the message than the message will simply be ignored. 
 
-![Message Bubbling Theorertical Example](http://lnk.ghiassy.com/1JkhhK3)
+<img title="Message Bubbling Theorertical Example" src="http://lnk.ghiassy.com/1JkhhK3" width="400" />
 
 #### An Example
 
-![Message Bubbling Example](http://lnk.ghiassy.com/1BUEHF1)
+<img title="Message Bubbling Example" src="http://lnk.ghiassy.com/1BUEHF1" width="400" />
 
 For which the correlating code would be
 
