@@ -32,6 +32,23 @@ describe(@"SKStateMachine", ^{
         }
     });
 
+    it(@"subStates are defined by the subStates keyword. All substates must be of type NSDictionary or the the library will throw an exception", ^{
+        SKStateChart *stateChart;
+        @try {
+            stateChart = [[SKStateChart alloc] initWithStateChart:@{@"root":@{
+                                                                            @"subStates":@{
+                                                                                    @"thisIsSupposedToBeADictionaryButItsABlock":^(SKStateChart *sc) {
+                                                                                            NSLog(@"I'll crash before I get here");
+                                                                                        }
+                                                                                    }
+                                                                            }
+                                                                    }];
+        }
+        @catch (NSException *exception) {
+            expect(exception.description).to.equal(@"A state entry in the subStates dictionary is not of type dictionary");
+        }
+    });
+
 });
 
 SpecEnd

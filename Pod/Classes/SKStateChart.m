@@ -57,6 +57,7 @@ static NSUInteger kMaxStackCount = 100;
 
             for (id stateKey in subStates) {
                 NSDictionary *subTree = [subStates objectForKey:stateKey];
+                NSAssert([subTree isKindOfClass:[NSDictionary class]], @"A state entry in the subStates dictionary is not of type dictionary");
                 SKState *subState = [self initializeDictionaryAsATree:subTree withStateName:stateKey andParentState:state];
                 [state setSubState:subState];
             }
