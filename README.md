@@ -5,9 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/StateKit.svg?style=flat)](http://cocoadocs.org/docsets/StateKit)
 [![Platform](https://img.shields.io/cocoapods/p/StateKit.svg?style=flat)](http://cocoadocs.org/docsets/StateKit)
 
-![State-Kit-Logo](http://lnk.ghiassy.com/1CnHYv9)
-
-
+![State-Kit-Logo](http://lnk.ghiassy.com/1EFTUI9)
 
 StateKit is a framework to capture, manage and manage application state as tree data structure.
 
@@ -57,7 +55,7 @@ SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart
 
 The above StateChart would produce a tree structure like the following
 
-![Quick Example Tree Structure](http://lnk.ghiassy.com/1EcWQOW)
+<img title="Quick Example Tree Structure" src="http://lnk.ghiassy.com/1EcWQOW" align="left" width="400" />
 
 ## Messages
 
