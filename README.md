@@ -15,47 +15,53 @@ StateKit is a framework to capture, manage and manage application state as tree 
 
 ```objective-c
 
-        NSDictionary *chart = @{@"root":@{
-                                        @"enterState":^(SKStateChart *sc) {
-                                            [sc goToState:@"loading"];
-                                        },
-                                        @"apiRespondedSuccessfully":^(SKStateChart *sc) {
-                                            [sc goToState:@"regularView"];
-                                        },
-                                        @"apiRespondedError":^(SKStateChart *sc) {
-                                            [sc goToState:@"errorView"];
-                                        },
-                                        @"subStates":@{
-                                                @"regularView":@{
-                                                        @"enterState":^(SKStateChart *sc) {
-                                                            // tell the view to show data
-                                                        }},
-                                                @"loading":@{
-                                                        @"enterState":^(SKStateChart *sc) {
-                                                            // fetch data from the api
-                                                            // show the loading spinner
-                                                        },
-                                                        @"exitState":^(SKStateChart *sc) {
-                                                            // remove loading spinner
-                                                        }},
-                                                @"errorView":@{
-                                                        @"enterState":^(SKStateChart *sc) {
-                                                            // tell the view to show the error view
-                                                        },
-                                                        @"exitState":^(SKStateChart *sc) {
-                                                            // dealloc error view objects
-                                                        },
-                                                        @"userPressedRetryButton":^(SKStateChart *sc) {
-                                                            [sc goToState:@"loading"];
-                                                        }}
-                                                }
-                                        }};
+NSDictionary *chart = @{@"root":@{
+                                @"enterState":^(SKStateChart *sc) {
+                                    [sc goToState:@"loading"];
+                                },
+                                @"apiRespondedSuccessfully":^(SKStateChart *sc) {
+                                    [sc goToState:@"regularView"];
+                                },
+                                @"apiRespondedError":^(SKStateChart *sc) {
+                                    [sc goToState:@"errorView"];
+                                },
+                                @"subStates":@{
+                                        @"regularView":@{
+                                                @"enterState":^(SKStateChart *sc) {
+                                                    // tell the view to show data
+                                                }},
+                                        @"loading":@{
+                                                @"enterState":^(SKStateChart *sc) {
+                                                    // fetch data from the api
+                                                    // show the loading spinner
+                                                },
+                                                @"exitState":^(SKStateChart *sc) {
+                                                    // remove loading spinner
+                                                }},
+                                        @"errorView":@{
+                                                @"enterState":^(SKStateChart *sc) {
+                                                    // tell the view to show the error view
+                                                },
+                                                @"exitState":^(SKStateChart *sc) {
+                                                    // dealloc error view objects
+                                                },
+                                                @"userPressedRetryButton":^(SKStateChart *sc) {
+                                                    [sc goToState:@"loading"];
+                                                }}
+                                        }
+                                }};
 
-        SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart:chart];
+SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 
 ```
 
+The above StateChart would produce a tree structure like the following
+
+![Quick Example Tree Structure](http://lnk.ghiassy.com/1EDXItt)
+
 ## Why use a StateChart?
+
+They say you can judge a developer's abilities by their handle on an application's flow control. 
 
 ## StateKit is NOT a Finite State Machine
 
@@ -67,7 +73,9 @@ For example, in a graph any node can directly point to any other node. Conversel
 
 With experience you will be able to recognize which problems are better represented in a StartTree vs. a FSM.
 
-
+If you are looking for a Finite State Machine in the traditional sense see these repos:
+- [TransitionKit](https://github.com/blakewatters/TransitionKit)
+- [StateMachine](https://github.com/luisobo/StateMachine)
 
 ## Usage
 
