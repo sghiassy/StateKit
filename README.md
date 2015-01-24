@@ -65,10 +65,10 @@ As we perform this state transition from `loading` state to `regularView` state 
 
 ## Documentation
 
-- Syntax
-- Messages
-- State Traversals
-- State Events
+##### [Syntax](#syntax)
+##### [Messages](#messages)
+##### [State Traversals](#state-traversals)
+##### [State Events](#state-events)
 
 ## Syntax
 
