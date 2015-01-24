@@ -56,7 +56,7 @@ SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart
 The above StateChart would produce a tree structure like the following
 
 <img title="Quick Example Tree Structure" src="http://lnk.ghiassy.com/1EcWQOW" align="left" width="400" />
-
+<br />
 ## Messages
 
 Events are at the heart of a state chart. After the state chart has been created the outside world send messages to the start chart telling it what is going on. The state chart will intercept the event and run the associated logic accordingly.
