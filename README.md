@@ -7,21 +7,17 @@
 
 <img title="State Kit Logo" src="http://cl.ly/image/1W471N2V3d3v/StateKit-Logo.png" width="800" />
 
-StateKit is a framework to capture, document and manage application state in tree data structure.
+StateKit is a framework to capture, document and manage application state in tree data structure to keep your application's flow control sane.
 
 ## Quick Example
 
 ```objective-c
-
 NSDictionary *chart = @{@"root":@{
                                 @"enterState":^(SKStateChart *sc) {
                                     [sc goToState:@"loading"];
                                 },
                                 @"apiRespondedSuccessfully":^(SKStateChart *sc) {
                                     [sc goToState:@"regularView"];
-                                },
-                                @"apiRespondedError":^(SKStateChart *sc) {
-                                    [sc goToState:@"errorView"];
                                 },
                                 @"subStates":@{
                                         @"regularView":@{
@@ -35,33 +31,22 @@ NSDictionary *chart = @{@"root":@{
                                                 },
                                                 @"exitState":^(SKStateChart *sc) {
                                                     // remove loading spinner
-                                                }},
-                                        @"errorView":@{
-                                                @"enterState":^(SKStateChart *sc) {
-                                                    // tell the view to show the error view
-                                                },
-                                                @"exitState":^(SKStateChart *sc) {
-                                                    // dealloc error view objects
-                                                },
-                                                @"userPressedRetryButton":^(SKStateChart *sc) {
-                                                    [sc goToState:@"loading"];
-                                                }}
-                                        }
-                                }};
+                                                }}}}};
 
 SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart:chart];
-
 ```
 
 The above StateChart would produce a tree structure like the following
 
 <img title="Quick Example Tree Structure" src="http://lnk.ghiassy.com/1EcWQOW" width="400" />
 
-The state chart always start with `root` as the current state. As we enter the `root` state, the directive in the `enterState` of the `root` state says to go to state `loading`. As the state chart enters the `loading` state we fetch data from the api and render the spinner to the view. 
+The story of what happens in this particular state chart is as follows:
 
-What's nice is that when your api code responds with success, we can transition the app to show the new data by simply sending the appropriate message to the state chart. In this example we would simply do `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. This would transition the state chart from the `loading` state to the `regularView` state. 
+The state chart always start with `root` as the current state. As we enter the `root` state, this chart has an `enterState` block in the `root` state and is therefor run. In the `enterState` there is code directing the state chart to the `loading` state. As the state chart traverses into the `loading` state, the state chart runs the `loading` state's `enterState` block where we fetch data from the api and render the spinner to the view.
 
-As we perform this state transition from `loading` state to `regularView` state we can cleanly take care of allocating and deallocating objects with high levels of precision. As we exit the `loading` state we clean up the loading UI and as we enter the `regularView` state we setup the appropriarte UI. 
+When the api responds successfully we send the appropriate message to the state chart `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. The state chart would lookup the appropriate message handler and run the correlating block. In this example, the block directs the state chart to traverse to the `regularView` state.
+
+As the state chart traverse from the `loading` state to the `regularView` state, we can cleanly take care of alloc/deallcing objects with a high-level of precision. As we exit the `loading` state we clean up the loading UI and as we enter the `regularView` state we setup the appropriarte UI.
 
 ## Documentation
 
@@ -101,9 +86,9 @@ NSDictionary *chart = @{@"root":@{
                                 }}};
 ```
 
-When the `root` state receives either message the associated block will be run. This is a very javascripty-way of doing things with anonymous functions/blocks. It might be a little off-putting at first if this is a new pattern, but this is the foundation of functional programming which has proved itself at scale. 
+When the `root` state receives either of the messages, the associated block will be run. 
 
-Also note that the reference to the state chart is passed into the function as `sc` for you to reference. While you could potentially reference the state chart varaible from a variable outside the chart dictionary it is advised to use the passed in reference.
+Note that the reference to the state chart is passed into the function as `sc`. While you could potentially reference the state chart instance from a variable outside of the dictionary, it is advised to use the passed in reference.
 
 #### Sub-states
 
@@ -123,9 +108,11 @@ NSDictionary *chart = @{@"root":@{
                                                 }}}};
 ```
 
+Substates key/value pair must be string/dictionary. Put a block as the key/value pair under the `subStates` dictionary will throw an exception.
+
 ## Messages
 
-Events are at the heart of a state chart. After the state chart has been created the outside world send messages to the start chart telling it what is going on. The state chart will intercept the event and run the associated logic accordingly.
+Events are at the heart of a state chart. After the state chart has been created, the outside world can start to send messages to the state chart keeping it abreast of what is going on. The state chart will intercept the event and run the appropriate message block per the current state..
 
 ```objective-c
 [stateChart sendMessage:@"userPressedTheRedButton"]
@@ -133,15 +120,13 @@ Events are at the heart of a state chart. After the state chart has been created
 
 ### Message Bubbling
 
-Messages are sent to the current state and bubble up until a receiver intercepts the message. If the current state and none of the current state's parent states have a reciever for the message than the message will simply be ignored. 
+Messages are first sent to the current state to see if there is a receieved for the message. If the current state does not respond to the message, the state chart will begin to bubble up the tree to find any parent states that respond to the message. If the current state plus any of the current state's parent states do not respond to the message, the message will be quietly ignored.
 
 <img title="Message Bubbling Theorertical Example" src="http://lnk.ghiassy.com/1JkhhK3" width="400" />
 
 #### An Example
 
-<img title="Message Bubbling Example" src="http://lnk.ghiassy.com/1BUEHF1" width="400" />
-
-For which the correlating code would be
+Here is an example of message bubbling and how it works in various situations. Assume the following state chart:
 
 ```objective-c
     NSDictionary *chart = @{@"root":@{
@@ -189,6 +174,10 @@ For which the correlating code would be
                             };
 ```
 
+Which would translate itself into the following tree:
+
+<img title="Message Bubbling Example" src="http://lnk.ghiassy.com/1BUEHF1" width="400" />
+
 Sending the message `userPressedButton` to the start chart would mean different things depending on the current state that the state chart is in.
 
 Here is a table showing the output of sending the message `userPressedButton` to the state chart given various current states
@@ -208,7 +197,22 @@ Here is a table showing the output of sending the message `userPressedButton` to
 | J             | state d says hi |
 | K             | *nothing*       |
 
+#### The fact that the same message can mean different actions depending on the state chart's data structure is very powerful.
+
 ## State Traversals
+
+State Traversals are another important aspect of a state chart. When transitioning from one state to another state the state chart does not directly go from one to another. Instead the state chart traverses the tree to get from one state to another. This tree traversal, combined with [State Events](#state-events) makes for a really power combination for memory management and application flow-control.
+
+The logic to transition from one state to another takes on the following steps
+1. The state chart does a [breadth first search](http://en.wikipedia.org/wiki/Breadth-first_search) on the underlying [tree data structure](http://en.wikipedia.org/wiki/Tree_%28data_structure%29) to find the state to transition to.
+2. The state chart then find the [lowest common anscestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor) between the two states.
+3. The state chart then traverses up the tree from the current state to the lowest common ancestor. As the state chart traverses up the tree it will run the `exitState` block of each state it touches if they are present on the state.
+4. Once the state chart reaches the lowest common ancestor, it will start to traverse down the tree to the destination state. For each state it touches it will run the `enterState` block if its present.
+5. The operation completes once the state chart reaches the destiation state.
+
+Graphically, this would look like:
+
+<img title="State Traversal Visual Example" src="http://lnk.ghiassy.com/1yWJPVl" width="500" />
 
 ## State Events
 
@@ -228,6 +232,13 @@ DO
 DONT
 ```objective-c
 [statechart goToState:"red"];
+```
+
+INSTEAD DO
+```objective-c
+@"userPressedTheRedButton":^(SKStateChart *sc) {
+    [sc goToState:@"red"];
+}
 ```
 
 ### Don't be scared to send lots of messages - even garbage ones
@@ -263,6 +274,8 @@ DONT
 ```
 
 ### Keep state names unique
+
+### Don't put goToState statements in exitState blocks
 
 
 
