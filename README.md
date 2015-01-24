@@ -5,9 +5,9 @@
 [![License](https://img.shields.io/cocoapods/l/StateKit.svg?style=flat)](http://cocoadocs.org/docsets/StateKit)
 [![Platform](https://img.shields.io/cocoapods/p/StateKit.svg?style=flat)](http://cocoadocs.org/docsets/StateKit)
 
-![State-Kit-Logo](http://lnk.ghiassy.com/1EFTUI9)
+<img title="State Kit Logo" src="http://cl.ly/image/1W471N2V3d3v/StateKit-Logo.png" width="800" />
 
-StateKit is a framework to capture, manage and manage application state as tree data structure.
+StateKit is a framework to capture, document and manage application state in tree data structure.
 
 ## Quick Example
 
@@ -26,7 +26,7 @@ NSDictionary *chart = @{@"root":@{
                                 @"subStates":@{
                                         @"regularView":@{
                                                 @"enterState":^(SKStateChart *sc) {
-                                                    // tell the view to show data
+                                                    // setup the regular view
                                                 }},
                                         @"loading":@{
                                                 @"enterState":^(SKStateChart *sc) {
@@ -56,6 +56,67 @@ SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart
 The above StateChart would produce a tree structure like the following
 
 <img title="Quick Example Tree Structure" src="http://lnk.ghiassy.com/1EcWQOW" width="400" />
+
+The state chart always start with `root` as the current state. As we enter the `root` state, the directive in the `enterState` of the `root` state says to go to state `loading`. As the state chart enters the `loading` state we fetch data from the api and render the spinner to the view. 
+
+What's nice is that when your api code responds with success, we can transition the app to show the new data by simply sending the appropriate message to the state chart. In this example we would simply do `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. This would transition the state chart from the `loading` state to the `regularView` state. 
+
+As we perform this state transition from `loading` state to `regularView` state we can cleanly take care of allocating and deallocating objects with high levels of precision. As we exit the `loading` state we clean up the loading UI and as we enter the `regularView` state we setup the appropriarte UI. 
+
+## Documentation
+
+- Syntax
+- Messages
+- State Traversals
+- State Events
+
+## Syntax
+
+The syntax for a creating a state chart is as follows:
+
+#### Root State
+
+All state charts must have a root state - otherwise StateKit will throw an exception. Below is the minimum viable state chart.
+
+```objective-c
+NSDictionary *chart = @{@"root":@{}};
+```
+
+#### A State's Messages
+
+Messages are defined as the top level of the state's correlated dictionary. To add the messages `apiRespondedSuccess` and `apiRespondedError` to the root state we would add the following
+
+```objective-c
+NSDictionary *chart = @{@"root":@{
+                                @"apiRespondedSuccess":^(SKStateChart *sc) {
+                                    // show the page
+                                },
+                                @"apiRespondedError":^(SKStateChart *sc) {
+                                    // show the error page
+                                }}};
+```
+
+When the `root` state receives either message the associated block will be run. This is a very javascripty-way of doing things with anonymous functions/blocks. It might be a little off-putting at first if this is a new pattern, but this is the foundation of functional programming which has proved itself at scale. 
+
+Also note that the reference to the state chart is passed into the function as `sc` for you to reference. While you could potentially reference the state chart varaible from a variable outside the chart dictionary it is advised to use the passed in reference.
+
+#### Sub-states
+
+Substates are defined in a dictionary under the keyword `subStates`. If we wanted to add a `loading` substate to the above the example we would get:
+
+```objective-c
+NSDictionary *chart = @{@"root":@{
+                                @"apiRespondedSuccess":^(SKStateChart *sc) {
+                                    // show the page
+                                },
+                                @"apiRespondedError":^(SKStateChart *sc) {
+                                    // show the error page
+                                },
+                                @"subStates":@{
+                                        @"loading":@{
+                                                // put the loading's state messages and substates here
+                                                }}}};
+```
 
 ## Messages
 
@@ -196,6 +257,10 @@ DONT
 }
 ```
 
+### Keep state names unique
+
+
+
 ### Don't reference self in the state chart
 
 To avoid retain cycles, reference weak-self inside the state chart
@@ -220,6 +285,10 @@ NSDictionary *chart = @{@"root":@{
 ```
 
 ## Gotchas
+
+#### Inifinite Loop
+
+You can create
 
 ## Why use a StateChart?
 
