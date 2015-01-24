@@ -42,11 +42,11 @@ The above StateChart would produce a tree structure like the following
 
 The story of what happens in this particular state chart is as follows:
 
-The state chart always start with `root` as the current state. As we enter the `root` state, this chart has an `enterState` block in the `root` state and is therefor run. In the `enterState` there is code directing the state chart to the `loading` state. As the state chart traverses into the `loading` state, the state chart runs the `loading` state's `enterState` block where we fetch data from the api and render the spinner to the view.
+The state chart always starts with `root` as the current state. As we enter the `root` state, the state chart sees there is an `enterState` block in the `root` state and therefore runs the block. The block directs the state chart to the `loading` state and so the state chart traverses into the `loading` state. As we enter the `loading` state, the `enterState` block is run where we fetch data from the api and render the spinner to the view.
 
-When the api responds successfully we send the appropriate message to the state chart `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. The state chart would lookup the appropriate message handler and run the correlating block. In this example, the block directs the state chart to traverse to the `regularView` state.
+When the API responds successfully, we send the appropriate message to the state chart `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. The state chart would lookup the appropriate message handler and run the correlating block. In this example, the block directs the state chart to traverse to the `regularView` state.
 
-As the state chart traverse from the `loading` state to the `regularView` state, we can cleanly take care of alloc/deallcing objects with a high-level of precision. As we exit the `loading` state we clean up the loading UI and as we enter the `regularView` state we setup the appropriarte UI.
+As the state chart traverses from the `loading` state to the `regularView` state, we can cleanly take care of alloc/deallcing objects with a high-level of precision. As we exit the `loading` state we clean up the loading UI and as we enter the `regularView` state we setup the appropriarte UI.
 
 ## Documentation
 
@@ -224,7 +224,7 @@ As the state chart traverses down into the state it will run the `enterState` bl
 
 In the above example, the `exitState` block would be run on state `G` and `D`. Furthermore it would run the `enterState` block on states `E` and `H`. Note that nothing was run on state `B`since we did not enter or exit that state.
 
-## Dos and Don'ts
+## Do's and Don'ts
 
 ### Don't tell the StateChart what state to go to
 
@@ -283,11 +283,13 @@ DONT
 
 ### Keep state names unique
 
-When traversing to a new state, the state chart does a breadth-first-search of the tree, start at root to find the new state. While state names are not enforced to be unique, the outcome of the bfs search might produce unexpected results. So its best to avoid duplicate state names.
+When traversing to a new state, the state chart does a breadth-first-search of the tree, starting at the root state and proceeding until it finds the destination state. While state names are not enforced to be unique, the outcome of the bfs search might produce unexpected results. So its best to avoid duplicate state names.
 
 ### Be careful putting goToStates instructions in state event blocks
 
-When transition between states, the state chart will call [event blocks](#state-events) as it traverses the tree. Be careful putting `goToState` directives in these blocks because you can take your state chart for awhile ride before it reaches it end destination.
+When transitioning between states, the state chart will call [event blocks](#state-events) as it traverses the tree. Be careful putting `goToState` directives in these blocks because you can take your state chart for awhile ride before it reaches its end destination.
+
+But as you can see from the provided examples, there is a time and place to put a `goToState` directive in an `enterState` block - just be careful.
 
 ### Don't reference self in the state chart
 
@@ -316,7 +318,7 @@ NSDictionary *chart = @{@"root":@{
 
 #### Inifinite Loop
 
-It is possible to create a valid state chart that transition states indefinitly. The chart will throw an exception if there are more than 100 state transitions in one operation
+It is possible to create a valid state chart that transition states indefinitly. This is obviously bad. To aid, State Kit will throw an exception if there are more than 100 state transitions in one operation
 
 ## Why use a StateChart?
 
@@ -324,9 +326,10 @@ They say you can judge a developer's abilities by their handle on an application
 
 ### Benefits
 
-  * **Idempotent** - Code By capturing all the various states and flow-control in your state chart, your code becomes cleaner and idempotent. Functions are only called when they are needed and need minimal logic-branching, because if they weren't needed, they wouldn't be called. This reduces cyclomatic-complexity and increases developer happiness.
-  * **Self-Documenting** - This is important. By capturing state in one and only one place, you can see at an overview level all the variability in one place. Its great!
-  * **Capturing logic branching in one place** - A single source of truth for state, what can be better.
+  * **Reduced Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces cyclomatic compleixty.
+  * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place.
+  * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact. 
+  * **Single Source of Truth** - A single source of truth for state, what can be better.
 
 ## StateKit is NOT a Finite State Machine
 
@@ -334,7 +337,7 @@ Statekit is a type of [Finite State Machine](http://en.wikipedia.org/wiki/Finite
 
 FSMs manage state as a graph - StateKit manages state as a tree. And while all trees are graphs, not all graphs are trees. This distinction, while subtle, is important.
 
-Additionally State Kit adds event logic and tree traversal logic that allows for rapid application development.
+Additionally State Kit adds event and tree traversal logic to the underlying data structure that allows for rapid application development.
 
 With experience you will be able to recognize which problems are better represented in a StartChart vs. a Finite State Machine.
 
@@ -355,6 +358,8 @@ it, simply add the following line to your Podfile:
 
     pod "StateKit"
 
+###### If you like StateKit, star it on GitHub to help spread the word
+
 Import StateKit into the necessary class
 
     #import <SKStateChart.h>
@@ -363,8 +368,6 @@ and instantiate your state chart
 
     NSDictionary *chart = @{@"root":@{}};
     SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
-
-#### If you like StateKit, star it on GitHub to help spread the word,
 
 ## Author
 
