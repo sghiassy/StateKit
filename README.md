@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/StateKit.svg?style=flat)](http://cocoadocs.org/docsets/StateKit)
 [![Platform](https://img.shields.io/cocoapods/p/StateKit.svg?style=flat)](http://cocoadocs.org/docsets/StateKit)
 
-<img title="State Kit Logo" src="http://cl.ly/image/1W471N2V3d3v/StateKit-Logo.png" width="800" />
+<img title="State Kit Logo" src="http://cloud.shaheenghiassy.com/image/252G1229101R/StateKit-Logo.png" width="800" />
 
 StateKit is a framework to capture, document and manage application state in tree data structure to keep your application's flow control sane.
 
