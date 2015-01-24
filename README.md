@@ -38,7 +38,7 @@ SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart
 
 The above StateChart would produce a tree structure like the following
 
-<img title="Quick Example Tree Structure" src="http://lnk.ghiassy.com/1EcWQOW" width="400" />
+<img title="Quick Example Tree Structure" src="http://cl.ly/image/440k3K2l2E1d/Screen%20Shot%202015-01-24%20at%202.33.24%20PM.png" width="400" />
 
 The story of what happens in this particular state chart is as follows:
 
@@ -188,7 +188,7 @@ Here is a table showing the output of sending the message `userPressedButton` to
 | J             | state d says hi |
 | K             | *nothing*       |
 
-#### The fact that the same message can mean different actions depending on the state chart's data structure is very powerful.
+###### The fact that the same message can mean different actions depending on the state chart's data structure is very powerful.
 
 ## State Traversals
 
@@ -316,17 +316,9 @@ They say you can judge a developer's abilities by their handle on an application
 
 ### Benefits
 
-#### Idempotent Code
-
-By capturing all the various states and flow-control in your state chart, your code becomes cleaner and idempotent. Functions are only called when they are needed and need minimal logic-branching, because if they weren't needed, they wouldn't be called. This reduces cyclomatic-complexity and increases developer happiness.
-
-#### Self-Documenting
-
-This is important. By capturing state in one and only one place, you can see at an overview level all the variability in one place. Its great!
-
-#### Capturing logic branching in one place
-
-A single source of truth for state, what can be better.
+  * **Idempotent** - Code By capturing all the various states and flow-control in your state chart, your code becomes cleaner and idempotent. Functions are only called when they are needed and need minimal logic-branching, because if they weren't needed, they wouldn't be called. This reduces cyclomatic-complexity and increases developer happiness.
+  * **Self-Documenting** - This is important. By capturing state in one and only one place, you can see at an overview level all the variability in one place. Its great!
+  * **Capturing logic branching in one place** - A single source of truth for state, what can be better.
 
 ### Crappy ways of managing state
 
