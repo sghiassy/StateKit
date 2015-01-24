@@ -38,7 +38,7 @@ SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart
 
 The above StateChart would produce a tree structure like the following
 
-<img title="Quick Example Tree Structure" src="http://cl.ly/image/440k3K2l2E1d/Screen%20Shot%202015-01-24%20at%202.33.24%20PM.png" width="400" />
+<img title="Quick Example Tree Structure" src="http://cloud.shaheenghiassy.com/image/3B1P131T060Y/Screen%20Shot%202015-01-24%20at%202.41.09%20PM.png" width="400" />
 
 The story of what happens in this particular state chart is as follows:
 
@@ -59,6 +59,14 @@ As the state chart traverse from the `loading` state to the `regularView` state,
     - [Message Bubbling Example](#an-example)
 - [State Traversals](#state-traversals)
 - [State Events](#state-events)
+- [Do's and Don'ts](#dos-and-donts)
+- [Gotchas](#gotchas)
+- [Why use a State Chart](#why-use-a-statechart)
+- [StateKit is not a FSM](##statekit-is-not-a-finite-state-machine)
+- [Unit Tests](#unit-tests)
+- [Installation](#installation)
+- [Author](#author)
+- [License](#license)
 
 ## Syntax
 
@@ -319,63 +327,6 @@ They say you can judge a developer's abilities by their handle on an application
   * **Idempotent** - Code By capturing all the various states and flow-control in your state chart, your code becomes cleaner and idempotent. Functions are only called when they are needed and need minimal logic-branching, because if they weren't needed, they wouldn't be called. This reduces cyclomatic-complexity and increases developer happiness.
   * **Self-Documenting** - This is important. By capturing state in one and only one place, you can see at an overview level all the variability in one place. Its great!
   * **Capturing logic branching in one place** - A single source of truth for state, what can be better.
-
-### Crappy ways of managing state
-
-#### Object Pointers as an indication of state
-
-A lot of applications guess state by looking at object pointers. By seeing if an object has already been instantiated the developer will guess that something has happened. 
-
-```objective-c
-if (self.map) {
-	// Is this state?
-}
-```
-
-The problem with this is that referencing the memory address of an object is only a proxy for the real state. Setting `self.map = nil` doesn't change application state it will just break your code.
-
-Additionally, the check, `if (self.map)`, will start littering your code and loose meaning to future devs.
-
-Instead, for any logic that requires the map to be instantiated, nest those states under the map state. By definition, all of those sub-states now have a guarantee that the map was created, because you couldn't have dropped into a child state without first having created the map
-
-```objective-c
-        NSDictionary *chart = @{@"root":@{
-                                        @"subStates":@{
-                                                @"map":@{
-                                                        @"enterState":^(SKStateChart *sc) {
-                                                            // allocate map here
-                                                        },
-                                                        @"subStates":@{
-                                                                // now any depth of breadth of states from
-                                                                // here on out by definition now the map
-                                                                // has already been created.
-                                                                // You couldn't have gotten to that state
-                                                                // without the map having already been created
-                                                                }}}}
-```
-
-#### BOOLs BOOLs BOOLs
-
-This is such a bad way to manage state its almost humorous. Have you even seen a class definition like this:
-
-```objective-c
-@interface MyClass
-
-@property (nonatomic, assign) BOOL mapCreated;
-@property (nonatomic, assign) BOOL userTouchedButton;
-@property (nonatomic, assign) BOOL animating;
-@property (nonatomic, assign) BOOL shouldShowBanner;
-@property (nonatomic, assign) BOOL shouldRemoveBanner;
-// etc, etc, etc
-```
-
-Don't do this. Managing states in BOOLs is like managing integers with bit manipulation - it gets hairy fast. In the above example there are already 2^5 combinations, and many of those combinations are invalid. 
-
-#### API Masking
-
-Another common area is to shove state into API calls - basically relying on the fact that the API will take some amount of milliseconds to respond and within that timeframe you can do other operations.
-
-This works (rolling my eyes) but your application now depends on network latency?? And what if in the future you implement data-caching in your app that returns responses immediatly? And maybe even on the same thread? That's not going to be fun to fix.
 
 ## StateKit is NOT a Finite State Machine
 
