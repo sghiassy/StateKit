@@ -71,7 +71,9 @@ Events are at the heart of a state chart. After the state chart has been created
 
 Messages are sent to the current state and bubble up until a receiver intercepts the message. If the current state and none of the current state's parent states have a reciever for the message than the message will simply be ignored. 
 
-Take the following example:
+![Message Bubbling Theorertical Example](http://lnk.ghiassy.com/1JkhhK3)
+
+#### An Example
 
 ![Message Bubbling Example](http://lnk.ghiassy.com/1BUEHF1)
 
@@ -142,8 +144,11 @@ Here is a table showing the output of sending the message `userPressedButton` to
 | J             | state d says hi |
 | K             | *nothing*       |
 
-
 ## State Traversals
+
+## State Events
+
+As the state chart 
 
 ## Dos and Don'ts
 
