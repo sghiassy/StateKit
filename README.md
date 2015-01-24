@@ -57,7 +57,166 @@ SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart
 
 The above StateChart would produce a tree structure like the following
 
-![Quick Example Tree Structure](http://lnk.ghiassy.com/1EDXItt)
+![Quick Example Tree Structure](http://lnk.ghiassy.com/1EcWQOW)
+
+## Messages
+
+Events are at the heart of a state chart. After the state chart has been created the outside world send messages to the start chart telling it what is going on. The state chart will intercept the event and run the associated logic accordingly.
+
+```objective-c
+[stateChart sendMessage:@"userPressedTheRedButton"]
+```
+
+### Message Bubbling
+
+Messages are sent to the current state and bubble up until a receiver intercepts the message. If the current state and none of the current state's parent states have a reciever for the message than the message will simply be ignored. 
+
+Take the following example:
+
+![Message Bubbling Example](http://lnk.ghiassy.com/1BUEHF1)
+
+For which the correlating code would be
+
+```objective-c
+    NSDictionary *chart = @{@"root":@{
+                                    @"subStates":@{
+                                            @"a":@{
+                                                    @"subStates":@{
+                                                            @"d":@{
+                                                                    @"userPressedButton":^(SKStateChart *sc) {
+                                                                        NSLog(@"state d says hi");
+                                                                    },
+                                                                    @"subStates":@{
+                                                                            @"j":@{}
+                                                                            }
+                                                                    }
+                                                            }
+                                                    },
+                                            @"b":@{
+                                                    @"userPressedButton":^(SKStateChart *sc) {
+                                                        NSLog(@"state b says hi");
+                                                    },
+                                                    @"subStates":@{
+                                                            @"e":@{},
+                                                            @"f":@{
+                                                                    @"subStates":@{
+                                                                            @"g":@{
+                                                                                    @"userPressedButton":^(SKStateChart *sc) {
+                                                                                        NSLog(@"state g says hi");
+                                                                                    },
+                                                                                    @"subStates":@{
+                                                                                            @"h":@{},
+                                                                                            @"i":@{}
+                                                                                            }
+                                                                                    }
+                                                                            }
+                                                                    }
+                                                            }
+                                                    },
+                                            @"c":@{
+                                                    @"subStates":@{
+                                                            @"k":@{}
+                                                            }
+                                                    }
+                                            }
+                                    }
+                            };
+```
+
+Sending the message `userPressedButton` to the start chart would mean different things depending on the current state that the state chart is in.
+
+Here is a table showing the output of sending the message `userPressedButton` to the state chart given various current states
+
+| Current State | Output          |
+| ------------- | --------------- |
+| root          | *nothing*       |
+| A             | *nothing*       |
+| B             | state b says hi |
+| C             | *nothing*       |
+| D             | state d says hi |
+| E             | state b says hi |
+| F             | state b says hi |
+| G             | state g says hi |
+| H             | state g says hi |
+| I             | state g says hi |
+| J             | state d says hi |
+| K             | *nothing*       |
+
+
+## State Traversals
+
+## Dos and Don'ts
+
+### Don't tell the StateChart what state to go to
+
+Many developers new to start charts naturally gravitate to telling the state chart what state to move to. DON'T DO THIS. The outside world tells the state chart what is going on by sending it messages and its the state chart's job to manipulate state.
+
+DO
+```objective-c
+[stateChart sendMessage:@"userPressedTheRedButton"]
+```
+
+DONT
+```objective-c
+[statechart goToState:"red"];
+```
+
+### Don't be scared to send lots of messages - even garbage ones
+
+Sending messages to the state chart is one of its key operations. Don't be scared to send lots of messages. And don't be scared to send messages that aren't valid - many times that's good coding practice.
+
+For example, think of a timer. Every minute on the minute it sends the message "minuteUpdated" to the state chart. If the state chart is in a state that it cares about receiving the message "minuteUpdated" it can do its thing. If its in a state that it doesn't care about the message "minuteUpdated", then nothing happens. This is a good thing.
+
+### Don't cram all your logic into the state chart
+
+The state chart is like the conducter of a symphony. It knows all the players and tells them when to play their instrutment. But it doesn't play the instruments for them. Likewise the state chart should call functions but detailed logic should stay out of the stay chart
+
+DO
+
+```objective-c
+@"enterState":(SKStateChart *sc) {
+  [view setupUI];
+}
+```
+
+DONT
+
+```objective-c
+@"enterState":(SKStateChart *sc) {
+  UILabel *label = [[UILabel alloc] init];
+  label = [[UILabel alloc] init];
+  label.text = @"StateKit!!!";
+  label.font = [UIFont systemFontOfSize:26];
+  label.textColor = [UIColor blueColor];
+  [self.view addSubview:label];
+  // ... more view logic
+}
+```
+
+### Don't reference self in the state chart
+
+To avoid retain cycles, reference weak-self inside the state chart
+
+DO 
+
+```objective-c
+__weak UIViewController *weakSelf = self;
+NSDictionary *chart = @{@"root":@{
+                                @"enterState":^(SKStateChart *sc) {
+                                    weakSelf.title = @"hi";
+                                }}};
+```
+
+DONT
+
+```objective-c
+NSDictionary *chart = @{@"root":@{
+                                @"enterState":^(SKStateChart *sc) {
+                                    self.title = @"hi";
+                                }}};
+```
+
+## Gotchas
 
 ## Why use a StateChart?
 
@@ -67,11 +226,15 @@ They say you can judge a developer's abilities by their handle on an application
 
 #### Idempotent Code
 
+By capturing all the various states and flow-control in your state chart, your code becomes cleaner and idempotent. Functions are only called when they are needed and need minimal logic-branching, because if they weren't needed, they wouldn't be called. This reduces cyclomatic-complexity and increases developer happiness.
+
 #### Self-Documenting
+
+This is important. By capturing state in one and only one place, you can see at an overview level all the variability in one place. Its great!
 
 #### Capturing logic branching in one place
 
-#### Nuanced states
+A single source of truth for state, what can be better.
 
 ### Crappy ways of managing state
 
@@ -164,6 +327,8 @@ StateKit is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
     pod "StateKit"
+
+#### If you like StateKit, star it on GitHub to help spread the word,
 
 ## Author
 
