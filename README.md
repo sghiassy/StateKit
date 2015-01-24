@@ -61,7 +61,74 @@ The above StateChart would produce a tree structure like the following
 
 ## Why use a StateChart?
 
-They say you can judge a developer's abilities by their handle on an application's flow control. 
+They say you can judge a developer's abilities by their handle on an application's flow control. Flow control can be handled in many ways, but with front-end application's accurately capturing state and working with state to manage flow control is impertivie.
+
+### Benefits
+
+#### Idempotent Code
+
+#### Self-Documenting
+
+#### Capturing logic branching in one place
+
+#### Nuanced states
+
+### Crappy ways of managing state
+
+#### Object Pointers as an indication of state
+
+A lot of applications guess state by looking at object pointers. By seeing if an object has already been instantiated the developer will guess that something has happened. 
+
+```objective-c
+if (self.map) {
+	// Is this state?
+}
+```
+
+The problem with this is that referencing the memory address of an object is only a proxy for the real state. Setting `self.map = nil` doesn't change application state it will just break your code.
+
+Additionally, the check, `if (self.map)`, will start littering your code and loose meaning to future devs.
+
+Instead, for any logic that requires the map to be instantiated, nest those states under the map state. By definition, all of those sub-states now have a guarantee that the map was created, because you couldn't have dropped into a child state without first having created the map
+
+```objective-c
+        NSDictionary *chart = @{@"root":@{
+                                        @"subStates":@{
+                                                @"map":@{
+                                                        @"enterState":^(SKStateChart *sc) {
+                                                            // allocate map here
+                                                        },
+                                                        @"subStates":@{
+                                                                // now any depth of breadth of states from
+                                                                // here on out by definition now the map
+                                                                // has already been created.
+                                                                // You couldn't have gotten to that state
+                                                                // without the map having already been created
+                                                                }}}}
+```
+
+#### BOOLs BOOLs BOOLs
+
+This is such a bad way to manage state its almost humorous. Have you even seen a class definition like this:
+
+```objective-c
+@interface MyClass
+
+@property (nonatomic, assign) BOOL mapCreated;
+@property (nonatomic, assign) BOOL userTouchedButton;
+@property (nonatomic, assign) BOOL animating;
+@property (nonatomic, assign) BOOL shouldShowBanner;
+@property (nonatomic, assign) BOOL shouldRemoveBanner;
+// etc, etc, etc
+```
+
+Don't do this. Managing states in BOOLs is like managing integers with bit manipulation - it gets hairy fast. In the above example there are already 2^5 combinations, and many of those combinations are invalid. 
+
+#### API Masking
+
+Another common area is to shove state into API calls - basically relying on the fact that the API will take some amount of milliseconds to respond and within that timeframe you can do other operations.
+
+This works (rolling my eyes) but your application now depends on network latency?? And what if in the future you implement data-caching in your app that returns responses immediatly? And maybe even on the same thread? That's not going to be fun to fix.
 
 ## StateKit is NOT a Finite State Machine
 

@@ -24,6 +24,7 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Instantiation_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Instantiation_Tests.m */; };
+		7A34BA061A737561005EC617 /* ExampleStateCharts_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A34BA051A737561005EC617 /* ExampleStateCharts_Tests.m */; };
 		7A4EB7D01A71C13100634D91 /* MockLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A4EB7CF1A71C13100634D91 /* MockLogger.m */; };
 		7A4EB7D21A71D5DF00634D91 /* SingleDepth_StateChart_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A4EB7D11A71D5DF00634D91 /* SingleDepth_StateChart_Tests.m */; };
 		7A8C86011A7303320081A543 /* CrazyStateTransition_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C86001A7303320081A543 /* CrazyStateTransition_Tests.m */; };
@@ -70,6 +71,7 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Instantiation_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Instantiation_Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		7A34BA051A737561005EC617 /* ExampleStateCharts_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleStateCharts_Tests.m; sourceTree = "<group>"; };
 		7A4EB7CE1A71C13100634D91 /* MockLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockLogger.h; sourceTree = "<group>"; };
 		7A4EB7CF1A71C13100634D91 /* MockLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockLogger.m; sourceTree = "<group>"; };
 		7A4EB7D11A71D5DF00634D91 /* SingleDepth_StateChart_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleDepth_StateChart_Tests.m; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				7AD06CA11A70722400B63753 /* StateTraversal_Tests.m */,
 				7A4EB7D11A71D5DF00634D91 /* SingleDepth_StateChart_Tests.m */,
 				7A8C86001A7303320081A543 /* CrazyStateTransition_Tests.m */,
+				7A34BA051A737561005EC617 /* ExampleStateCharts_Tests.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 			);
 			path = Tests;
@@ -406,6 +409,7 @@
 				7AD06CA21A70722400B63753 /* StateTraversal_Tests.m in Sources */,
 				7AB0CF731A7195BD0091374D /* MockView.m in Sources */,
 				7A4EB7D21A71D5DF00634D91 /* SingleDepth_StateChart_Tests.m in Sources */,
+				7A34BA061A737561005EC617 /* ExampleStateCharts_Tests.m in Sources */,
 				7AD06C9E1A70609800B63753 /* StateEvents_Tests.m in Sources */,
 				7AD06CA01A7063B600B63753 /* Message_Tests.m in Sources */,
 				6003F5BC195388D20070C39A /* Instantiation_Tests.m in Sources */,
