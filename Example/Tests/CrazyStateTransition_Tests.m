@@ -291,6 +291,80 @@ describe(@"SKStateMachine", ^{
         }
     });
 
+    it(@"can handle state transitions in the exit state", ^{
+        NSDictionary *chart = @{@"root":@{
+                                        @"enterState":^(SKStateChart *sc) {
+                                            [logMock log:[NSString stringWithFormat:@"Entered %@", sc.currentState.name]];
+                                            [sc goToState:@"branchA"];
+                                        },
+                                        @"exitState":^(SKStateChart *sc) {
+                                            [logMock log:[NSString stringWithFormat:@"Exited %@", sc.currentState.name]];
+                                        },
+                                        @"subStates":@{
+                                                @"branchA":@{
+                                                        @"enterState":^(SKStateChart *sc) {
+                                                            [logMock log:[NSString stringWithFormat:@"Entered %@", sc.currentState.name]];
+                                                            [sc goToState:@"branchA-childA"];
+                                                        },
+                                                        @"exitState":^(SKStateChart *sc) {
+                                                            [logMock log:[NSString stringWithFormat:@"Exited %@", sc.currentState.name]];
+                                                        },
+                                                        @"subStates":@{
+                                                                @"branchA-childA":@{
+                                                                        @"enterState":^(SKStateChart *sc) {
+                                                                            [logMock log:[NSString stringWithFormat:@"Entered %@", sc.currentState.name]];
+                                                                            [sc goToState:@"branchA-childA-subChildA"];
+                                                                        },
+                                                                        @"exitState":^(SKStateChart *sc) {
+                                                                            [logMock log:[NSString stringWithFormat:@"Exited %@", sc.currentState.name]];
+
+                                                                            //NOTE the goToState in the exitState Block
+                                                                            [sc goToState:@"branchB-childA"];
+                                                                        },
+                                                                        @"subStates":@{
+                                                                                @"branchA-childA-subChildA":@{
+                                                                                        @"enterState":^(SKStateChart *sc) {
+                                                                                            [logMock log:[NSString stringWithFormat:@"Entered %@", sc.currentState.name]];
+                                                                                        },
+                                                                                        @"exitState":^(SKStateChart *sc) {
+                                                                                            [logMock log:[NSString stringWithFormat:@"Exited %@", sc.currentState.name]];
+                                                                                        },
+                                                                                        @"reset":^(SKStateChart *sc) {
+                                                                                            [sc goToState:@"root"];
+                                                                                        }}
+                                                                                }
+                                                                        }
+                                                                }
+                                                        },
+                                                @"branchB":@{
+                                                        @"enterState":^(SKStateChart *sc) {
+                                                            [logMock log:[NSString stringWithFormat:@"Entered %@", sc.currentState.name]];
+                                                        },
+                                                        @"exitState":^(SKStateChart *sc) {
+                                                            [logMock log:[NSString stringWithFormat:@"Exited %@", sc.currentState.name]];
+                                                        },
+                                                        @"subStates":@{
+                                                                @"branchB-childA":@{
+                                                                        @"enterState":^(SKStateChart *sc) {
+                                                                            [logMock log:[NSString stringWithFormat:@"Entered %@", sc.currentState.name]];
+                                                                        },
+                                                                        @"exitState":^(SKStateChart *sc) {
+                                                                            [logMock log:[NSString stringWithFormat:@"Exited %@", sc.currentState.name]];
+                                                                        }}
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                };
+
+        logMock = mock([MockLogger class]);
+        stateChart = [[SKStateChart alloc] initWithStateChart:chart];
+        expect(stateChart.currentState.name).to.equal(@"branchA-childA-subChildA");
+
+        [stateChart sendMessage:@"reset"];
+        expect(stateChart.currentState.name).to.equal(@"root");
+    });
+
 });
 
 SpecEnd
