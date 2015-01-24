@@ -130,39 +130,39 @@ Here is an example of message bubbling and how it works in various situations. A
 
 ```objective-c
 NSDictionary *chart = @{@"root":@{
-                              @"subStates":@{
-                                      @"a":@{
-                                              @"subStates":@{
-                                                      @"d":@{
-                                                              @"userPressedButton":^(SKStateChart *sc) {
-                                                                  NSLog(@"state d says hi");
-                                                              },
-                                                              @"subStates":@{
-                                                                      @"j":@{}
-                                                                      }
-                                                              }
-                                                      }
-                                              },
-                                      @"b":@{
-                                              @"userPressedButton":^(SKStateChart *sc) {
-                                                  NSLog(@"state b says hi");
-                                              },
-                                              @"subStates":@{
-                                                      @"e":@{},
-                                                      @"f":@{
-                                                              @"subStates":@{
-                                                                      @"g":@{
-                                                                              @"userPressedButton":^(SKStateChart *sc) {
-                                                                                  NSLog(@"state g says hi");
-                                                                              },
-                                                                              @"subStates":@{
-                                                                                      @"h":@{},
-                                                                                      @"i":@{}
-                                                                                      }}}}}},
-                                      @"c":@{
-                                              @"subStates":@{
-                                                      @"k":@{}
-                                                      }}}}};
+                          @"subStates":@{
+                                  @"a":@{
+                                          @"subStates":@{
+                                                  @"d":@{
+                                                          @"userPressedButton":^(SKStateChart *sc) {
+                                                              NSLog(@"state d says hi");
+                                                          },
+                                                          @"subStates":@{
+                                                                  @"j":@{}
+                                                                  }
+                                                          }
+                                                  }
+                                          },
+                                  @"b":@{
+                                          @"userPressedButton":^(SKStateChart *sc) {
+                                              NSLog(@"state b says hi");
+                                          },
+                                          @"subStates":@{
+                                                  @"e":@{},
+                                                  @"f":@{
+                                                          @"subStates":@{
+                                                                  @"g":@{
+                                                                          @"userPressedButton":^(SKStateChart *sc) {
+                                                                              NSLog(@"state g says hi");
+                                                                          },
+                                                                          @"subStates":@{
+                                                                                  @"h":@{},
+                                                                                  @"i":@{}
+                                                                                  }}}}}},
+                                  @"c":@{
+                                          @"subStates":@{
+                                                  @"k":@{}
+                                                   }}}}};
 ```
 
 Which would translate itself into the following tree:
