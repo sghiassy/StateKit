@@ -377,7 +377,7 @@ it, simply add the following line to your Podfile:
 Import [StateKit](https://github.com/sghiassy/StateKit) into the necessary class
 
 ```objective-c
-    #import <SKStateChart.h>
+#import <SKStateChart.h>
 ```
 
 and create/instantiate your state chart
