@@ -1,12 +1,12 @@
 # StateKit
 
-<img title="State Kit Logo" src="http://cloud.shaheenghiassy.com/image/252G1229101R/StateKit-Logo.png" width="800" />
+<img title="StateKit Logo" src="http://cloud.shaheenghiassy.com/image/252G1229101R/StateKit-Logo.png" width="800" />
 
-StateKit is a framework for iOS and OSX, to capture, document and manage state in order to keep your app's code sane.
+[StateKit](https://github.com/sghiassy/StateKit) is a framework for iOS and OSX, to capture, document and manage state in order to keep your app's code sane.
 
 ## Quick Example
 
-Lets see a quick, small example of using [State Kit](https://github.com/sghiassy/StateKit) to manage a loading state and regular state.
+Lets see a quick, small example of using [StateKit](https://github.com/sghiassy/StateKit) to manage a loading state and regular state.
 
 We first create the state chart like so:
 
@@ -63,7 +63,7 @@ This is a basic example of a state chart, but demonstrates how application flow 
 - [Do's and Don'ts](#dos-and-donts)
 - [Gotchas](#gotchas)
 - [Why use a State Chart](#why-use-a-statechart)
-- [StateKit is not a FSM](##statekit-is-not-a-finite-state-machine)
+- [StateKit is not a FSM](#statekit-is-not-a-finite-state-machine)
 - [Unit Tests](#unit-tests)
 - [Installation](#installation)
 - [Author](#author)
@@ -75,7 +75,7 @@ The syntax for a creating a state chart is as follows:
 
 #### Root State
 
-All state charts must have a root state - otherwise StateKit will throw an exception. Below is the minimum viable state chart.
+All state charts must have a root state - otherwise [StateKit](https://github.com/sghiassy/StateKit) will throw an exception. Below is the minimum viable state chart.
 
 ```objective-c
 NSDictionary *chart = @{@"root":@{}};
@@ -322,7 +322,7 @@ NSDictionary *chart = @{@"root":@{
 
 #### Inifinite Loop
 
-It is possible to create a valid state chart that transition states indefinitly. This is obviously bad. To aid, State Kit will throw an exception if there are more than 100 state transitions in one operation
+It is possible to create a valid state chart that transition states indefinitly. This is obviously bad. To aid, [StateKit](https://github.com/sghiassy/StateKit) will throw an exception if there are more than 100 state transitions in one operation
 
 ## Why use a StateChart?
 
@@ -330,19 +330,19 @@ They say you can judge a developer's abilities by their handle on an application
 
 ### Benefits
 
-  * **Reduced Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces cyclomatic compleixty.
+  * **Reduced [Cyclomatic Complexity](http://en.wikipedia.org/wiki/Cyclomatic_complexity)** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic compleixty](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
   * **Garbage-in - Sanity-out** - As application's grow, the environment that the code work in gets continually more convulated. `NSNotificationEvents`, User events, Timer events, broken code all contribute towards denegrating the application's code's flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow-control.
-  * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place.
+  * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes the structure.
   * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact. 
   * **Single Source of Truth** - A single source of truth for state, what can be better.
 
 ## StateKit is NOT a Finite State Machine
 
-Statekit is a type of [Finite State Machine](http://en.wikipedia.org/wiki/Finite-state_machine) but not a FSM in the classical sense.
+[StateKit](https://github.com/sghiassy/StateKit) is a type of [Finite State Machine](http://en.wikipedia.org/wiki/Finite-state_machine) but not a FSM in the classical sense.
 
-FSMs manage state as a graph - StateKit manages state as a tree. And while all trees are graphs, not all graphs are trees. This distinction, while subtle, is important.
+FSMs manage state as a graph - [StateKit](https://github.com/sghiassy/StateKit) manages state as a tree. And while all trees are graphs, not all graphs are trees. This distinction, while subtle, is important.
 
-Additionally State Kit adds event and tree traversal logic to the underlying data structure that allows for rapid application development.
+Additionally [StateKit](https://github.com/sghiassy/StateKit) adds event and tree traversal logic to the underlying data structure that allows for rapid application development.
 
 With experience you will be able to recognize which problems are better represented in a StartChart vs. a Finite State Machine.
 
@@ -352,20 +352,20 @@ If you are looking for a Finite State Machine in the classical sense see these r
 
 ## Unit Tests
 
-StateKit is fully united tested.
+[StateKit](https://github.com/sghiassy/StateKit) is fully united tested.
 
 To run the unit tests open file `./Example/StateKit.xcworkspace`. Then press `command-U` to run the tests.
 
 ## Installation
 
-StateKit is available through [CocoaPods](http://cocoapods.org). To install
+[StateKit](https://github.com/sghiassy/StateKit) is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
     pod "StateKit"
 
 ###### If you like StateKit, star it on GitHub to help spread the word
 
-Import StateKit into the necessary class
+Import [StateKit](https://github.com/sghiassy/StateKit) into the necessary class
 
     #import <SKStateChart.h>
 
@@ -380,4 +380,4 @@ Shaheen Ghiassy, shaheen@groupon.com
 
 ## License
 
-StateKit is available under the MIT license. See the LICENSE file for more info.
+[StateKit](https://github.com/sghiassy/StateKit) is available under the MIT license. See the LICENSE file for more info.
