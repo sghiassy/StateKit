@@ -41,24 +41,26 @@ The above dictionary is interpreted into a tree data structure like so:
 
 Lets follow the story of what happens in this particular state chart:
 
-On `init`, the state chart always starts with `root` as the current state. As we enter the `root` state, the state chart sees there is an `enterState` block in the `root` state and therefore runs the associated block. The block directs the state chart to go to the `loading` state. So the state chart continues traversing the tree into the `loading` state. As we enter the `loading` state, the `enterState` block on the `loading` state is run. Here where we can tell the application to fetch data from the api and render the spinner to the view. Note, how the state chart is directing the application on what to do.
+On `init`, the state chart always starts with `root` as the current state. As we enter the `root` state, the state chart sees there is an `enterState` block in the `root` state and therefore runs the associated block. The block directs the state chart to go to the `loading` state. So the state chart continues traversing the tree into the `loading` state. As we enter the `loading` state, the `enterState` block on the `loading` state is run. Here we can tell the application to fetch data from the api and render the spinner to the view. Note, how the state chart is directing the application on what to do.
 
-When the API responds successfully, we send the appropriate message to the state chart `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. From the standpoint of the application's code we have nothing further to do, we assume that the state chart will direct any future steps if necessary.
+When the API responds successfully, we send the appropriate message to the state chart `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. From the standpoint of the application's code, we have nothing further to do, we assume that the state chart will direct any future steps if necessary.
 
 When the state chart recieves the message `apiRespondedSuccessfully`, the state chart would lookup the appropriate message handler and run the message handler's block. In this example, the block directs the state chart to traverse to the `regularView` state.
 
-As the state chart traverses from the `loading` state to the `regularView` state, we can cleanly take care of alloc/deallcing objects with a high-level of precision. As we exit the `loading` state we clean up the loading UI (aka remove the spinner, etc) and as we enter the `regularView` state we setup the appropriarte UI.
+As the state chart traverses from the `loading` state to the `regularView` state, we can cleanly take care of alloc/deallcing objects with a high-level of precision. As we exit the `loading` state we clean up the loading UI (aka remove/dealloc the spinner, etc) and as we enter the `regularView` state we setup the appropriarte UI.
 
 This is a basic example of a state chart, but demonstrates how application flow control can be intellilgently managed and directed by the state chart.
 
 ## Why use a state chart?
 
-They say you can judge a developer's abilities by their handle on an application's flow control. Flow control can be handled in many ways, but with front-end application's accurately capturing state and working with state to manage flow control is impertivie.
+They say you can judge a developer's ability by their handle on an application's flow control. Flow control can be handled in many ways, but with front-end application's accurately capturing state and working with state to manage flow control is impertivie.
+
+[StateKit](https://github.com/sghiassy/StateKit) gives you the power to easily create complex flow control in an easy to read and update manner.
 
 ### Benefits
 
-  * **Reduce Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic compleixty](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
-  * **Garbage-in - Sanity-out** - As application's grow, the environment that the code work in gets continually more convulated. `NSNotificationEvents`, User events, Timer events, broken code all contribute towards denegrating the application's code's flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow-control.
+  * **Reduce Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic comlexity](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
+  * **Garbage-in - Sanity-out** - As applications grow, the environment that the code work in gets continually more convoluted. NSNotificationEvents, User events, Timer events, broken code all contribute towards degrading the application's code's flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow-control.
   * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes the structure.
   * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact. 
   * **Single Source of Truth** - A single source of truth for state, what can be better.
