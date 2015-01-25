@@ -60,8 +60,8 @@ They say you can judge a developer's ability by their handle on an application's
 ### Benefits
 
   * **Reduce Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic comlexity](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
-  * **Garbage-in - Sanity-out** - As applications grow, the environment that the code work in gets continually more convoluted. NSNotificationEvents, User events, Timer events, broken code all contribute towards degrading the application's code's flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow-control.
-  * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes the structure.
+  * **Garbage-in - Sanity-out** - As applications grow, the environment that the code works in, continually gets more convoluted. NSNotificationEvents, User events, Timer events and broken code all contribute towards degrading clean flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow control.
+  * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes what is going on.
   * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact. 
   * **Single Source of Truth** - A single source of truth for state, what can be better.
 
@@ -101,7 +101,7 @@ SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart
 
 #### A State's Messages
 
-Messages are defined as the top level of the state's dictionary entry. To add the messages `apiRespondedSuccess` and `apiRespondedError` to the root state we would do the following:
+Messages are defined at the top level of the state's dictionary entry. To add the messages `apiRespondedSuccess` and `apiRespondedError` to the root state we would do the following:
 
 ```objective-c
 NSDictionary *chart = @{@"root":@{
@@ -115,13 +115,13 @@ NSDictionary *chart = @{@"root":@{
 
 When the `root` state receives either of the messages, the associated block will be run.
 
-Messages' key/value pair must be of type string/block. 
+_Note: Messages' key/value pair must be of type string/block._
 
 _Note that the reference to the state chart is passed into the function as `sc`. While you could potentially reference the state chart instance from a variable outside of the dictionary, it is advised to use the passed in reference._
 
 #### Sub-states
 
-Substates are defined in a dictionary under the keyword `subStates`. If we wanted to add a `loading` subState to the above the example we would write:
+Substates are defined in a dictionary under the keyword `subStates`. If we wanted to add a `loading` subState to the above example we would write:
 
 ```objective-c
 NSDictionary *chart = @{@"root":@{
@@ -137,11 +137,11 @@ NSDictionary *chart = @{@"root":@{
                                                 }}}};
 ```
 
-Substates key/value pair must be of type string/dictionary.
+_Note: Substates key/value pair must be of type string/dictionary._
 
 ## Messages
 
-Events are at the heart of a state chart. After the state chart has been created, the outside world can start to send messages to the state chart; keeping it abreast of what is going on. The state chart will interpret the message(s) and run the appropriate reciever block (if any).
+Events are at the heart of a state chart. After the state chart has been created, the outside world can start to send messages to the state chart; keeping it abreast of what is going on. The state chart will interpret the message(s) and run the appropriate receiver block (if any).
 
 ```objective-c
 [stateChart sendMessage:@"userPressedTheRedButton"]
@@ -149,7 +149,7 @@ Events are at the heart of a state chart. After the state chart has been created
 
 ### Message Bubbling
 
-Messages are first sent to the current state to see if there is a receiever for the message. If the current state does not respond to the message, the state chart will begin to bubble up the tree to find any parent states that respond to the message. If the current state plus any of the current state's parent states do not respond to the message, the message will be quietly ignored.
+Messages are first sent to the current state to see if there is a receiver for the message. If the current state does not respond to the message, the state chart will begin to bubble up the tree to find any parent states that respond to the message. If the current state plus any of the current state's parent states, do not respond to the message, the message will be quietly ignored.
 
 <img title="Message Bubbling Theorertical Example" src="http://lnk.ghiassy.com/1JkhhK3" width="400" />
 
@@ -200,7 +200,7 @@ Which would translate itself into the following tree:
 
 Sending the message `userPressedButton` to the start chart would mean different things depending on the current state that the state chart is in.
 
-Here is a table showing the output of sending the message `userPressedButton` to the state chart given various current states.
+Here is a table showing the output of sending the message `userPressedButton` to the state chart given various starting current states.
 
 | Under Current State | Sending `userPressedButton` would Output          |
 | ------------- | --------------- |
@@ -221,14 +221,14 @@ Here is a table showing the output of sending the message `userPressedButton` to
 
 ## State Traversals
 
-State Traversals are another important aspect of a state chart. When transitioning from one state to another state, the state chart does not directly go from one to another. Instead the state chart traverses the tree to get from one state to another. This tree traversal, combined with [State Events](#state-events) makes for a power combination to manage manage an application's memory footprint and flow-control.
+State Traversals are another important aspect of a state chart. When transitioning from one state to another state, the state chart does not directly go from one to another. Instead the state chart traverses the tree to get from one state to another. This tree traversal, combined with [State Events](#state-events) makes for a powerful combination to precisly manage an application's flow control.
 
-The logic to transition from one state to another takes on the following steps:
+The logic to transition from one state to another state, takes the following steps:
 
 1. The state chart does a [breadth first search](http://en.wikipedia.org/wiki/Breadth-first_search) on the underlying [tree data structure](http://en.wikipedia.org/wiki/Tree_%28data_structure%29) to find the state to transition to.
-2. The state chart then find the [lowest common anscestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor) between the two states.
-3. The state chart then traverses up the tree from the current state to the [lowest common anscestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor). As the state chart traverses up the tree it will run the `exitState` block of each state it touches if they are present on the state.
-4. Once the state chart reaches the [lowest common anscestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor), it will start to traverse down the tree to the destination state. For each state it touches it will run the `enterState` block if its present.
+2. The state chart then finds the [lowest common ancestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor) between the two states.
+3. The state chart then traverses up the tree from the current state to the [lowest common ancestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor). As the state chart traverses up the tree it will run the `exitState` block of each state it touches if they are present on the state.
+4. Once the state chart reaches the [lowest common ancestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor), it will start to traverse down the tree to the destination state. For each state it touches it will run the `enterState` block if its present.
 5. The operation completes once the state chart reaches the destiation state.
 
 Graphically, this would look like:
