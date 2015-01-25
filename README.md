@@ -49,8 +49,22 @@ As the state chart traverses from the `loading` state to the `regularView` state
 
 This is a basic example of a state chart, but demonstrates how application flow control can be intellilgently managed by a state chart.
 
+## Why use a StateChart?
+
+They say you can judge a developer's abilities by their handle on an application's flow control. Flow control can be handled in many ways, but with front-end application's accurately capturing state and working with state to manage flow control is impertivie.
+
+### Benefits
+
+  * **Reduce Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic compleixty](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
+  * **Garbage-in - Sanity-out** - As application's grow, the environment that the code work in gets continually more convulated. `NSNotificationEvents`, User events, Timer events, broken code all contribute towards denegrating the application's code's flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow-control.
+  * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes the structure.
+  * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact. 
+  * **Single Source of Truth** - A single source of truth for state, what can be better.
+
 ## Documentation
 
+- [Quick Example](#quick-example)
+- [Why use a State Chart](#why-use-a-statechart)
 - [Syntax](#syntax)
   - [Root State](#root-state)
   - [Messages](#a-states-messages)
@@ -60,9 +74,8 @@ This is a basic example of a state chart, but demonstrates how application flow 
     - [Message Bubbling Example](#an-example)
 - [State Traversals](#state-traversals)
 - [State Events](#state-events)
-- [Do's and Don'ts](#dos-and-donts)
+- [Do's and Dont's](#dos-and-donts)
 - [Gotchas](#gotchas)
-- [Why use a State Chart](#why-use-a-statechart)
 - [StateKit is not a FSM](#statekit-is-not-a-finite-state-machine)
 - [Unit Tests](#unit-tests)
 - [Installation](#installation)
@@ -216,7 +229,7 @@ The logic to transition from one state to another takes on the following steps:
 
 Graphically, this would look like:
 
-<img title="State Traversal Visual Example" src="http://cl.ly/image/2B2f1G030D0K/Screen%20Shot%202015-01-24%20at%202.03.15%20PM.png" width="500" />
+<img title="State Traversal Visual Example" src="http://cloud.shaheenghiassy.com/image/1R2U3P140d1Q/Screen%20Shot%202015-01-24%20at%206.03.20%20PM.png" width="500" />
 
 ## State Events
 
@@ -224,13 +237,13 @@ As the state chart [traverses states](#state-traversals), it will check each sta
 
 As the state chart traverses down into the state it will run the `enterState` block if present. And as the state chart traverses up the tree it will run the `exitState` block if its present.
 
-<img title="State Traversal Visual Example" src="http://cl.ly/image/2B2f1G030D0K/Screen%20Shot%202015-01-24%20at%202.03.15%20PM.png" width="300" />
+<img title="State Traversal Visual Example" src="http://cloud.shaheenghiassy.com/image/1R2U3P140d1Q/Screen%20Shot%202015-01-24%20at%206.03.20%20PM.png" width="300" />
 
 In the above example, the `exitState` block would be run on state `G` and `D` and run the `enterState` block on states `E` and `H`. Note that nothing was run on state `B`since we did not enter or exit that state.
 
-## Do's and Don'ts
+## Do's and Dont's
 
-### Don't tell the StateChart what state to go to
+### Don't tell the state chart what state to go to
 
 Many developers new to start charts naturally gravitate towards telling the state chart what state to move to. DON'T DO THIS. The outside world tells the state chart what is going on by sending it messages and its the state chart's job to interpret the message and manipulate state accordingly (if at all).
 
@@ -323,18 +336,6 @@ NSDictionary *chart = @{@"root":@{
 #### Inifinite Loop
 
 It is possible to create a valid state chart that transition states indefinitly. This is obviously bad. To aid, [StateKit](https://github.com/sghiassy/StateKit) will throw an exception if there are more than 100 state transitions in one operation
-
-## Why use a StateChart?
-
-They say you can judge a developer's abilities by their handle on an application's flow control. Flow control can be handled in many ways, but with front-end application's accurately capturing state and working with state to manage flow control is impertivie.
-
-### Benefits
-
-  * **Reduced Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic compleixty](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
-  * **Garbage-in - Sanity-out** - As application's grow, the environment that the code work in gets continually more convulated. `NSNotificationEvents`, User events, Timer events, broken code all contribute towards denegrating the application's code's flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow-control.
-  * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes the structure.
-  * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact. 
-  * **Single Source of Truth** - A single source of truth for state, what can be better.
 
 ## StateKit is NOT a Finite State Machine
 
