@@ -330,7 +330,7 @@ They say you can judge a developer's abilities by their handle on an application
 
 ### Benefits
 
-  * **Reduced [Cyclomatic Complexity](http://en.wikipedia.org/wiki/Cyclomatic_complexity)** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic compleixty](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
+  * **Reduced Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic compleixty](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
   * **Garbage-in - Sanity-out** - As application's grow, the environment that the code work in gets continually more convulated. `NSNotificationEvents`, User events, Timer events, broken code all contribute towards denegrating the application's code's flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow-control.
   * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes the structure.
   * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact. 
@@ -367,12 +367,16 @@ it, simply add the following line to your Podfile:
 
 Import [StateKit](https://github.com/sghiassy/StateKit) into the necessary class
 
+```objective-c
     #import <SKStateChart.h>
+```
 
 and instantiate your state chart
 
-    NSDictionary *chart = @{@"root":@{}};
-    SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
+```objective-c
+NSDictionary *chart = @{@"root":@{}};
+SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
+```
 
 ## Author
 
