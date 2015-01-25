@@ -341,7 +341,9 @@ NSDictionary *chart = @{@"root":@{
 
 #### Inifinite Loop
 
-It is possible to create a valid state chart that transition states indefinitly. This is obviously bad. To aid, [StateKit](https://github.com/sghiassy/StateKit) will throw an exception if there are more than 100 state transitions in one operation
+It is possible to create a valid state chart that transition states indefinitly. This is obviously bad - don't do it. 
+
+To aid, [StateKit](https://github.com/sghiassy/StateKit) will throw an exception if there are more than 100 state transitions in one operation
 
 ## StateKit is NOT a Finite State Machine
 
@@ -351,9 +353,9 @@ FSMs manage state as a graph - [StateKit](https://github.com/sghiassy/StateKit) 
 
 Additionally [StateKit](https://github.com/sghiassy/StateKit) adds event and tree traversal logic to the underlying data structure that allows for rapid application development.
 
-With experience you will be able to recognize which problems are better represented in a StartChart vs. a Finite State Machine.
+With experience you will be able to recognize which problems are better represented in a state chart vs. a [Finite State Machine](http://en.wikipedia.org/wiki/Finite-state_machine).
 
-If you are looking for a Finite State Machine in the classical sense see these repos:
+If you are looking for a classical [Finite State Machine](http://en.wikipedia.org/wiki/Finite-state_machine) for iOS or OS X Development see:
 - [TransitionKit](https://github.com/blakewatters/TransitionKit)
 - [StateMachine](https://github.com/luisobo/StateMachine)
 
@@ -370,7 +372,7 @@ it, simply add the following line to your Podfile:
 
     pod "StateKit"
 
-###### If you like StateKit, star it on GitHub to help spread the word
+##### If you like State Kit, star it on GitHub to help spread the word
 
 Import [StateKit](https://github.com/sghiassy/StateKit) into the necessary class
 
@@ -378,7 +380,7 @@ Import [StateKit](https://github.com/sghiassy/StateKit) into the necessary class
     #import <SKStateChart.h>
 ```
 
-and instantiate your state chart
+and create/instantiate your state chart
 
 ```objective-c
 NSDictionary *chart = @{@"root":@{}};
