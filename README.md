@@ -2,7 +2,7 @@
 
 <img title="StateKit Logo" src="http://cloud.shaheenghiassy.com/image/252G1229101R/StateKit-Logo.png" width="800" />
 
-[StateKit](https://github.com/sghiassy/StateKit) is a framework for iOS and OSX, to capture, document and manage state, in order to keep your application code sane.
+[StateKit](https://github.com/sghiassy/StateKit) is a framework for iOS and OSX, to capture, document and manage state, in order to keep your application code calm & sane.
 
 ## Quick Example
 
@@ -53,17 +53,17 @@ This is a basic example of a state chart, but demonstrates how application flow 
 
 ## Why use a state chart?
 
-They say you can judge a developer's ability by their handle on an application's flow control. Flow control can be handled in many ways, but with front-end application's accurately capturing state and working with state to manage flow control is impertivie.
+They say you can measure a developer's ability by their handle on an application's flow control. Flow control can be handled in many ways, but especially with front-end application, accurately capturing and working with state to manage flow control across an application is impertivie.
 
-[StateKit](https://github.com/sghiassy/StateKit) gives you the power to easily create complex flow control in an easy to read and update manner.
+[StateKit](https://github.com/sghiassy/StateKit) gives you the power to easily create complex flow control in an easy to read and maintainable manner.
 
 ### Benefits
 
   * **Reduce Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic comlexity](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
   * **Calm your code** - With a proper state chart managing flow control, functions can now begin to calm down. Their code, which used to brace for being called inappropriartly or had to check to figure out what had happened previously, can now dispense with those worries. Functions can now safely assume (given the right state chart structure) that they are being called only when actually needed and can safely assume any necessary allocations or setup actions have been taken care of a parent application's state before they were called.
-  * **Garbage-in - Sanity-out** - As applications grow, the environment that the code works in, continually gets more convoluted. NSNotificationEvents, User events, Timer events and broken code all contribute towards degrading clean flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow control.
-  * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes what is going on.
+  * **Garbage-in, Sanity-out** - As applications grow, the environment that the code works in, continually gets more convoluted. NSNotificationEvents, User events, Timer events and broken code all contribute towards degrading clean flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow control.
   * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact. 
+  * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes what is going on.
   * **Single Source of Truth** - A single source of truth for state, what can be better.
 
 ## Documentation
@@ -373,7 +373,7 @@ it, simply add the following line to your Podfile:
 
     pod "StateKit"
 
-##### If you like State Kit, star it on GitHub to help spread the word
+##### If you like StateKit, star it on GitHub to help spread the word
 
 Import [StateKit](https://github.com/sghiassy/StateKit) into the necessary class
 
