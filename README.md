@@ -221,7 +221,7 @@ Here is a table showing the output of sending the message `userPressedButton` to
 
 ## State Traversals
 
-State Traversals are another important aspect of a state chart. When transitioning from one state to another state, the state chart does not directly go from one to another. Instead the state chart traverses the tree to get from one state to another. This tree traversal, combined with [State Events](#state-events) makes for a powerful combination to precisly manage an application's flow control.
+State Traversals are another important aspect of a state chart. When transitioning from one state to another state, the state chart does not directly go from one to another. Instead the state chart traverses the tree to get from one state to another. This tree traversal, combined with [State Events](#state-events) makes for a powerful combination to precisely manage an application's flow control.
 
 The logic to transition from one state to another state, takes the following steps:
 
@@ -229,7 +229,7 @@ The logic to transition from one state to another state, takes the following ste
 2. The state chart then finds the [lowest common ancestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor) between the two states.
 3. The state chart then traverses up the tree from the current state to the [lowest common ancestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor). As the state chart traverses up the tree it will run the `exitState` block of each state it touches if they are present on the state.
 4. Once the state chart reaches the [lowest common ancestor](http://en.wikipedia.org/wiki/Lowest_common_ancestor), it will start to traverse down the tree to the destination state. For each state it touches it will run the `enterState` block if its present.
-5. The operation completes once the state chart reaches the destiation state.
+5. The operation completes once the state chart reaches the destination state.
 
 Graphically, this would look like:
 
@@ -243,13 +243,15 @@ As the state chart traverses down into the state it will run the `enterState` bl
 
 <img title="State Traversal Visual Example" src="http://cloud.shaheenghiassy.com/image/1R2U3P140d1Q/Screen%20Shot%202015-01-24%20at%206.03.20%20PM.png" width="300" />
 
-In the above example, the `exitState` block would be run on state `G` and `D` and run the `enterState` block on states `E` and `H`. Note that nothing was run on state `B`since we did not enter or exit that state.
+In the above example, the `exitState` block would be run on state `G` and `D`. The `enterState` block would be run on states `E` and `H`.
+
+_Note that nothing was run on state `B`since we did not enter or exit that state._
 
 ## Do's and Dont's
 
 ### Don't tell the state chart what state to go to
 
-Many developers new to start charts naturally gravitate towards telling the state chart what state to move to. DON'T DO THIS. The outside world tells the state chart what is going on by sending it messages and its the state chart's job to interpret the message and manipulate state accordingly (if at all).
+Many developers new to state charts naturally gravitate towards telling the state chart what state to move to. DON'T DO THIS. The outside world tells the state chart what is going on by sending it messages and its the state chart's job to interpret the message and manipulate state accordingly (if at all).
 
 
 DONT
@@ -274,7 +276,7 @@ Then in your state chart DO:
 
 Sending messages to the state chart is one of its key operations. Don't be scared to send lots of messages. And don't be scared to send messages that aren't currently valid - many times that's good coding practice.
 
-For example, think of a timer. Every minute on the minute it sends the message "minuteUpdated" to the state chart. If the state chart is in a state that it cares about receiving the message "minuteUpdated" it can choose to take action. If the state chart is in a state that it doesn't care about the message "minuteUpdated", then nothing happens - this is a good thing.
+For example, think of a timer. Every minute, on the minute it sends the message `minuteUpdated` to the state chart. If the state chart is in a state that it cares about receiving the message `minuteUpdated` it can choose to take action. If the state chart is in a state that it doesn't care about the message `minuteUpdated`, then nothing happens - this is a good thing.
 
 ### Don't cram all your logic into the state chart
 
@@ -304,17 +306,17 @@ DONT
 
 ### Keep state names unique
 
-When traversing to a new state, the state chart does a breadth-first-search of the tree, starting at the root state and proceeding until it finds the destination state. While state names are not enforced to be unique, the outcome of the bfs search might produce unexpected results. So its best to avoid duplicate state names.
+When traversing to a new state, the state chart does a [breadth first search](http://en.wikipedia.org/wiki/Breadth-first_search) of the tree, starting at the root state and proceeding until it finds the destination state. While state names are not enforced to be unique, the outcome of the [bfs](http://en.wikipedia.org/wiki/Breadth-first_search) search might produce unexpected results. So its best to avoid duplicate state names.
 
 ### Be careful putting goToStates instructions in state event blocks
 
-When transitioning between states, the state chart will call [event blocks](#state-events) as it traverses the tree. Be careful putting `goToState` directives in these blocks because you can take your state chart for awhile ride before it reaches its end destination.
+When transitioning between states, the state chart will call [event blocks](#state-events) as it traverses the tree. Be careful putting `goToState` directives in these blocks because you can take your state chart for a wild ride before it reaches its end destination.
 
 But as you can see from the provided examples, there is a time and place to put a `goToState` directive in an `enterState` block - just be careful.
 
 ### Don't reference self in the state chart
 
-To avoid retain cycles, reference weak-self inside the state chart
+To avoid retain cycles, reference weak-self inside the state chart.
 
 DO 
 
