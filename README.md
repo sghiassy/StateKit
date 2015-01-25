@@ -2,13 +2,13 @@
 
 <img title="StateKit Logo" src="http://cloud.shaheenghiassy.com/image/252G1229101R/StateKit-Logo.png" width="800" />
 
-[StateKit](https://github.com/sghiassy/StateKit) is a framework for iOS and OSX, to capture, document and manage state in order to keep your app's code sane.
+[StateKit](https://github.com/sghiassy/StateKit) is a framework for iOS and OSX, to capture, document and manage state, in order to keep your application code sane.
 
 ## Quick Example
 
 Lets see a quick, small example of using [StateKit](https://github.com/sghiassy/StateKit) to manage a loading state and regular state.
 
-We first create the state chart like so:
+We create the state chart like so:
 
 ```objective-c
 NSDictionary *chart = @{@"root":@{
@@ -35,21 +35,23 @@ NSDictionary *chart = @{@"root":@{
 SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 ```
 
-The above state chart produces a tree:
+The above dictionary is interpreted into a tree data structure like so:
 
 <img title="Quick Example Tree Structure" src="http://cloud.shaheenghiassy.com/image/3B1P131T060Y/Screen%20Shot%202015-01-24%20at%202.41.09%20PM.png" width="400" />
 
 Lets follow the story of what happens in this particular state chart:
 
-On init, the state chart always starts with `root` as the current state. As we enter the `root` state, the state chart sees there is an `enterState` block in the `root` state and therefore runs the associated block. The block directs the state chart to go to the `loading` state. So the state chart continues traversing the tree into the `loading` state. As we enter the `loading` state, the `enterState` block on the `loading` state is run where we tell the application to fetch data from the api and render the spinner to the view.
+On `init`, the state chart always starts with `root` as the current state. As we enter the `root` state, the state chart sees there is an `enterState` block in the `root` state and therefore runs the associated block. The block directs the state chart to go to the `loading` state. So the state chart continues traversing the tree into the `loading` state. As we enter the `loading` state, the `enterState` block on the `loading` state is run. Here where we can tell the application to fetch data from the api and render the spinner to the view. Note, how the state chart is directing the application on what to do.
 
-When the API responds successfully, we send the appropriate message to the state chart `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. The state chart would lookup the appropriate message handler and run the message handler's block. In this example, the block directs the state chart to traverse to the `regularView` state.
+When the API responds successfully, we send the appropriate message to the state chart `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. From the standpoint of the application's code we have nothing further to do, we assume that the state chart will direct any future steps if necessary.
+
+When the state chart recieves the message `apiRespondedSuccessfully`, the state chart would lookup the appropriate message handler and run the message handler's block. In this example, the block directs the state chart to traverse to the `regularView` state.
 
 As the state chart traverses from the `loading` state to the `regularView` state, we can cleanly take care of alloc/deallcing objects with a high-level of precision. As we exit the `loading` state we clean up the loading UI (aka remove the spinner, etc) and as we enter the `regularView` state we setup the appropriarte UI.
 
-This is a basic example of a state chart, but demonstrates how application flow control can be intellilgently managed by a state chart.
+This is a basic example of a state chart, but demonstrates how application flow control can be intellilgently managed and directed by the state chart.
 
-## Why use a StateChart?
+## Why use a state chart?
 
 They say you can judge a developer's abilities by their handle on an application's flow control. Flow control can be handled in many ways, but with front-end application's accurately capturing state and working with state to manage flow control is impertivie.
 
@@ -137,7 +139,7 @@ Substates key/value pair must be of type string/dictionary.
 
 ## Messages
 
-Events are at the heart of a state chart. After the state chart has been created, the outside world can start to send messages to the state chart keeping it abreast of what is going on. The state chart will interpret the message and run the block per the current state.
+Events are at the heart of a state chart. After the state chart has been created, the outside world can start to send messages to the state chart; keeping it abreast of what is going on. The state chart will interpret the message(s) and run the appropriate reciever block (if any).
 
 ```objective-c
 [stateChart sendMessage:@"userPressedTheRedButton"]
