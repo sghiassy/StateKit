@@ -281,7 +281,7 @@ For example, think of a timer. Every minute, on the minute it sends the message 
 
 ### Don't cram all your logic into the state chart
 
-The state chart is like the conducter of a symphony. It knows all the players and tells them when to play their instrument. But it doesn't play the instruments for them. Likewise the state chart should call functions but detailed logic should stay out of the stay chart.
+The state chart is like the conducter of a symphony. It knows all the players and tells them when to play their instrument. But it doesn't play the instruments for them. Likewise the state chart should call functions but detailed logic should stay out of the state chart.
 
 DO
 
