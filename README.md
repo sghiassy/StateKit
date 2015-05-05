@@ -32,7 +32,7 @@ NSDictionary *chart = @{@"root":@{
                                                     // remove loading spinner
                                                 }}}}};
 
-SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart:chart];
+SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 ```
 
 The above dictionary is interpreted into a tree data structure like so:
