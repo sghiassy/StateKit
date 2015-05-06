@@ -97,7 +97,7 @@ All state charts must have a root state - otherwise [StateKit](https://github.co
 
 ```objective-c
 NSDictionary *chart = @{@"root":@{}};
-SKStateChart *stateChart = stateChart = [[SKStateChart alloc] initWithStateChart:chart];
+SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 ```
 
 #### A State's Messages
