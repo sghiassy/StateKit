@@ -2,8 +2,9 @@
 //  SKStateChart.m
 //  Pods
 //
-//  Created by Shaheen Ghiassy on 1/19/15.
-//
+//  Copyright (c) 2014, Groupon, Inc.
+//  Created by Shaheen Ghiassy on 01/19/2015.
+//  All rights reserved.
 //
 
 #import "SKStateChart.h"
@@ -90,7 +91,7 @@ static NSUInteger kMaxStackCount = 100;
 
 - (void)goToState:(NSString *)goToState {
     self.stackCount += 1; // We keep track of a stack count so that the stateChart user doesn't put themselves into an infinite loop
-    NSAssert(self.stackCount <= kMaxStackCount, @"Your stackCount (aka state transitions has reached the max threshold - you may have an infiinite loop in your state tree");
+    NSAssert(self.stackCount <= kMaxStackCount, @"Your stackCount (aka state transitions has reached the max threshold - you may have an infinite loop in your state tree");
 
     // Find node using BFS search
     SKState *toState = [self breadthFirstSearchOfState:goToState fromState:self.rootState];
@@ -142,10 +143,10 @@ static NSUInteger kMaxStackCount = 100;
     SKState *foundState = nil;
 
     if (curPointer != nil) {
-        [queue enqueue:curPointer];
+        [queue sk_enqueue:curPointer];
 
         while (queue.count != 0 && foundState == nil) {
-            curPointer = [queue dequeue];
+            curPointer = [queue sk_dequeue];
 
             if ([curPointer.name isEqualToString:goToState]) {
                 foundState = curPointer;
@@ -155,7 +156,7 @@ static NSUInteger kMaxStackCount = 100;
             NSDictionary *subStates = [curPointer getSubStates];
             for (id key in subStates) {
                 SKState *subState = [subStates objectForKey:key];
-                [queue enqueue:subState];
+                [queue sk_enqueue:subState];
             }
         }
     }

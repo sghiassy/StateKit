@@ -2,8 +2,9 @@
 //  SKViewController.m
 //  StateKit
 //
+//  Copyright (c) 2014, Groupon, Inc.
 //  Created by Shaheen Ghiassy on 01/19/2015.
-//  Copyright (c) 2014 Shaheen Ghiassy. All rights reserved.
+//  All rights reserved.
 //
 
 #import "SKViewController.h"

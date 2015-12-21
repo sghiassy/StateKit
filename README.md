@@ -62,7 +62,7 @@ They say you can measure a developer's ability by their handle on an application
   * **Reduce Cyclomatic Complexity** - Because most if not all branching logic can be described and captured in the state chart, your functions are safe to assume they will only be called when needed. This guarantee, allows for less error checking and less logic branching in your functions which reduces [cyclomatic comlexity](http://en.wikipedia.org/wiki/Cyclomatic_complexity).
   * **Calm your code** - With a proper state chart managing flow control, functions can now begin to calm down. Their code, which used to brace for being called inappropriartly or had to check to figure out what had happened previously, can now dispense with those worries. Functions can now safely assume (given the right state chart structure) that they are being called only when actually needed and can safely assume any necessary allocations or setup actions have been taken care of a parent application's state before they were called.
   * **Garbage-in, Sanity-out** - As applications grow, the environment that the code works in, continually gets more convoluted. NSNotificationEvents, User events, Timer events and broken code all contribute towards degrading clean flow control and the developer's sanity. By delegating events / messages to the state chart, you can use an appropriate data structure to interpret the chaos and produce clean, purified flow control.
-  * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact. 
+  * **Better Memory Management** - By creating the appropriate tree structure we can precisly define where/when objects should be allocated and deallocated. Nested states need not worry about objects having not been created as parent states will already have taken care of this fact.
   * **Self-Documenting** - By capturing state in a tree, you can see, at an overview, all the logic branching for a file in one place in a way that visually describes what is going on.
   * **Single Source of Truth** - A single source of truth for state, what can be better.
 
@@ -319,7 +319,7 @@ But as you can see from the provided examples, there is a time and place to put 
 
 To avoid retain cycles, reference weak-self inside the state chart.
 
-DO 
+DO
 
 ```objective-c
 __weak UIViewController *weakSelf = self;
@@ -342,7 +342,7 @@ NSDictionary *chart = @{@"root":@{
 
 #### Inifinite Loop
 
-It is possible to create a valid state chart that transition states indefinitly. This is obviously bad - don't do it. 
+It is possible to create a valid state chart that transition states indefinitly. This is obviously bad - don't do it.
 
 To aid, [StateKit](https://github.com/sghiassy/StateKit) will throw an exception if there are more than 100 state transitions in one operation
 
@@ -394,4 +394,4 @@ Shaheen Ghiassy, shaheen@groupon.com
 
 ## License
 
-[StateKit](https://github.com/sghiassy/StateKit) is available under the MIT license. See the LICENSE file for more info.
+[StateKit](https://github.com/sghiassy/StateKit) is available under the BSD license. See the LICENSE file for more info.

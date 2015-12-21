@@ -2,8 +2,9 @@
 //  SKAppDelegate.m
 //  StateKit
 //
-//  Created by CocoaPods on 01/19/2015.
-//  Copyright (c) 2014 Shaheen Ghiassy. All rights reserved.
+//  Copyright (c) 2014, Groupon, Inc.
+//  Created by Shaheen Ghiassy on 01/19/2015.
+//  All rights reserved.
 //
 
 #import "SKAppDelegate.h"

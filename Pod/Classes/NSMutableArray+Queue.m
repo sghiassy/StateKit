@@ -2,8 +2,9 @@
 //  NSMutableArray+Queue.m
 //  Pods
 //
-//  Created by Shaheen Ghiassy on 1/20/15.
-//
+//  Copyright (c) 2014, Groupon, Inc.
+//  Created by Shaheen Ghiassy on 01/19/2015.
+//  All rights reserved.
 //
 
 #import "NSMutableArray+Queue.h"
@@ -11,7 +12,7 @@
 @implementation NSMutableArray (Queue)
 
 // Queues are first-in-first-out, so we remove objects from the head
-- (id)dequeue {
+- (id)sk_dequeue {
     // if ([self count] == 0) return nil; // to avoid raising exception (Quinn)
     id headObject = [self objectAtIndex:0];
 
@@ -23,7 +24,7 @@
 }
 
 // Add to the tail of the queue (no one likes it when people cut in line!)
-- (void)enqueue:(id)anObject {
+- (void)sk_enqueue:(id)anObject {
     [self addObject:anObject];
     //this method automatically adds to the end of the array
 }

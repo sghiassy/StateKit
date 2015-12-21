@@ -38,7 +38,7 @@ describe(@"SKStateMachine", ^{
                                             [sc goToState:@"level:1"];
                                         } else {
                                             NSString *lastChar = [sc.currentState.name substringFromIndex:[sc.currentState.name length] - 1];
-                                            NSString *newDepth = [NSString stringWithFormat:@"%d", [lastChar integerValue] + 1];
+                                            NSString *newDepth = [NSString stringWithFormat:@"%ld", [lastChar integerValue] + 1];
                                             NSString *newStateName = [NSString stringWithFormat:@"level:%@", newDepth];
                                             [sc goToState:newStateName];
                                         }
@@ -48,7 +48,7 @@ describe(@"SKStateMachine", ^{
                                             [sc goToState:@"root"];
                                         } else {
                                             NSString *lastChar = [sc.currentState.name substringFromIndex:[sc.currentState.name length] - 1];
-                                            NSString *newDepth = [NSString stringWithFormat:@"%d", [lastChar integerValue] - 1];
+                                            NSString *newDepth = [NSString stringWithFormat:@"%ld", [lastChar integerValue] - 1];
                                             NSString *newStateName = [NSString stringWithFormat:@"level:%@", newDepth];
                                             [sc goToState:newStateName];
                                         }
