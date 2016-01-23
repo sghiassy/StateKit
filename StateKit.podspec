@@ -33,8 +33,8 @@ Pod::Spec.new do |s|
 
   s.default_subspec = 'ObjC'
 
-  s.subspec 'ObjC' do |swift|
-    swift.source_files = 'Pod/Classes/ObjC'
+  s.subspec 'ObjC' do |objc|
+    objc.source_files = 'Pod/Classes/ObjC'
   end
 
   s.subspec 'Swift' do |swift|
