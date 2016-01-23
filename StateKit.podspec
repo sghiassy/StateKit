@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "StateKit"
-  s.version          = "0.1.0"
+  s.version          = "0.1.1"
   s.summary          = "StateKit is a StateChart written for iOS/MacOSX Development"
   s.description      = <<-DESC
                        StateKit is a framework to model, capture, manipulate and interact with State.
@@ -27,10 +27,19 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = 'Pod/Classes'
   s.resource_bundles = {
     'StateKit' => ['Pod/Assets/*.png']
   }
+
+  s.default_subspec = 'ObjC'
+
+  s.subspec 'ObjC' do |swift|
+    swift.source_files = 'Pod/Classes/ObjC'
+  end
+
+  s.subspec 'Swift' do |swift|
+    swift.source_files = 'Pod/Classes/Swift'
+  end
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
