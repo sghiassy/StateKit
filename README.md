@@ -35,6 +35,41 @@ NSDictionary *chart = @{@"root":@{
 SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 ```
 
+Or, in Swift:
+
+```swift
+let chart: Dictionary<String,AnyObject> =
+["root":[
+  "enterState" : {(sc: SKStateChart) -> Void in
+    sc.goToState("loading")
+    } as SKStateBlock,
+  "apiRespondedSuccessfully" : {(sc: SKStateChart) -> Void in
+    sc.goToState("regularView")
+    } as SKStateBlock,
+  ],
+  "subStates" : [
+    "regularView" : [
+      "enterState" : {(sc: SKStateChart) -> Void in
+        // setup the regular view
+        } as SKStateBlock
+    ],
+    "loading" : [
+      "enterState" : {(sc: SKStateChart) -> Void in
+        // fetch data from the api
+        // show the loading spinner
+        } as SKStateBlock,
+      "exitState" : {(sc: SKStateChart) -> Void in
+        // remove loading spinner
+        } as SKStateBlock
+    ]
+  ]
+]
+
+let stateChart: SKStateChart = SKStateChart(stateChart: chart)
+```
+
+_Note: If you're integrating with Swift, you'll need to add use_frameworks! to your Podfile, and modify your Pod path to be pod "StateKit/Swift" to get access to the helper typealias(es).
+
 The above dictionary is interpreted into a tree data structure like so:
 
 <img title="Quick Example Tree Structure" src="http://cloud.shaheenghiassy.com/image/3B1P131T060Y/Screen%20Shot%202015-01-24%20at%202.41.09%20PM.png" width="400" />
@@ -45,15 +80,15 @@ On `init`, the state chart always starts with `root` as the current state. As we
 
 When the API responds successfully, we send the appropriate message to the state chart `[stateChart sendMessage:@"apiRespondedSuccessfully"]`. From the standpoint of the application's code, we have nothing further to do, we assume that the state chart will direct any future steps if necessary.
 
-When the state chart recieves the message `apiRespondedSuccessfully`, the state chart would lookup the appropriate message handler and run the message handler's block. In this example, the block directs the state chart to traverse to the `regularView` state.
+When the state chart receives the message `apiRespondedSuccessfully`, the state chart would lookup the appropriate message handler and run the message handler's block. In this example, the block directs the state chart to traverse to the `regularView` state.
 
-As the state chart traverses from the `loading` state to the `regularView` state, we can cleanly take care of alloc/deallcing objects with a high-level of precision. As we exit the `loading` state we clean up the loading UI (aka remove/dealloc the spinner, etc) and as we enter the `regularView` state we setup the appropriarte UI.
+As the state chart traverses from the `loading` state to the `regularView` state, we can cleanly take care of alloc/deallcing objects with a high-level of precision. As we exit the `loading` state we clean up the loading UI (aka remove/dealloc the spinner, etc) and as we enter the `regularView` state we setup the appropriate UI.
 
-This is a basic example of a state chart, but demonstrates how application flow control can be intellilgently managed and directed by the state chart.
+This is a basic example of a state chart, but demonstrates how application flow control can be intelligently managed and directed by the state chart.
 
 ## Why use a state chart?
 
-They say you can measure a developer's ability by their handle on an application's flow control. Flow control can be handled in many ways, but especially with front-end application, accurately capturing and working with state to manage flow control across an application is impertivie.
+They say you can measure a developer's ability by their handle on an application's flow control. Flow control can be handled in many ways, but especially with front-end application, accurately capturing and working with state to manage flow control across an application is imperative.
 
 [StateKit](https://github.com/sghiassy/StateKit) gives you the power to easily create complex flow control in an easy to read and maintainable manner.
 
@@ -152,11 +187,11 @@ Events are at the heart of a state chart. After the state chart has been created
 
 Messages are first sent to the current state to see if there is a receiver for the message. If the current state does not respond to the message, the state chart will begin to bubble up the tree to find any parent states that respond to the message. If the current state plus any of the current state's parent states, do not respond to the message, the message will be quietly ignored.
 
-<img title="Message Bubbling Theorertical Example" src="http://lnk.ghiassy.com/1JkhhK3" width="400" />
+<img title="Message Bubbling Theoretical Example" src="http://lnk.ghiassy.com/1JkhhK3" width="400" />
 
 #### A Example
 
-Here is a contrived but helpful example of how message bubbling works under varioius circumstantes. Assume the following state chart:
+Here is a contrived but helpful example of how message bubbling works under various circumstances. Assume the following state chart:
 
 ```objective-c
 NSDictionary *chart = @{@"root":@{
@@ -281,7 +316,7 @@ For example, think of a timer. Every minute, on the minute it sends the message 
 
 ### Don't cram all your logic into the state chart
 
-The state chart is like the conducter of a symphony. It knows all the players and tells them when to play their instrument. But it doesn't play the instruments for them. Likewise the state chart should call functions but detailed logic should stay out of the state chart.
+The state chart is like the conductor of a symphony. It knows all the players and tells them when to play their instrument. But it doesn't play the instruments for them. Likewise the state chart should call functions but detailed logic should stay out of the state chart.
 
 DO
 
@@ -340,7 +375,7 @@ NSDictionary *chart = @{@"root":@{
 
 ## Gotchas
 
-#### Inifinite Loop
+#### Infinite Loop
 
 It is possible to create a valid state chart that transition states indefinitly. This is obviously bad - don't do it.
 
