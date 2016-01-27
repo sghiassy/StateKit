@@ -38,37 +38,37 @@ SKStateChart *stateChart = [[SKStateChart alloc] initWithStateChart:chart];
 Or, in Swift:
 
 ```swift
-let chart: Dictionary<String,AnyObject> =
-["root":[
-  "enterState" : {(sc: SKStateChart) -> Void in
-    sc.goToState("loading")
-    } as SKStateBlock,
-  "apiRespondedSuccessfully" : {(sc: SKStateChart) -> Void in
-    sc.goToState("regularView")
-    } as SKStateBlock,
-  ],
-  "subStates" : [
-    "regularView" : [
-      "enterState" : {(sc: SKStateChart) -> Void in
-        // setup the regular view
-        } as SKStateBlock
-    ],
-    "loading" : [
-      "enterState" : {(sc: SKStateChart) -> Void in
-        // fetch data from the api
-        // show the loading spinner
-        } as SKStateBlock,
-      "exitState" : {(sc: SKStateChart) -> Void in
-        // remove loading spinner
-        } as SKStateBlock
-    ]
-  ]
+let chart: Dictionary<String,AnyObject> = [
+	"root" : [
+		"enterState" : SKStateBlockify({(sc: SKStateChart) -> Void in
+			sc.goToState("loading")
+			}),
+		"apiRespondedSuccessfully" : SKStateBlockify({(sc: SKStateChart) -> Void in
+			sc.goToState("regularView")
+			}),
+		"subStates" : [
+			"regularView" : [
+				"enterState" : SKStateBlockify({(sc: SKStateChart) -> Void in
+					// setup the regular view
+					})
+			],
+			"loading" : [
+				"enterState" : SKStateBlockify({(sc: SKStateChart) -> Void in
+					// fetch data from the api
+					// show the loading spinner
+					}),
+				"exitState" : SKStateBlockify({(sc: SKStateChart) -> Void in
+					// remove loading spinner
+					}),
+			]
+		]
+	]
 ]
 
 let stateChart: SKStateChart = SKStateChart(stateChart: chart)
 ```
 
-_Note: If you're integrating with Swift, you'll need to add use_frameworks! to your Podfile, and modify your Pod path to be pod "StateKit/Swift" to get access to the helper typealias(es).
+_Note: If you're integrating with Swift, you'll need to add use_frameworks! to your Podfile, and modify your Pod path to be pod "StateKit/Swift" to get access to the helper typealias(es) / functions._
 
 The above dictionary is interpreted into a tree data structure like so:
 
@@ -364,6 +364,16 @@ NSDictionary *chart = @{@"root":@{
                                 }}};
 ```
 
+```swift
+let chart: Dictionary<String,AnyObject> = [
+	"root" : [
+		"enterState" : SKStateBlockify({ [weak self] (sc: SKStateChart) -> Void in
+			self?.title = "hi"
+			}),
+		]
+]
+```
+
 DONT
 
 ```objective-c
@@ -371,6 +381,16 @@ NSDictionary *chart = @{@"root":@{
                                 @"enterState":^(SKStateChart *sc) {
                                     self.title = @"hi";
                                 }}};
+```
+
+```swift
+let chart: Dictionary<String,AnyObject> = [
+	"root" : [
+		"enterState" : SKStateBlockify({(sc: SKStateChart) -> Void in
+			self.title = "hi"
+			}),
+		]
+]
 ```
 
 ## Gotchas
@@ -407,6 +427,10 @@ To run the unit tests open file `./Example/StateKit.xcworkspace`. Then press `co
 it, simply add the following line to your Podfile:
 
     pod "StateKit"
+
+As mentioned previously, if you'd like to include Swift support and get access to the helper function for bridging between closures and objective-c blocks, modify your Podfile's StateKit reference to be:
+
+    pod "StateKit/Swift"
 
 ##### If you like StateKit, star it on GitHub to help spread the word
 
