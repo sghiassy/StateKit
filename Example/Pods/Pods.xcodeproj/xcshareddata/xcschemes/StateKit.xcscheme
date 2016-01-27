@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'D6A8BBD1ABE187EF4A9C2827'
+               BlueprintIdentifier = '4657E278A906C73E9BE46D66'
                BlueprintName = 'StateKit'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libStateKit.a'>
