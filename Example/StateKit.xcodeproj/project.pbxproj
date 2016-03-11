@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		12B502F1A7905645896934E4 /* libPods-StateKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 104454FD31EF49E90A862897 /* libPods-StateKit.a */; };
+		24D63F2C1C9343A1002894E3 /* StateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F2B1C9343A1002894E3 /* StateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		24D63F381C9343BD002894E3 /* NSMutableArray+Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F311C9343BD002894E3 /* NSMutableArray+Queue.h */; };
+		24D63F391C9343BD002894E3 /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D63F321C9343BD002894E3 /* NSMutableArray+Queue.m */; };
+		24D63F3A1C9343BD002894E3 /* SKState.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F331C9343BD002894E3 /* SKState.h */; };
+		24D63F3B1C9343BD002894E3 /* SKState.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D63F341C9343BD002894E3 /* SKState.m */; };
+		24D63F3C1C9343BD002894E3 /* SKStateChart.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F351C9343BD002894E3 /* SKStateChart.h */; };
+		24D63F3D1C9343BD002894E3 /* SKStateChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D63F361C9343BD002894E3 /* SKStateChart.m */; };
+		24D63F3E1C9343BD002894E3 /* SKTypeDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F371C9343BD002894E3 /* SKTypeDefs.h */; };
 		30E3A64889AEB45891D41C75 /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A72157B4AA0613F82598503 /* libPods-Tests.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -47,10 +55,20 @@
 
 /* Begin PBXFileReference section */
 		104454FD31EF49E90A862897 /* libPods-StateKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StateKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		24D63F291C9343A1002894E3 /* StateKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StateKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		24D63F2B1C9343A1002894E3 /* StateKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateKit.h; sourceTree = "<group>"; };
+		24D63F2D1C9343A1002894E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		24D63F311C9343BD002894E3 /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Queue.h"; path = "../../Pod/Classes/ObjC/NSMutableArray+Queue.h"; sourceTree = "<group>"; };
+		24D63F321C9343BD002894E3 /* NSMutableArray+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Queue.m"; path = "../../Pod/Classes/ObjC/NSMutableArray+Queue.m"; sourceTree = "<group>"; };
+		24D63F331C9343BD002894E3 /* SKState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKState.h; path = ../../Pod/Classes/ObjC/SKState.h; sourceTree = "<group>"; };
+		24D63F341C9343BD002894E3 /* SKState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKState.m; path = ../../Pod/Classes/ObjC/SKState.m; sourceTree = "<group>"; };
+		24D63F351C9343BD002894E3 /* SKStateChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKStateChart.h; path = ../../Pod/Classes/ObjC/SKStateChart.h; sourceTree = "<group>"; };
+		24D63F361C9343BD002894E3 /* SKStateChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKStateChart.m; path = ../../Pod/Classes/ObjC/SKStateChart.m; sourceTree = "<group>"; };
+		24D63F371C9343BD002894E3 /* SKTypeDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKTypeDefs.h; path = ../../Pod/Classes/ObjC/SKTypeDefs.h; sourceTree = "<group>"; };
 		29817E7DEED3ECAF8F7753AB /* StateKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = StateKit.podspec; path = ../StateKit.podspec; sourceTree = "<group>"; };
 		49F0E965DCCE387C155F2FC4 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		5459C43944EC4E7957095428 /* Pods-StateKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StateKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-StateKit/Pods-StateKit.release.xcconfig"; sourceTree = "<group>"; };
-		6003F58A195388D20070C39A /* StateKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StateKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F58A195388D20070C39A /* StateKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StateKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -91,6 +109,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		24D63F251C9343A1002894E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6003F587195388D20070C39A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -116,12 +141,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24D63F2A1C9343A1002894E3 /* StateKit */ = {
+			isa = PBXGroup;
+			children = (
+				24D63F2B1C9343A1002894E3 /* StateKit.h */,
+				24D63F311C9343BD002894E3 /* NSMutableArray+Queue.h */,
+				24D63F321C9343BD002894E3 /* NSMutableArray+Queue.m */,
+				24D63F331C9343BD002894E3 /* SKState.h */,
+				24D63F341C9343BD002894E3 /* SKState.m */,
+				24D63F351C9343BD002894E3 /* SKStateChart.h */,
+				24D63F361C9343BD002894E3 /* SKStateChart.m */,
+				24D63F371C9343BD002894E3 /* SKTypeDefs.h */,
+				24D63F2D1C9343A1002894E3 /* Info.plist */,
+			);
+			path = StateKit;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* StateKit */,
 				6003F5B5195388D20070C39A /* Tests */,
+				24D63F2A1C9343A1002894E3 /* StateKit */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				CD09525AA0B4D86F8E94A898 /* Pods */,
@@ -131,8 +173,9 @@
 		6003F58B195388D20070C39A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6003F58A195388D20070C39A /* StateKit.app */,
+				6003F58A195388D20070C39A /* StateKitExample.app */,
 				6003F5AE195388D20070C39A /* Tests.xctest */,
+				24D63F291C9343A1002894E3 /* StateKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -230,10 +273,43 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		24D63F261C9343A1002894E3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24D63F3A1C9343BD002894E3 /* SKState.h in Headers */,
+				24D63F3C1C9343BD002894E3 /* SKStateChart.h in Headers */,
+				24D63F3E1C9343BD002894E3 /* SKTypeDefs.h in Headers */,
+				24D63F381C9343BD002894E3 /* NSMutableArray+Queue.h in Headers */,
+				24D63F2C1C9343A1002894E3 /* StateKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		6003F589195388D20070C39A /* StateKit */ = {
+		24D63F281C9343A1002894E3 /* StateKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "StateKit" */;
+			buildConfigurationList = 24D63F2E1C9343A1002894E3 /* Build configuration list for PBXNativeTarget "StateKit" */;
+			buildPhases = (
+				24D63F241C9343A1002894E3 /* Sources */,
+				24D63F251C9343A1002894E3 /* Frameworks */,
+				24D63F261C9343A1002894E3 /* Headers */,
+				24D63F271C9343A1002894E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StateKit;
+			productName = StateKit;
+			productReference = 24D63F291C9343A1002894E3 /* StateKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6003F589195388D20070C39A /* StateKitExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "StateKitExample" */;
 			buildPhases = (
 				119406F439BBEED70106DC66 /* Check Pods Manifest.lock */,
 				6003F586195388D20070C39A /* Sources */,
@@ -246,9 +322,9 @@
 			);
 			dependencies = (
 			);
-			name = StateKit;
+			name = StateKitExample;
 			productName = StateKit;
-			productReference = 6003F58A195388D20070C39A /* StateKit.app */;
+			productReference = 6003F58A195388D20070C39A /* StateKitExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6003F5AD195388D20070C39A /* Tests */ = {
@@ -282,6 +358,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Shaheen Ghiassy";
 				TargetAttributes = {
+					24D63F281C9343A1002894E3 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -300,13 +379,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6003F589195388D20070C39A /* StateKit */,
+				6003F589195388D20070C39A /* StateKitExample */,
 				6003F5AD195388D20070C39A /* Tests */,
+				24D63F281C9343A1002894E3 /* StateKit */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		24D63F271C9343A1002894E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6003F588195388D20070C39A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -422,6 +509,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		24D63F241C9343A1002894E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24D63F3D1C9343BD002894E3 /* SKStateChart.m in Sources */,
+				24D63F391C9343BD002894E3 /* NSMutableArray+Queue.m in Sources */,
+				24D63F3B1C9343BD002894E3 /* SKState.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6003F586195388D20070C39A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -454,7 +551,7 @@
 /* Begin PBXTargetDependency section */
 		6003F5B4195388D20070C39A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6003F589195388D20070C39A /* StateKit */;
+			target = 6003F589195388D20070C39A /* StateKitExample */;
 			targetProxy = 6003F5B3195388D20070C39A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -495,6 +592,57 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		24D63F2F1C9343A1002894E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = StateKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sghiassy.statekit.StateKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		24D63F301C9343A1002894E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = StateKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sghiassy.statekit.StateKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		6003F5BD195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -645,6 +793,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		24D63F2E1C9343A1002894E3 /* Build configuration list for PBXNativeTarget "StateKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				24D63F2F1C9343A1002894E3 /* Debug */,
+				24D63F301C9343A1002894E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		6003F585195388D10070C39A /* Build configuration list for PBXProject "StateKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -654,7 +810,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "StateKit" */ = {
+		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "StateKitExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5C0195388D20070C39A /* Debug */,
