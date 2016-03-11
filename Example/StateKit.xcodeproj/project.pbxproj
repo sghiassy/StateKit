@@ -750,7 +750,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 49F0E965DCCE387C155F2FC4 /* Pods-Tests.debug.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StateKit.app/StateKit";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StateKitExample.app/StateKitExample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -774,7 +774,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F7739B043CE09DC6A1B8AAF4 /* Pods-Tests.release.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StateKit.app/StateKit";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StateKitExample.app/StateKitExample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -800,6 +800,7 @@
 				24D63F301C9343A1002894E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6003F585195388D10070C39A /* Build configuration list for PBXProject "StateKit" */ = {
 			isa = XCConfigurationList;

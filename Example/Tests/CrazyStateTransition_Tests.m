@@ -287,7 +287,7 @@ describe(@"SKStateMachine", ^{
             [stateChart sendMessage:@"startInfiniteLoop"];
         }
         @catch (NSException *exception) {
-            expect(exception.description).to.equal(@"Your stackCount (aka state transitions has reached the max threshold - you may have an infiinite loop in your state tree");
+            expect(exception.description).to.equal(@"Your stackCount (aka state transitions has reached the max threshold - you may have an infinite loop in your state tree");
         }
     });
 
