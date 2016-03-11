@@ -1,5 +1,7 @@
 # StateKit
 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
 <img title="StateKit Logo" src="http://cloud.shaheenghiassy.com/image/252G1229101R/StateKit-Logo.png" width="800" />
 
 [StateKit](https://github.com/sghiassy/StateKit) is a framework for iOS and OSX, to capture, document and manage state, in order to keep your application code calm & sane.
