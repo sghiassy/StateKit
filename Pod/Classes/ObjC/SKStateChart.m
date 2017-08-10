@@ -26,6 +26,8 @@ static NSString *kDefaultRootStateName = @"root";
 static NSString *kSubStringKey = @"subStates";
 static NSUInteger kMaxStackCount = 100;
 
+NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChangeStateNotification";
+
 
 @implementation SKStateChart
 
@@ -177,6 +179,7 @@ static NSUInteger kMaxStackCount = 100;
     }
 
     [self didChangeValueForKey:NSStringFromSelector(@selector(currentState))];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SKStateChartDidChangeStateNotification object:self];
 }
 
 - (void)popCurrentStateToParentState {
@@ -190,6 +193,7 @@ static NSUInteger kMaxStackCount = 100;
     }
 
     [self didChangeValueForKey:NSStringFromSelector(@selector(currentState))];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SKStateChartDidChangeStateNotification object:self];
 }
 
 @end

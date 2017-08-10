@@ -21,3 +21,8 @@
 - (void)sendMessage:(NSString *)message;
 
 @end
+
+/**
+ A Notification posted when `currentState` changes to a new value.
+ */
+extern NSString *const SKStateChartDidChangeStateNotification;
