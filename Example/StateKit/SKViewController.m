@@ -32,15 +32,9 @@
                                              weakSelf.view.backgroundColor = [UIColor whiteColor];
                                              weakSelf.stateLabel.text = @"init change me";
                                          },
-                                         @"darker":^(SKStateChart *sc) {
-                                             [sc goToState:@"black"];
-                                         },
-                                         @"userPressedRedButton":^(SKStateChart *sc) {
-                                             [sc goToState:@"red"];
-                                         },
-                                         @"userIsFeelingBlue":^(SKStateChart *sc) {
-                                             [sc goToState:@"blue"];
-                                         },
+                                         SKDefineTransition_Event2State(@"darker", @"black"),
+                                         SKDefineTransition_Event2State(@"userPressedRedButton", @"red"),
+                                         SKDefineTransition_Event2State(@"userIsFeelingBlue", @"blue"),
                                          @"subStates":@{
                                                  @"pink":@{
                                                          @"enterState":^(SKStateChart *sc) {
@@ -55,12 +49,8 @@
                                                          @"exitState":^(SKStateChart *sc) {
                                                              NSLog(@"Did exit %@", sc.currentState.name);
                                                          },
-                                                         @"darker":^(SKStateChart *sc){
-                                                             [sc goToState:@"purple"];
-                                                         },
-                                                         @"lighter":^(SKStateChart *sc){
-                                                             [sc goToState:@"pink"];
-                                                         },
+                                                         SKDefineTransition_Event2State(@"darker", @"purple"),
+                                                         SKDefineTransition_Event2State(@"lighter", @"pink"),
                                                          @"subStates":@{
                                                                  @"purple":@{
                                                                      @"enterState":^(SKStateChart *sc) {
@@ -74,9 +64,7 @@
                                                                },
                                                          },
                                                  @"green":@{
-                                                         @"darker":^(SKStateChart *sc) {
-                                                             [sc goToState:@"darkGreen"];
-                                                         },
+                                                         SKDefineTransition_Event2State(@"darker", @"darkGreen"),
                                                          @"darkGreen":^{
                                                              weakSelf.view.backgroundColor = [UIColor darkGrayColor];
                                                          }},
