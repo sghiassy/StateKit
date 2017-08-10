@@ -26,6 +26,8 @@ static NSString *kDefaultRootStateName = @"root";
 static NSString *kSubStringKey = @"subStates";
 static NSUInteger kMaxStackCount = 100;
 
+NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChangeStateNotification";
+
 
 @implementation SKStateChart
 
@@ -167,6 +169,7 @@ static NSUInteger kMaxStackCount = 100;
 #pragma mark - State Transition Methods
 
 - (void)transitionCurrentStateToSubState:(SKState *)subState {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(currentState))];
     _currentState = subState;
 
     MessageBlock enterBlock = [subState blockForMessage:@"enterState"];
@@ -174,16 +177,23 @@ static NSUInteger kMaxStackCount = 100;
     if (enterBlock) {
         enterBlock(self);
     }
+
+    [self didChangeValueForKey:NSStringFromSelector(@selector(currentState))];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SKStateChartDidChangeStateNotification object:self];
 }
 
 - (void)popCurrentStateToParentState {
     MessageBlock exitBlock = [_currentState blockForMessage:@"exitState"]; // Must grab exit block before changing state
 
+    [self willChangeValueForKey:NSStringFromSelector(@selector(currentState))];
     _currentState = _currentState.parentState;
 
     if (exitBlock) {
         exitBlock(self);
     }
+
+    [self didChangeValueForKey:NSStringFromSelector(@selector(currentState))];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SKStateChartDidChangeStateNotification object:self];
 }
 
 @end
