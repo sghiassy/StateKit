@@ -1,10 +1,14 @@
 # StateKit
 
+[![Build Status](http://img.shields.io/travis/sghiassy/StateKit/master.svg?style=flat)](https://travis-ci.org/sghiassy/StateKit)
+[![Pod Version](http://img.shields.io/cocoapods/v/StateKit.svg?style=flat)](http://cocoadocs.org/docsets/StateKit/)
+[![Pod Platform](http://img.shields.io/cocoapods/p/StateKit.svg?style=flat)](http://cocoadocs.org/docsets/StateKit/)
+[![Pod License](http://img.shields.io/cocoapods/l/StateKit.svg?style=flat)](https://github.com/sghiassy/StateKit/blob/master/LICENSE)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 <img title="StateKit Logo" src="http://cloud.shaheenghiassy.com/image/252G1229101R/StateKit-Logo.png" width="800" />
 
-[StateKit](https://github.com/sghiassy/StateKit) is a framework for iOS and OSX, to capture, document and manage state, in order to keep your application code calm & sane.
+[StateKit](https://github.com/sghiassy/StateKit) is a framework for iOS, OSX, tvOS or watchOS, to capture, document and manage state, in order to keep your application code calm & sane.
 
 ## Quick Example
 
