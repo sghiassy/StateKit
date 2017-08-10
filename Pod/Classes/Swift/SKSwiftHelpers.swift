@@ -7,9 +7,9 @@
 import Foundation
 
 /// An alias for converting a closure to StateKit's expected block
-typealias SKStateBlock = @convention(block) (sc: SKStateChart) -> Void
+typealias SKStateBlock = @convention(block) (_ sc: SKStateChart) -> Void
 
 /// A convenience function for converting an SKStateBlock to AnyObject so that it may be inserted into a Swift dictionary
-func SKStateBlockify(block:(sc: SKStateChart) -> Void) -> AnyObject {
-	return unsafeBitCast(block as SKStateBlock, AnyObject.self)
+func SKStateBlockify(block:@escaping (_ sc: SKStateChart) -> Void) -> AnyObject {
+	return unsafeBitCast(block as SKStateBlock, to: AnyObject.self)
 }

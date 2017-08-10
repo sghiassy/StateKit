@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		24D63F2C1C9343A1002894E3 /* StateKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F2B1C9343A1002894E3 /* StateKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		24D63F381C9343BD002894E3 /* NSMutableArray+Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F311C9343BD002894E3 /* NSMutableArray+Queue.h */; };
+		24D63F381C9343BD002894E3 /* NSMutableArray+Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F311C9343BD002894E3 /* NSMutableArray+Queue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		24D63F391C9343BD002894E3 /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D63F321C9343BD002894E3 /* NSMutableArray+Queue.m */; };
-		24D63F3A1C9343BD002894E3 /* SKState.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F331C9343BD002894E3 /* SKState.h */; };
+		24D63F3A1C9343BD002894E3 /* SKState.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F331C9343BD002894E3 /* SKState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		24D63F3B1C9343BD002894E3 /* SKState.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D63F341C9343BD002894E3 /* SKState.m */; };
-		24D63F3C1C9343BD002894E3 /* SKStateChart.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F351C9343BD002894E3 /* SKStateChart.h */; };
+		24D63F3C1C9343BD002894E3 /* SKStateChart.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F351C9343BD002894E3 /* SKStateChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		24D63F3D1C9343BD002894E3 /* SKStateChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D63F361C9343BD002894E3 /* SKStateChart.m */; };
-		24D63F3E1C9343BD002894E3 /* SKTypeDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F371C9343BD002894E3 /* SKTypeDefs.h */; };
+		24D63F3E1C9343BD002894E3 /* SKTypeDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D63F371C9343BD002894E3 /* SKTypeDefs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
