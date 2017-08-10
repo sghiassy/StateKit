@@ -1,26 +1,24 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 #import <OCHamcrest/HCDescription.h>
 
 
-/**
- Base class for all HCDescription implementations.
-
- @ingroup core
+/*!
+ * @abstract Base class for all @ref HCDescription implementations.
  */
 @interface HCBaseDescription : NSObject <HCDescription>
 @end
 
 
-/**
- Methods that must be provided by subclasses of HCBaseDescription.
+/*!
+ * @abstract Methods that must be provided by subclasses of HCBaseDescription.
  */
 @interface HCBaseDescription (SubclassResponsibility)
 
-/**
- Append the string @a str to the description.
+/*!
+ * @abstract Appends the specified string to the description.
  */
 - (void)append:(NSString *)str;
 

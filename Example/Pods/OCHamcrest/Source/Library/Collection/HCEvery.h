@@ -1,12 +1,15 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCDiagnosingMatcher.h>
 
 
+/*!
+ * @abstract Matches if every item in a collection satisfies a nested matcher.
+ */
 @interface HCEvery : HCDiagnosingMatcher
 
-@property (readonly, nonatomic, strong) id <HCMatcher> matcher;
+@property (nonatomic, strong, readonly) id <HCMatcher> matcher;
 
 - (instancetype)initWithMatcher:(id <HCMatcher>)matcher;
 
@@ -15,27 +18,21 @@
 
 FOUNDATION_EXPORT id HC_everyItem(id itemMatcher);
 
-/**
- everyItem(itemMatcher) -
- Matches if every element of a collection satisfies the given matcher.
-
- @param itemMatcher  The matcher to apply to every item provided by the examined collection.
-
- This matcher iterates the evaluated collection, confirming that each element satisfies the given
- matcher.
-
- Example:
-
- @par
- @ref everyItem(startsWith(@"Jo"))
-
- will match a collection [@"Jon", @"John", @"Johann"].
-
- (In the event of a name clash, don't \#define @c HC_SHORTHAND and use the synonym
- @c HC_everyItem instead.)
-
- @ingroup collection_matchers
- */
 #ifdef HC_SHORTHAND
-    #define everyItem HC_everyItem
+/*!
+ * @abstract everyItem(itemMatcher) -
+ * Creates a matcher for collections that matches when the examined collection's items are all
+ * matched by the specified matcher.
+ * @param itemMatcher The matcher to apply to every item provided by the examined collection.
+ * @discussion This matcher works on any collection that conforms to the NSFastEnumeration protocol,
+ * performing a single pass.
+ *
+ * <b>Example</b><br />
+ * <pre>assertThat(@[@"bar", @"baz"], everyItem(startsWith(@"ba")))</pre>
+ *
+ * <b>Name Clash</b><br />
+ * In the event of a name clash, don't <code>#define HC_SHORTHAND</code> and use the synonym
+ * HC_everyItem instead.
+ */
+#define everyItem HC_everyItem
 #endif

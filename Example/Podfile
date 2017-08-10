@@ -1,11 +1,13 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-target 'StateKit', :exclusive => true do
-  pod "StateKit", :path => "../"
+platform :ios, '8.0'
+
+target :StateKitExample do
+  pod 'StateKit', :path => "../"
 end
 
-target 'Tests', :exclusive => true do
-  pod "StateKit", :path => "../"
+target :Tests do
+  pod 'StateKit', :path => "../"
 
   pod 'Specta', '~> 0.2.1', :inhibit_warnings => true
   pod 'Expecta'

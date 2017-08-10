@@ -1,53 +1,52 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import "HCIsEqual.h"
 
 
 @interface HCIsEqual ()
-
-@property (readonly, nonatomic, strong) id object;
+@property (nonatomic, strong, readonly) id expectedValue;
 @end
 
 
 @implementation HCIsEqual
 
-+ (instancetype)isEqualTo:(id)object
++ (instancetype)isEqualTo:(id)expectedValue
 {
-    return [[self alloc] initEqualTo:object];
+    return [[self alloc] initEqualTo:expectedValue];
 }
 
-- (instancetype)initEqualTo:(id)object
+- (instancetype)initEqualTo:(id)expectedValue
 {
     self = [super init];
     if (self)
-        _object = object;
+        _expectedValue = expectedValue;
     return self;
 }
 
 - (BOOL)matches:(id)item
 {
     if (item == nil)
-        return self.object == nil;
-    return [item isEqual:self.object];
+        return self.expectedValue == nil;
+    return [item isEqual:self.expectedValue];
 }
 
-- (void)describeTo:(id<HCDescription>)description
+- (void)describeTo:(id <HCDescription>)description
 {
-    if ([self.object conformsToProtocol:@protocol(HCMatcher)])
+    if ([self.expectedValue conformsToProtocol:@protocol(HCMatcher)])
     {
         [[[description appendText:@"<"]
-                       appendDescriptionOf:self.object]
+                appendDescriptionOf:self.expectedValue]
                        appendText:@">"];
     }
     else
-        [description appendDescriptionOf:self.object];
+        [description appendDescriptionOf:self.expectedValue];
 }
 
 @end
 
 
-id HC_equalTo(id object)
+id HC_equalTo(id operand)
 {
-    return [HCIsEqual isEqualTo:object];
+    return [HCIsEqual isEqualTo:operand];
 }

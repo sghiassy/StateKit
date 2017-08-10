@@ -1,9 +1,12 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
 
+/*!
+ * @abstract Matches if any entry in a dictionary has a key satisfying the nested matcher.
+ */
 @interface HCIsDictionaryContainingKey : HCBaseMatcher
 
 + (instancetype)isDictionaryContainingKey:(id <HCMatcher>)keyMatcher;
@@ -12,29 +15,25 @@
 @end
 
 
-FOUNDATION_EXPORT id HC_hasKey(id keyMatch);
+FOUNDATION_EXPORT id HC_hasKey(id keyMatcher);
 
-/**
- hasKey(keyMatcher) -
- Matches if dictionary contains an entry whose key satisfies a given matcher.
-
- @param keyMatcher  The matcher to satisfy for the key, or an expected value for @ref equalTo matching.
-
- This matcher iterates the evaluated dictionary, searching for any key-value entry whose key
- satisfies the given matcher. If a matching entry is found, @c hasKey is satisfied.
-
- Any argument that is not a matcher is implicitly wrapped in an @ref equalTo matcher to check for
- equality.
-
- (In the event of a name clash, don't \#define @c HC_SHORTHAND and use the synonym
- @c HC_hasKey instead.)
-
- Examples:
- @li @ref hasEntry(equalTo(@"foo"))
- @li @ref hasEntry(@"foo")
-
- @ingroup collection_matchers
- */
 #ifdef HC_SHORTHAND
-    #define hasKey HC_hasKey
+/*!
+ * @abstract hasKey(keyMatcher) -
+ * Creates a matcher for NSDictionaries that matches when the examined dictionary contains at least
+ * key that satisfies the specified matcher.
+ * @param keyMatcher The matcher to satisfy for the key, or an expected value for <em>equalTo</em> matching.
+ * @discussion Any argument that is not a matcher is implicitly wrapped in an <em>equalTo</em>
+ * matcher to check for equality.
+ *
+ * <b>Examples</b><br />
+ * <pre>assertThat(myDictionary, hasEntry(equalTo(@"foo")))</pre>
+ *
+ * <pre>assertThat(myDictionary, hasEntry(@"foo"))</pre>
+ *
+ * <b>Name Clash</b><br />
+ * In the event of a name clash, don't <code>#define HC_SHORTHAND</code> and use the synonym
+ * HC_hasKey instead.
+ */
+#define hasKey HC_hasKey
 #endif

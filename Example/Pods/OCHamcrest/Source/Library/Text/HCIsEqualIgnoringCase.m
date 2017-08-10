@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import "HCIsEqualIgnoringCase.h"
 
@@ -7,7 +7,7 @@
 
 
 @interface HCIsEqualIgnoringCase ()
-@property (readonly, nonatomic, copy) NSString *string;
+@property (nonatomic, copy, readonly) NSString *string;
 @end
 
 @implementation HCIsEqualIgnoringCase
@@ -35,7 +35,7 @@
     return [self.string caseInsensitiveCompare:item] == NSOrderedSame;
 }
 
-- (void)describeTo:(id<HCDescription>)description
+- (void)describeTo:(id <HCDescription>)description
 {
     [[description appendDescriptionOf:self.string]
                   appendText:@" ignoring case"];
@@ -44,7 +44,7 @@
 @end
 
 
-id HC_equalToIgnoringCase(NSString *aString)
+id HC_equalToIgnoringCase(NSString *expectedString)
 {
-    return [HCIsEqualIgnoringCase isEqualIgnoringCase:aString];
+    return [HCIsEqualIgnoringCase isEqualIgnoringCase:expectedString];
 }

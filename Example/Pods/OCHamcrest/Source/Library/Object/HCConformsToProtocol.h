@@ -1,10 +1,13 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 //  Contribution by Todd Farrell
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
 
+/*!
+ * @abstract Matches objects that conform to specified protocol.
+ */
 @interface HCConformsToProtocol : HCBaseMatcher
 
 + (instancetype)conformsTo:(Protocol *)protocol;
@@ -15,22 +18,18 @@
 
 FOUNDATION_EXPORT id HC_conformsTo(Protocol *aProtocol);
 
-/**
- conformsTo(aProtocol) -
- Matches if object conforms to a given protocol.
-
- @param aProtocol  The protocol to compare against as the expected protocol.
-
- This matcher checks whether the evaluated object conforms to @a aProtocol.
-
- Example:
- @li @ref conformsTo(\@protocol(NSObject))
-
- (In the event of a name clash, don't \#define @c HC_SHORTHAND and use the synonym
- @c HC_conformsTo instead.)
-
- @ingroup object_matchers
- */
 #ifdef HC_SHORTHAND
-    #define conformsTo HC_conformsTo
+/*!
+ * @abstract conformsTo(aProtocol) -
+ * Creates a matcher that matches when the examined object conforms to the specified protocol.
+ * @param aProtocol The protocol to compare against as the expected protocol.
+ * @discussion
+ * <b>Example</b><br />
+ * <pre>assertThat(myObject, conformsTo(@protocol(NSCoding))</pre>
+ *
+ * <b>Name Clash</b><br />
+ * In the event of a name clash, don't <code>#define HC_SHORTHAND</code> and use the synonym
+ * HC_conformsTo instead.
+ */
+#define conformsTo HC_conformsTo
 #endif

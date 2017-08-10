@@ -1,6 +1,6 @@
 PODS:
-  - Expecta (0.3.1)
-  - OCHamcrest (4.1.1)
+  - Expecta (1.0.6)
+  - OCHamcrest (4.3.0)
   - OCMockito (1.4.0):
     - OCHamcrest (~> 4.0)
   - Specta (0.2.1)
@@ -19,10 +19,12 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  Expecta: a354d4633409dd9fe8c4f5ff5130426adbe31628
-  OCHamcrest: 6f03ffa81d12feab872638490a44ab0a6d3aca10
+  Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
+  OCHamcrest: cd63d27f48a266d4412c0b295b01b8f0940efa81
   OCMockito: 4981140c9a9ec06c31af40f636e3c0f25f27e6b2
   Specta: 15a276a6343867b426d5ed135d5aa4d04123a573
   StateKit: d28de0af6f9112e68d882fedc37a4a45a0785e15
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: e4dcff713c04762df0098f71299dffbed1c3828e
+
+COCOAPODS: 1.3.1

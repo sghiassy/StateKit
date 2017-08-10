@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import "HCHasDescription.h"
 
@@ -27,7 +27,7 @@
 @end
 
 
-id HC_hasDescription(id match)
+id HC_hasDescription(id descriptionMatcher)
 {
-    return [HCHasDescription hasDescription:HCWrapInMatcher(match)];
+    return [HCHasDescription hasDescription:HCWrapInMatcher(descriptionMatcher)];
 }

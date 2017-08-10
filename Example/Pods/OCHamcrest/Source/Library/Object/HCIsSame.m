@@ -1,11 +1,11 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import "HCIsSame.h"
 
 
 @interface HCIsSame ()
-@property (readonly, nonatomic, strong) id object;
+@property (nonatomic, strong, readonly) id object;
 @end
 
 @implementation HCIsSame
@@ -28,7 +28,7 @@
     return item == self.object;
 }
 
-- (void)describeMismatchOf:(id)item to:(id<HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
 {
     [mismatchDescription appendText:@"was "];
     if (item)
@@ -36,7 +36,7 @@
     [mismatchDescription appendDescriptionOf:item];
 }
 
-- (void)describeTo:(id<HCDescription>)description
+- (void)describeTo:(id <HCDescription>)description
 {
     [[description appendText:[NSString stringWithFormat:@"same instance as %p ", (__bridge void *)self.object]]
                   appendDescriptionOf:self.object];
@@ -45,7 +45,7 @@
 @end
 
 
-id HC_sameInstance(id object)
+id HC_sameInstance(id expectedInstance)
 {
-    return [HCIsSame isSameAs:object];
+    return [HCIsSame isSameAs:expectedInstance];
 }
