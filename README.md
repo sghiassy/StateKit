@@ -17,9 +17,7 @@ NSDictionary *chart = @{@"root":@{
                                 @"enterState":^(SKStateChart *sc) {
                                     [sc goToState:@"loading"];
                                 },
-                                @"apiRespondedSuccessfully":^(SKStateChart *sc) {
-                                    [sc goToState:@"regularView"];
-                                },
+                                SKDefineTransition_Event2State(@"apiRespondedSuccessfully", @"regularView"),
                                 @"subStates":@{
                                         @"regularView":@{
                                                 @"enterState":^(SKStateChart *sc) {
@@ -308,6 +306,10 @@ Then in your state chart DO:
 @"userPressedTheRedButton":^(SKStateChart *sc) {
     [sc goToState:@"red"];
 }
+```
+or even simpler
+```objective-c
+SKDefineTransition_Event2State(@"userPressedTheRedButton", @"red")
 ```
 
 ### Don't be scared to send lots of messages - even garbage ones

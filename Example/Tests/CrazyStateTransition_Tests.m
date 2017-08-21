@@ -27,19 +27,13 @@ describe(@"SKStateMachine", ^{
     it(@"it can handle multi-state transitions in one pass", ^{
         NSDictionary *chart = @{@"bad_root":@{},
                                 @"root":@{
-                                        @"enterState":^(SKStateChart *sc) {
-                                            [sc goToState:@"level:1"];
-                                        },
+                                        SKDefineTransition_Event2State(@"enterState", @"level:1"),
                                         @"subStates":@{
                                                 @"level:1":@{
-                                                        @"enterState":^(SKStateChart *sc) {
-                                                            [sc goToState:@"level:2"];
-                                                        },
+                                                        SKDefineTransition_Event2State(@"enterState", @"level:2"),
                                                         @"subStates":@{
                                                                 @"level:2":@{
-                                                                        @"enterState":^(SKStateChart *sc) {
-                                                                            [sc goToState:@"level:2"];
-                                                                        },
+                                                                        SKDefineTransition_Event2State(@"enterState", @"level:2"),
                                                                         @"subStates":@{
                                                                                 @"level:3":@{
                                                                                         @"enterState":^(SKStateChart *sc) {
