@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import "HCInvocationMatcher.h"
 
@@ -38,7 +38,7 @@
     return result;
 }
 
-- (void)describeMismatchOf:(id)item to:(id<HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
 {
     if ([self invocationNotSupportedForItem:item])
         [super describeMismatchOf:item to:mismatchDescription];
@@ -60,7 +60,7 @@
     }
 }
 
-- (void)describeTo:(id<HCDescription>)description
+- (void)describeTo:(id <HCDescription>)description
 {
     [[[[description appendText:@"an object with "]
             appendText:[self stringFromSelector]]

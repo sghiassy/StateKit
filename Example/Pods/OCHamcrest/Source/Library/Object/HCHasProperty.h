@@ -1,42 +1,42 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 //  Contribution by Justin Shacklette
 
 #import <OCHamcrest/HCDiagnosingMatcher.h>
 
 
+/*!
+ * @abstract Matches objects whose "property" (or simple method) satisfies a nested matcher.
+ */
 @interface HCHasProperty : HCDiagnosingMatcher
 
-+ (instancetype)hasProperty:(NSString *)property value:(id <HCMatcher>)valueMatcher;
-- (instancetype)initWithProperty:(NSString *)property value:(id <HCMatcher>)valueMatcher;
++ (instancetype)hasProperty:(NSString *)propertyName value:(id <HCMatcher>)valueMatcher;
+- (instancetype)initWithProperty:(NSString *)propertyName value:(id <HCMatcher>)valueMatcher;
 
 @end
 
 
-FOUNDATION_EXPORT id HC_hasProperty(NSString *name, id valueMatch);
+FOUNDATION_EXPORT id HC_hasProperty(NSString *propertyName, id valueMatcher);
 
-/**
- hasProperty(name, valueMatcher) -
- Matches if object has a method of a given name whose return value satisfies a given matcher.
-
- @param name  The name of a method without arguments that returns an object.
- @param valueMatcher  The matcher to satisfy for the return value, or an expected value for @ref equalTo matching.
-
- This matcher first checks if the evaluated object has a method with a name matching the given
- @c name. If so, it invokes the method and sees if the returned value satisfies @c valueMatcher.
-
- While this matcher is called "hasProperty", it's useful for checking the results of any simple
- methods, not just properties.
-
- Examples:
- @li @ref hasProperty(\@"firstName", \@"Joe")
- @li @ref hasProperty(\@"firstName", startsWith(\@"J"))
-
- (In the event of a name clash, don't \#define @c HC_SHORTHAND and use the synonym
- @c HC_hasProperty instead.)
-
- @ingroup object_matchers
- */
 #ifdef HC_SHORTHAND
+/*!
+ * @abstract hasProperty(propertyName, valueMatcher) -
+ * Creates a matcher that matches when the examined object has an instance method with the specified
+ * name whose return value satisfies the specified matcher.
+ * @param propertyName The name of an instance method without arguments that returns an object.
+ * @param valueMatcher The matcher to satisfy for the return value, or an expected value for
+ * <em>equalTo</em> matching.
+ * @discussion Note: While this matcher factory is called "hasProperty", it applies to the return
+ * values of any instance methods without arguments, not just properties.
+ *
+ * <b>Examples</b><br />
+ * <pre>assertThat(person, hasProperty(@"firstName", equalTo(@"Joe")))</pre>
+ *
+ * <pre>assertThat(person, hasProperty(@"firstName", @"Joe"))</pre>
+ *
+ * <b>Name Clash</b><br />
+ * In the event of a name clash, don't <code>#define HC_SHORTHAND</code> and use the synonym
+ * HC_hasProperty instead.
+ */
     #define hasProperty HC_hasProperty
 #endif

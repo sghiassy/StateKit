@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import "HCDiagnosingMatcher.h"
 
@@ -11,13 +11,13 @@
     return [self matches:item describingMismatchTo:nil];
 }
 
-- (BOOL)matches:(id)item describingMismatchTo:(id<HCDescription>)mismatchDescription
+- (BOOL)matches:(id)item describingMismatchTo:(id <HCDescription>)mismatchDescription
 {
     HC_ABSTRACT_METHOD;
     return NO;
 }
 
-- (void)describeMismatchOf:(id)item to:(id<HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
 {
     [self matches:item describingMismatchTo:mismatchDescription];
 }

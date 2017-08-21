@@ -1,9 +1,12 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
 
+/*!
+ * @abstract Tests if a string is equal to another string, ignoring any changes in whitespace.
+ */
 @interface HCIsEqualIgnoringWhiteSpace : HCBaseMatcher
 
 + (instancetype)isEqualIgnoringWhiteSpace:(NSString *)string;
@@ -12,29 +15,26 @@
 @end
 
 
-FOUNDATION_EXPORT id HC_equalToIgnoringWhiteSpace(NSString *aString);
+FOUNDATION_EXPORT id HC_equalToIgnoringWhiteSpace(NSString *expectedString);
 
-/**
- equalToIgnoringWhiteSpace(aString) -
- Matches if object is a string equal to a given string, ignoring differences in whitespace.
-
- @param aString  The string to compare against as the expected value. This value must not be @c nil.
-
- This matcher first checks whether the evaluated object is a string. If so, it compares it with
- @a aString, ignoring differences in runs of whitespace.
-
- Example:
-
- @par
- @ref equalToIgnoringWhiteSpace(@"hello world")
-
- will match @verbatim "hello   world" @endverbatim
-
- (In the event of a name clash, don't \#define @c HC_SHORTHAND and use the synonym
- @c HC_equalToIgnoringWhiteSpace instead.)
-
- @ingroup text_matchers
- */
 #ifdef HC_SHORTHAND
-    #define equalToIgnoringWhiteSpace HC_equalToIgnoringWhiteSpace
+/*!
+ * @abstract equalToIgnoringWhiteSpace(expectedString) -
+ * Creates a matcher for NSStrings that matches when the examined string is equal to the specified
+ * expected string, ignoring differences in whitespace.
+ * @param expectedString The expected value of matched strings. (Must not be <code>nil</code>.)
+ * @discussion To be exact, the following whitespace rules are applied:
+ * <ul>
+ *   <li>all leading and trailing whitespace of both the <em>expectedString</em> and the examined string are ignored</li>
+ *   <li>any remaining whitespace, appearing within either string, is collapsed to a single space before comparison</li>
+ * </ul>
+ *
+ * <b>Example</b><br />
+ * <pre>assertThat(@"   my\tfoo  bar ", equalToIgnoringWhiteSpace(@" my  foo bar"))</pre>
+ *
+ * <b>Name Clash</b><br />
+ * In the event of a name clash, don't <code>#define HC_SHORTHAND</code> and use the synonym
+ * HC_equalToIgnoringWhiteSpace instead.
+ */
+#define equalToIgnoringWhiteSpace HC_equalToIgnoringWhiteSpace
 #endif

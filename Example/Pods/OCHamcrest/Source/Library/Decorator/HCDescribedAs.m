@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import "HCDescribedAs.h"
 
@@ -15,7 +15,7 @@
     int decimal = 0;
     BOOL readDigit = NO;
 
-    NSUInteger length = [self length];
+    NSUInteger length = self.length;
     NSUInteger index;
     for (index = 0; index < length; ++index)
     {
@@ -39,9 +39,9 @@
 
 
 @interface HCDescribedAs ()
-@property (readonly, nonatomic, copy) NSString *descriptionTemplate;
-@property (readonly, nonatomic, strong) id <HCMatcher> matcher;
-@property (readonly, nonatomic, copy) NSArray *values;
+@property (nonatomic, copy, readonly) NSString *descriptionTemplate;
+@property (nonatomic, strong, readonly) id <HCMatcher> matcher;
+@property (nonatomic, copy, readonly) NSArray *values;
 @end
 
 
@@ -75,12 +75,12 @@
     return [self.matcher matches:item];
 }
 
-- (void)describeMismatchOf:(id)item to:(id<HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
 {
     [self.matcher describeMismatchOf:item to:mismatchDescription];
 }
 
-- (void)describeTo:(id<HCDescription>)description
+- (void)describeTo:(id <HCDescription>)description
 {
     NSArray *components = [self.descriptionTemplate componentsSeparatedByString:@"%"];
     BOOL firstComponent = YES;

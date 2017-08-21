@@ -1,5 +1,5 @@
 //  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2014 hamcrest.org. See LICENSE.txt
+//  Copyright 2015 hamcrest.org. See LICENSE.txt
 
 #import "HCIsDictionaryContaining.h"
 
@@ -8,8 +8,8 @@
 
 
 @interface HCIsDictionaryContaining ()
-@property (readonly, nonatomic, strong) id <HCMatcher> keyMatcher;
-@property (readonly, nonatomic, strong) id <HCMatcher> valueMatcher;
+@property (nonatomic, strong, readonly) id <HCMatcher> keyMatcher;
+@property (nonatomic, strong, readonly) id <HCMatcher> valueMatcher;
 @end
 
 
@@ -42,7 +42,7 @@
     return NO;
 }
 
-- (void)describeTo:(id<HCDescription>)description
+- (void)describeTo:(id <HCDescription>)description
 {
     [[[[[description appendText:@"a dictionary containing { "]
                      appendDescriptionOf:self.keyMatcher]
@@ -54,10 +54,10 @@
 @end
 
 
-id HC_hasEntry(id keyMatch, id valueMatch)
+id HC_hasEntry(id keyMatcher, id valueMatcher)
 {
-    HCRequireNonNilObject(keyMatch);
-    HCRequireNonNilObject(valueMatch);
-    return [HCIsDictionaryContaining isDictionaryContainingKey:HCWrapInMatcher(keyMatch)
-                                                         value:HCWrapInMatcher(valueMatch)];
+    HCRequireNonNilObject(keyMatcher);
+    HCRequireNonNilObject(valueMatcher);
+    return [HCIsDictionaryContaining isDictionaryContainingKey:HCWrapInMatcher(keyMatcher)
+                                                         value:HCWrapInMatcher(valueMatcher)];
 }
