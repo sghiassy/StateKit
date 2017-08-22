@@ -23,6 +23,6 @@
 @end
 
 /**
- A Notification posted when `currentState` changes to a new value.
+ A Notification posted when `currentState` changes to a new value - does not trigger for intermediate states
  */
 extern NSString *const SKStateChartDidChangeStateNotification;
