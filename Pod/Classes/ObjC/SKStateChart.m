@@ -43,6 +43,7 @@ NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChange
     if (self) {
         _stackCount = 0;
         _messageBubblingEnabled = YES;
+        _debugLoggingEnabled = NO;
         NSDictionary *rootTree = [stateChart objectForKey:kDefaultRootStateName];
         NSAssert(rootTree != nil, @"The stateChart you input does not have a root state");
         _rootState = [self initializeDictionaryAsATree:rootTree withStateName:kDefaultRootStateName andParentState:nil];
@@ -86,6 +87,10 @@ NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChange
     SKState *statePointer = self.currentState;
     MessageBlock messageBlock = [statePointer blockForMessage:message];
 
+    if (self.debugLoggingEnabled) {
+        NSLog(@"stateChart %@ received message %@", self, message);
+    }
+
     if (self.messageBubblingEnabled) {
         while (statePointer != nil && messageBlock == nil) {
             statePointer = statePointer.parentState;
@@ -108,6 +113,10 @@ NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChange
     // Before proceding make sure that we actual found a state of that name
     if (toState == nil) {
         return;
+    }
+
+    if (self.debugLoggingEnabled) {
+        NSLog(@"stateChart %@ transition from state %@ to state %@", self, self.currentState.name, goToState);
     }
 
     // Build path from node to parent for goToState

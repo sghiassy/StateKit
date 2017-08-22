@@ -25,6 +25,13 @@
  */
 @property (nonatomic, assign) BOOL messageBubblingEnabled;
 
+/**
+ default set to NO
+ 
+ Log messaging and state changing using `NSLog`
+ */
+@property (nonatomic, assign) BOOL debugLoggingEnabled;
+
 - (instancetype)initWithStateChart:(NSDictionary *)stateChart;
 
 - (void)goToState:(NSString *)goToState;
