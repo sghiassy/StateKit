@@ -42,6 +42,7 @@ NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChange
 
     if (self) {
         _stackCount = 0;
+        _messageBubblingEnabled = YES;
         NSDictionary *rootTree = [stateChart objectForKey:kDefaultRootStateName];
         NSAssert(rootTree != nil, @"The stateChart you input does not have a root state");
         _rootState = [self initializeDictionaryAsATree:rootTree withStateName:kDefaultRootStateName andParentState:nil];
@@ -85,9 +86,11 @@ NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChange
     SKState *statePointer = self.currentState;
     MessageBlock messageBlock = [statePointer blockForMessage:message];
 
-    while (statePointer != nil && messageBlock == nil) {
-        statePointer = statePointer.parentState;
-        messageBlock = [statePointer blockForMessage:message];
+    if (self.messageBubblingEnabled) {
+        while (statePointer != nil && messageBlock == nil) {
+            statePointer = statePointer.parentState;
+            messageBlock = [statePointer blockForMessage:message];
+        }
     }
 
     if (messageBlock) {
