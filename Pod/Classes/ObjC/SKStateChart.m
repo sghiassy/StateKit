@@ -24,7 +24,11 @@
 
 static NSString *kDefaultRootStateName = @"root";
 static NSString *kSubStringKey = @"subStates";
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
 static NSUInteger kMaxStackCount = 100;
+#pragma clang diagnostic pop
 
 NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChangeStateNotification";
 

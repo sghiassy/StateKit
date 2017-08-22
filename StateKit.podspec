@@ -9,8 +9,8 @@
 
 Pod::Spec.new do |s|
   s.name             = "StateKit"
-  s.version          = "0.1.1"
-  s.summary          = "StateKit is a StateChart written for iOS/MacOSX Development"
+  s.version          = "0.2.0"
+  s.summary          = "StateKit is a StateChart written for iOS/MacOSX/tvOS/watchOS Development"
   s.description      = <<-DESC
                        StateKit is a framework to model, capture, manipulate and interact with State.
 
@@ -18,18 +18,16 @@ Pod::Spec.new do |s|
                        This is different from a Finite State Machine (FSM) that models state as a graph
                        DESC
   s.homepage         = "https://github.com/sghiassy/StateKit"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "Shaheen Ghiassy" => "shaheen@groupon.com" }
   s.source           = { :git => "https://github.com/sghiassy/StateKit.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/shaheenghiassy'
 
-  s.platform     = :ios, '7.0'
+  s.ios.deployment_target = '7.0'
+  s.osx.deployment_target = '10.8'
+  s.tvos.deployment_target = '9.0'
+  s.watchos.deployment_target = '2.0'
+
   s.requires_arc = true
-
-  s.resource_bundles = {
-    'StateKit' => ['Pod/Assets/*.png']
-  }
 
   s.default_subspec = 'ObjC'
 
@@ -39,9 +37,11 @@ Pod::Spec.new do |s|
 
   s.subspec 'Swift' do |swift|
     swift.source_files = 'Pod/Classes/Swift'
+    swift.ios.deployment_target = '8.0'
+    swift.osx.deployment_target = '10.10'
+    swift.tvos.deployment_target = '9.0'
+    swift.watchos.deployment_target = '2.0'
+    swift.dependency 'StateKit/ObjC'
   end
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
