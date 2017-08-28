@@ -129,6 +129,8 @@ NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChange
     }
 
     self.stackCount = 0;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:SKStateChartDidChangeStateNotification object:self];
 }
 
 - (NSArray *)pathToRootFromState:(SKState *)startState {
@@ -183,7 +185,6 @@ NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChange
     }
 
     [self didChangeValueForKey:NSStringFromSelector(@selector(currentState))];
-    [[NSNotificationCenter defaultCenter] postNotificationName:SKStateChartDidChangeStateNotification object:self];
 }
 
 - (void)popCurrentStateToParentState {
@@ -197,7 +198,6 @@ NSString *const SKStateChartDidChangeStateNotification = @"SKStateChartDidChange
     }
 
     [self didChangeValueForKey:NSStringFromSelector(@selector(currentState))];
-    [[NSNotificationCenter defaultCenter] postNotificationName:SKStateChartDidChangeStateNotification object:self];
 }
 
 @end
