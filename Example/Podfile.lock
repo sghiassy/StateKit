@@ -4,9 +4,9 @@ PODS:
   - OCMockito (1.4.0):
     - OCHamcrest (~> 4.0)
   - Specta (0.2.1)
-  - StateKit (0.1.1):
-    - StateKit/ObjC (= 0.1.1)
-  - StateKit/ObjC (0.1.1)
+  - StateKit (0.2.0):
+    - StateKit/ObjC (= 0.2.0)
+  - StateKit/ObjC (0.2.0)
 
 DEPENDENCIES:
   - Expecta
@@ -23,7 +23,7 @@ SPEC CHECKSUMS:
   OCHamcrest: cd63d27f48a266d4412c0b295b01b8f0940efa81
   OCMockito: 4981140c9a9ec06c31af40f636e3c0f25f27e6b2
   Specta: 15a276a6343867b426d5ed135d5aa4d04123a573
-  StateKit: d28de0af6f9112e68d882fedc37a4a45a0785e15
+  StateKit: d6e894217cfd82616ccf3fb861e825cf5d369577
 
 PODFILE CHECKSUM: e4dcff713c04762df0098f71299dffbed1c3828e
 
