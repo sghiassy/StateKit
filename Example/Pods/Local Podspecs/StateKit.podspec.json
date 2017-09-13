@@ -1,7 +1,7 @@
 {
   "name": "StateKit",
-  "version": "0.1.1",
-  "summary": "StateKit is a StateChart written for iOS/MacOSX Development",
+  "version": "0.2.0",
+  "summary": "StateKit is a StateChart written for iOS/MacOSX/tvOS/watchOS Development",
   "description": "StateKit is a framework to model, capture, manipulate and interact with State.\n\nStateKit models state in the form of a tree.\nThis is different from a Finite State Machine (FSM) that models state as a graph",
   "homepage": "https://github.com/sghiassy/StateKit",
   "license": "MIT",
@@ -10,17 +10,15 @@
   },
   "source": {
     "git": "https://github.com/sghiassy/StateKit.git",
-    "tag": "0.1.1"
+    "tag": "0.2.0"
   },
   "platforms": {
-    "ios": "7.0"
+    "ios": "7.0",
+    "osx": "10.8",
+    "tvos": "9.0",
+    "watchos": "2.0"
   },
   "requires_arc": true,
-  "resource_bundles": {
-    "StateKit": [
-      "Pod/Assets/*.png"
-    ]
-  },
   "default_subspecs": "ObjC",
   "subspecs": [
     {
@@ -29,7 +27,18 @@
     },
     {
       "name": "Swift",
-      "source_files": "Pod/Classes/Swift"
+      "source_files": "Pod/Classes/Swift",
+      "platforms": {
+        "ios": "8.0",
+        "osx": "10.10",
+        "tvos": "9.0",
+        "watchos": "2.0"
+      },
+      "dependencies": {
+        "StateKit/ObjC": [
+
+        ]
+      }
     }
   ]
 }
