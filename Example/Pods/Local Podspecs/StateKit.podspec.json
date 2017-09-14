@@ -13,32 +13,11 @@
     "tag": "0.2.0"
   },
   "platforms": {
-    "ios": "7.0",
-    "osx": "10.8",
+    "ios": "8.0",
+    "osx": "10.10",
     "tvos": "9.0",
     "watchos": "2.0"
   },
   "requires_arc": true,
-  "default_subspecs": "ObjC",
-  "subspecs": [
-    {
-      "name": "ObjC",
-      "source_files": "Pod/Classes/ObjC"
-    },
-    {
-      "name": "Swift",
-      "source_files": "Pod/Classes/Swift",
-      "platforms": {
-        "ios": "8.0",
-        "osx": "10.10",
-        "tvos": "9.0",
-        "watchos": "2.0"
-      },
-      "dependencies": {
-        "StateKit/ObjC": [
-
-        ]
-      }
-    }
-  ]
+  "source_files": "Pod/Classes/**/*"
 }

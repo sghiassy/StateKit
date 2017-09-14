@@ -8,7 +8,7 @@
 //
 
 #import "SKViewController.h"
-#import <SKStateChart.h>
+#import "SKStateChart.h"
 
 @interface SKViewController ()
 

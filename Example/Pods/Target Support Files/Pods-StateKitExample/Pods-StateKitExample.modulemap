@@ -1,0 +1,6 @@
+framework module Pods_StateKitExample {
+  umbrella header "Pods-StateKitExample-umbrella.h"
+
+  export *
+  module * { export * }
+}
