@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCollectionContainingInAnyOrder.h"
 
@@ -7,13 +7,13 @@
 
 
 @interface HCMatchingInAnyOrder : NSObject
-@property (nonatomic, copy, readonly) NSMutableArray *matchers;
+@property (nonatomic, copy, readonly) NSMutableArray<id <HCMatcher>> *matchers;
 @property (nonatomic, strong, readonly) id <HCDescription> mismatchDescription;
 @end
 
 @implementation HCMatchingInAnyOrder
 
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
              mismatchDescription:(id <HCDescription>)description
 {
     self = [super init];
@@ -25,7 +25,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     NSUInteger index = 0;
     for (id <HCMatcher> matcher in self.matchers)
@@ -58,17 +58,12 @@
 
 
 @interface HCIsCollectionContainingInAnyOrder ()
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @end
 
 @implementation HCIsCollectionContainingInAnyOrder
 
-+ (instancetype)isCollectionContainingInAnyOrder:(NSArray *)itemMatchers
-{
-    return [[self alloc] initWithMatchers:itemMatchers];
-}
-
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
 {
     self = [super init];
     if (self)
@@ -104,12 +99,17 @@
 @end
 
 
+id HC_containsInAnyOrderIn(NSArray *itemMatchers)
+{
+    return [[HCIsCollectionContainingInAnyOrder alloc] initWithMatchers:HCWrapIntoMatchers(itemMatchers)];
+}
+
 id HC_containsInAnyOrder(id itemMatchers, ...)
 {
     va_list args;
     va_start(args, itemMatchers);
-    NSArray *matchers = HCCollectMatchers(itemMatchers, args);
+    NSArray *array = HCCollectItems(itemMatchers, args);
     va_end(args);
 
-    return [HCIsCollectionContainingInAnyOrder isCollectionContainingInAnyOrder:matchers];
+    return HC_containsInAnyOrderIn(array);
 }

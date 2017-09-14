@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCArgumentCaptor.h"
 
@@ -17,11 +17,14 @@
 {
     self = [super initWithDescription:@"<Capturing argument>"];
     if (self)
+    {
         _values = [[NSMutableArray alloc] init];
+        _captureEnabled = YES;
+    }
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     [self capture:item];
     return [super matches:item];
@@ -29,8 +32,11 @@
 
 - (void)capture:(id)item
 {
-    id value = item ?: [NSNull null];
-    [self.values addObject:value];
+    if (self.captureEnabled)
+    {
+        id value = item ?: [NSNull null];
+        [self.values addObject:value];
+    }
 }
 
 - (id)value

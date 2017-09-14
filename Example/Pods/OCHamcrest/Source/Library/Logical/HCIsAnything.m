@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsAnything.h"
 
@@ -7,16 +7,6 @@
 @implementation HCIsAnything
 {
     NSString *_description;
-}
-
-+ (instancetype)isAnything
-{
-    return [[self alloc] init];
-}
-
-+ (instancetype)isAnythingWithDescription:(NSString *)description
-{
-    return [[self alloc] initWithDescription:description];
 }
 
 - (instancetype)init
@@ -33,7 +23,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     return YES;
 }
@@ -48,10 +38,10 @@
 
 id HC_anything()
 {
-    return [HCIsAnything isAnything];
+    return [[HCIsAnything alloc] init];
 }
 
 id HC_anythingWithDescription(NSString *description)
 {
-    return [HCIsAnything isAnythingWithDescription:description];
+    return [[HCIsAnything alloc] initWithDescription:description];
 }

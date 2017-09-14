@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCEvery.h"
 
@@ -68,7 +68,7 @@
 @end
 
 
-id HC_everyItem(id itemMatcher)
+id HC_everyItem(id <HCMatcher> itemMatcher)
 {
     return [[HCEvery alloc] initWithMatcher:itemMatcher];
 }

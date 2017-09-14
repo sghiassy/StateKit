@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Shaheen Ghiassy. All rights reserved.
 //
 
-#import <SKStateChart.h>
+#import "SKStateChart.h"
 #import "MockLogger.h"
 
 #define HC_SHORTHAND

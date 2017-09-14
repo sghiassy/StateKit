@@ -1,5 +1,5 @@
 EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks $(inherited) "$(SDKROOT)/Developer/Library/Frameworks" "$(DEVELOPER_LIBRARY_DIR)/Frameworks" "$PODS_CONFIGURATION_BUILD_DIR/Expecta" "$PODS_CONFIGURATION_BUILD_DIR/OCHamcrest" "$PODS_CONFIGURATION_BUILD_DIR/OCMockito" "$PODS_CONFIGURATION_BUILD_DIR/Specta" "$PODS_CONFIGURATION_BUILD_DIR/StateKit"
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks "$PODS_CONFIGURATION_BUILD_DIR/Expecta" "$PODS_CONFIGURATION_BUILD_DIR/OCHamcrest" "$PODS_CONFIGURATION_BUILD_DIR/OCMockito" "$PODS_CONFIGURATION_BUILD_DIR/Specta" "$PODS_CONFIGURATION_BUILD_DIR/StateKit"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/Expecta/Expecta.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/OCHamcrest/OCHamcrest.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/OCMockito/OCMockito.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/Specta/Specta.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/StateKit/StateKit.framework/Headers"

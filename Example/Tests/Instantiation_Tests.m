@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Shaheen Ghiassy. All rights reserved.
 //
 
-#import <SKStateChart.h>
+#import "SKStateChart.h"
 
 SpecBegin(StateChart_Instantiation)
 

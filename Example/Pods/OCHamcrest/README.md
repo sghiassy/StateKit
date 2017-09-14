@@ -3,9 +3,13 @@
 What is OCHamcrest?
 -------------------
 
-[![Build Status](https://travis-ci.org/hamcrest/OCHamcrest.svg?branch=master)](https://travis-ci.org/hamcrest/OCHamcrest) [![Coverage Status](https://coveralls.io/repos/hamcrest/OCHamcrest/badge.svg?branch=master)](https://coveralls.io/r/hamcrest/OCHamcrest?branch=master) [![Cocoapods Version](https://cocoapod-badges.herokuapp.com/v/OCHamcrest/badge.png)](https://cocoapods.org/pods/OCHamcrest)
+[![Build Status](https://travis-ci.org/hamcrest/OCHamcrest.svg?branch=master)](https://travis-ci.org/hamcrest/OCHamcrest)
+[![Coverage Status](https://coveralls.io/repos/hamcrest/OCHamcrest/badge.svg?branch=master)](https://coveralls.io/r/hamcrest/OCHamcrest?branch=master)
+[![Cocoapods Version](https://cocoapod-badges.herokuapp.com/v/OCHamcrest/badge.png)](https://cocoapods.org/pods/OCHamcrest)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-OCHamcrest is an iOS and Mac OS X library providing:
+
+OCHamcrest is an Objective-C library providing:
 
 * a library of "matcher" objects for declaring rules to check whether a given object matches those
   rules.
@@ -13,66 +17,6 @@ OCHamcrest is an iOS and Mac OS X library providing:
 
 Matchers are useful for a variety of purposes, such as UI validation. But they're most commonly used
 for writing unit tests that are expressive and flexible.
-
-
-How do I add OCHamcrest to my project?
---------------------------------------
-
-The Examples folder shows projects using OCHamcrest either through CocoaPods or through the prebuilt
-frameworks, for iOS and Mac OS X development.
-
-### CocoaPods
-
-If you want to add OCHamcrest using Cocoapods then add the following dependency to your Podfile.
-Most people will want OCHamcrest in their test targets, and not include any pods from their main
-targets:
-
-```ruby
-target :MyTests, :exclusive => true do
-  pod 'OCHamcrest', '~> 4.0'
-end
-```
-
-Use the following import:
-
-    #define HC_SHORTHAND
-    #import <OCHamcrest/OCHamcrest.h>
-
-### Prebuilt Frameworks
-
-Prebuilt binaries are available on [GitHub](https://github.com/hamcrest/OCHamcrest/releases/). The
-binaries are packaged as frameworks:
-
-* __OCHamcrestIOS.framework__ for iOS development
-* __OCHamcrest.framework__ for Mac OS X development
-
-Drag the appropriate framework into your project, specifying "Copy items into destination group's
-folder". Then specify `-ObjC` in your "Other Linker Flags".
-
-#### iOS Development:
-
-Use the following import:
-
-    #define HC_SHORTHAND
-    #import <OCHamcrestIOS/OCHamcrestIOS.h>
-
-#### Mac OS X Development:
-
-Add a "Copy Files" build phase to copy OCHamcrest.framework to your Products Directory.
-
-Use the following import:
-
-    #define HC_SHORTHAND
-    #import <OCHamcrest/OCHamcrest.h>
-
-### Build Your Own
-
-If you want to build OCHamcrest yourself, clone the repo, then
-
-```sh
-$ cd Source
-$ ./MakeDistribution.sh
-```
 
 
 My first OCHamcrest test
@@ -83,9 +27,7 @@ We'll start by writing a very simple Xcode unit test, but instead of using XCTes
 matcher:
 
 ```obj-c
-#import <XCTest/XCTest.h>
-
-#define HC_SHORTHAND
+@import XCTest;
 #import <OCHamcrest/OCHamcrest.h>
 
 @interface BiscuitTest : XCTestCase
@@ -109,10 +51,10 @@ method parameter is a matcher for `Biscuit` objects, here a matcher that checks 
 to another using the `-isEqual:` method. The test passes since the `Biscuit` class defines an
 `-isEqual:` method.
 
-OCHamcrest's functions are actually declared with an "HC" package prefix (such as `HC_assertThat`
+OCHamcrest's functions are actually declared with an "HC_" package prefix (such as `HC_assertThat`
 and `HC_equalTo`) to avoid name clashes. To make test writing faster and test code more legible,
-shorthand macros are provided if `HC_SHORTHAND` is defined before including the OCHamcrest header.
-For example, instead of writing `HC_assertThat`, simply write `assertThat`.
+optional short syntax is provided by default. For example, instead of writing `HC_assertThat`,
+simply write `assertThat`.
 
 
 Predefined matchers
@@ -136,8 +78,6 @@ OCHamcrest comes with a library of useful matchers:
 * Number
 
   * `closeTo` - match number close to a given value
-  * equalTo&lt;TypeName&gt; - match number equal to a primitive number (such as
-  `equalToInt` for an `int`)
   * `greaterThan`, `greaterThanOrEqualTo`, `lessThan`,
   `lessThanOrEqualTo` - match numeric ordering
   * `isFalse` - match zero
@@ -151,32 +91,34 @@ OCHamcrest comes with a library of useful matchers:
   * `equalToIgnoringWhitespace` - match the complete string but ignore extra
   whitespace
   * `startsWith` - match the beginning of a string
-  * `stringContainsInOrder` - match parts of a string, in relative order
+  * `stringContainsInOrder`, `stringContainsInOrderIn` - match parts of a string, in relative order
 
 * Logical
 
-  * `allOf` - "and" together all matchers
-  * `anyOf` - "or" together all matchers
+  * `allOf`, `allOfIn` - "and" together all matchers
+  * `anyOf`, `anyOfIn` - "or" together all matchers
   * `anything` - match anything (useful in composite matchers when you don't
   care about a particular value)
   * `isNot` - negate the matcher
 
 * Collection
 
-  * `contains` - exactly match the entire collection
-  * `containsInAnyOrder` - match the entire collection, but in any order
-  * `containsInRelativeOrder` - match collection containing items in relative order
+  * `contains`, `containsIn` - exactly match the entire collection
+  * `containsInAnyOrder`, `containsInAnyOrderIn` - match the entire collection, but in any order
+  * `containsInRelativeOrder`, `containsInRelativeOrderIn` - match collection containing items in relative order
   * `everyItem` - match if every item in a collection satisfies a given matcher
   * `hasCount` - match number of elements against another matcher
   * `hasCountOf` - match collection with given number of elements
-  * `hasEntries` - match dictionary with list of key-value pairs
+  * `hasEntries` - match dictionary with key-value pairs in a dictionary
+  * `hasEntriesIn` - match dictionary with key-value pairs in a list
   * `hasEntry` - match dictionary containing a key-value pair
   * `hasItem` - match if given item appears in the collection
-  * `hasItems` - match if all given items appear in the collection, in any order
+  * `hasItems`, `hasItemsIn` - match if all given items appear in the collection, in any order
   * `hasKey` - match dictionary with a key
   * `hasValue` - match dictionary with a value
   * `isEmpty` - match empty collection
-  * `onlyContains` - match if collection's items appear in given list
+  * `isIn` - match when object is in given collection
+  * `onlyContains`, `onlyContainsIn` - match if collection's items appear in given list
 
 * Decorator
 
@@ -232,3 +174,72 @@ What about Swift?
 -----------------
 
 Try the [native Swift implementation of Hamcrest](https://github.com/nschum/SwiftHamcrest).
+
+
+How do I add OCHamcrest to my project?
+--------------------------------------
+
+The Examples folder shows projects using OCHamcrest either through CocoaPods or through the prebuilt
+frameworks, for iOS and Mac OS X development.
+
+### CocoaPods
+
+If you want to add OCHamcrest using Cocoapods then add the following dependency to your Podfile.
+Most people will want OCHamcrest in their test targets, and not include any pods from their main
+targets:
+
+```ruby
+target 'MyTests' do
+  inherit! :search_paths
+  pod 'OCHamcrest', '~> 7.0'
+end
+```
+
+Use the following import:
+
+    #import <OCHamcrest/OCHamcrest.h>
+
+### Carthage
+
+Add the following to your Cartfile:
+
+```
+github "hamcrest/OCHamcrest" ~> 7.0
+```
+
+Then drag the the built framework from the appropriate Carthage/Build directory into your project,
+but with "Copy items into destination group's folder" disabled.
+
+### Prebuilt Frameworks
+
+Prebuilt binaries are available on [GitHub](https://github.com/hamcrest/OCHamcrest/releases/). The
+binaries are packaged as frameworks:
+
+* __OCHamcrestIOS.framework__ for iOS development
+* __OCHamcrest.framework__ for Mac OS X development
+
+Drag the appropriate framework into your project, specifying "Copy items into destination group's
+folder". Then specify `-ObjC` in your "Other Linker Flags".
+
+#### iOS Development:
+
+Use the following import:
+
+    #import <OCHamcrestIOS/OCHamcrestIOS.h>
+
+#### Mac OS X Development:
+
+Add a "Copy Files" build phase to copy OCHamcrest.framework to your Products Directory.
+
+Use the following import:
+
+    #import <OCHamcrest/OCHamcrest.h>
+
+### Build Your Own
+
+If you want to build OCHamcrest yourself, clone the repo, then
+
+```sh
+$ cd Source
+$ ./MakeDistribution.sh
+```
