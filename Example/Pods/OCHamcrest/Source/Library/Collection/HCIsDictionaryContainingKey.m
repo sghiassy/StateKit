@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsDictionaryContainingKey.h"
 
@@ -11,13 +11,7 @@
 @property (nonatomic, strong, readonly) id <HCMatcher> keyMatcher;
 @end
 
-
 @implementation HCIsDictionaryContainingKey
-
-+ (instancetype)isDictionaryContainingKey:(id <HCMatcher>)keyMatcher
-{
-    return [[self alloc] initWithKeyMatcher:keyMatcher];
-}
 
 - (instancetype)initWithKeyMatcher:(id <HCMatcher>)keyMatcher
 {
@@ -48,5 +42,5 @@
 id HC_hasKey(id keyMatcher)
 {
     HCRequireNonNilObject(keyMatcher);
-    return [HCIsDictionaryContainingKey isDictionaryContainingKey:HCWrapInMatcher(keyMatcher)];
+    return [[HCIsDictionaryContainingKey alloc] initWithKeyMatcher:HCWrapInMatcher(keyMatcher)];
 }

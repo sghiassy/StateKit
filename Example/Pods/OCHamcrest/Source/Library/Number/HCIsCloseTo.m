@@ -1,22 +1,15 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCloseTo.h"
 
 
 @interface HCIsCloseTo ()
-
 @property (nonatomic, assign, readonly) double value;
 @property (nonatomic, assign, readonly) double delta;
 @end
 
-
 @implementation HCIsCloseTo
-
-+ (id)isCloseTo:(double)value within:(double)delta
-{
-    return [[self alloc] initWithValue:value delta:delta];
-}
 
 - (id)initWithValue:(double)value delta:(double)delta
 {
@@ -29,7 +22,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if ([self itemIsNotNumber:item])
         return NO;
@@ -47,7 +40,7 @@
     return ![item isKindOfClass:[NSNumber class]];
 }
 
-- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(nullable id)item to:(nullable id <HCDescription>)mismatchDescription
 {
     if ([self itemIsNotNumber:item])
         [super describeMismatchOf:item to:mismatchDescription];
@@ -72,5 +65,5 @@
 
 id HC_closeTo(double value, double delta)
 {
-    return [HCIsCloseTo isCloseTo:value within:delta];
+    return [[HCIsCloseTo alloc] initWithValue:value delta:delta];
 }

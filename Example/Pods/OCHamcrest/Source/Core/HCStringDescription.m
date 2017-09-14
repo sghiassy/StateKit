@@ -1,10 +1,14 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCStringDescription.h"
 
 #import "HCSelfDescribing.h"
 
+
+@interface HCStringDescription ()
+@property (nonatomic, strong) NSMutableString *accumulator;
+@end
 
 @implementation HCStringDescription
 
@@ -24,18 +28,18 @@
 {
     self = [super init];
     if (self)
-        accumulator = [[NSMutableString alloc] init];
+        _accumulator = [[NSMutableString alloc] init];
     return self;
 }
 
 - (NSString *)description
 {
-    return accumulator;
+    return self.accumulator;
 }
 
 - (void)append:(NSString *)str
 {
-    [accumulator appendString:str];
+    [self.accumulator appendString:str];
 }
 
 @end

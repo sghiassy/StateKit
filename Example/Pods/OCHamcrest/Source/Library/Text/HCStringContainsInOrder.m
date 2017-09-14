@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCStringContainsInOrder.h"
 
@@ -21,17 +21,12 @@ static void requireElementsToBeStrings(NSArray *array)
 
 
 @interface HCStringContainsInOrder ()
-@property (nonatomic, copy, readonly) NSArray *substrings;
+@property (nonatomic, copy, readonly) NSArray<NSString *> *substrings;
 @end
 
 @implementation HCStringContainsInOrder
 
-+ (instancetype)containsInOrder:(NSArray *)substrings
-{
-    return [[self alloc] initWithSubstrings:substrings];
-}
-
-- (instancetype)initWithSubstrings:(NSArray *)substrings
+- (instancetype)initWithSubstrings:(NSArray<NSString *> *)substrings
 {
     self = [super init];
     if (self)
@@ -42,7 +37,7 @@ static void requireElementsToBeStrings(NSArray *array)
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if (![item isKindOfClass:[NSString class]])
         return NO;
@@ -67,12 +62,17 @@ static void requireElementsToBeStrings(NSArray *array)
 @end
 
 
+id HC_stringContainsInOrderIn(NSArray<NSString *> *substrings)
+{
+    return [[HCStringContainsInOrder alloc] initWithSubstrings:substrings];
+}
+
 id HC_stringContainsInOrder(NSString *substrings, ...)
 {
     va_list args;
     va_start(args, substrings);
-    NSArray *strings = HCCollectItems(substrings, args);
+    NSArray *array = HCCollectItems(substrings, args);
     va_end(args);
 
-    return [HCStringContainsInOrder containsInOrder:strings];
+    return HC_stringContainsInOrderIn(array);
 }
