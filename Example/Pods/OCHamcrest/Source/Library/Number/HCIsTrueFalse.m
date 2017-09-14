@@ -1,17 +1,12 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsTrueFalse.h"
 
 
-FOUNDATION_EXPORT id HC_isTrue(void)
-{
-    return [[HCIsTrue alloc] init];
-}
-
 @implementation HCIsTrue
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if (![item isKindOfClass:[NSNumber class]])
         return NO;
@@ -26,16 +21,18 @@ FOUNDATION_EXPORT id HC_isTrue(void)
 
 @end
 
-#pragma mark -
 
-FOUNDATION_EXPORT id HC_isFalse(void)
+FOUNDATION_EXPORT id HC_isTrue(void)
 {
-    return [[HCIsFalse alloc] init];
+    return [[HCIsTrue alloc] init];
 }
+
+
+#pragma mark -
 
 @implementation HCIsFalse
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if (![item isKindOfClass:[NSNumber class]])
         return NO;
@@ -49,3 +46,10 @@ FOUNDATION_EXPORT id HC_isFalse(void)
 }
 
 @end
+
+
+FOUNDATION_EXPORT id HC_isFalse(void)
+{
+    return [[HCIsFalse alloc] init];
+}
+

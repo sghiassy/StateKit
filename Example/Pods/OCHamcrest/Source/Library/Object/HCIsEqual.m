@@ -1,22 +1,16 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsEqual.h"
 
 
 @interface HCIsEqual ()
-@property (nonatomic, strong, readonly) id expectedValue;
+@property (nullable, nonatomic, strong, readonly) id expectedValue;
 @end
-
 
 @implementation HCIsEqual
 
-+ (instancetype)isEqualTo:(id)expectedValue
-{
-    return [[self alloc] initEqualTo:expectedValue];
-}
-
-- (instancetype)initEqualTo:(id)expectedValue
+- (instancetype)initEqualTo:(nullable id)expectedValue
 {
     self = [super init];
     if (self)
@@ -24,7 +18,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if (item == nil)
         return self.expectedValue == nil;
@@ -46,7 +40,7 @@
 @end
 
 
-id HC_equalTo(id operand)
+id HC_equalTo(_Nullable id operand)
 {
-    return [HCIsEqual isEqualTo:operand];
+    return [[HCIsEqual alloc] initEqualTo:operand];
 }

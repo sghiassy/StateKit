@@ -1,26 +1,16 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCCollect.h"
 
 #import "HCWrapInMatcher.h"
 
-static id passThrough(id value)
-{
-    return value;
-}
-
-NSMutableArray *HCCollectItems(id item, va_list args)
-{
-    return HCCollectWrappedItems(item, args, passThrough);
-}
-
-NSMutableArray *HCCollectMatchers(id item, va_list args)
-{
-    return HCCollectWrappedItems(item, args, HCWrapInMatcher);
-}
-
-NSMutableArray *HCCollectWrappedItems(id item, va_list args, id (*wrap)(id))
+/*!
+ * @abstract Returns an array of wrapped items from a variable-length comma-separated list
+ * terminated by <code>nil</code>.
+ * @discussion Each item is transformed by passing it to the specified <em>wrap</em> function.
+ */
+static NSArray * HCCollectWrappedItems(id item, va_list args, id (*wrap)(id))
 {
     NSMutableArray *list = [NSMutableArray arrayWithObject:wrap(item)];
 
@@ -34,10 +24,20 @@ NSMutableArray *HCCollectWrappedItems(id item, va_list args, id (*wrap)(id))
     return list;
 }
 
-NSArray *HCWrapIntoMatchers(NSArray *items)
+static id passThrough(id value)
 {
-    NSMutableArray *matchers = [[NSMutableArray alloc] init];
+    return value;
+}
+
+NSArray * HCCollectItems(id item, va_list args)
+{
+    return HCCollectWrappedItems(item, args, passThrough);
+}
+
+NSArray<id <HCMatcher>> * HCWrapIntoMatchers(NSArray *items)
+{
+    NSMutableArray<id <HCMatcher>> *matchers = [[NSMutableArray alloc] init];
     for (id item in items)
         [matchers addObject:HCWrapInMatcher(item)];
-    return [matchers copy];
+    return matchers;
 }

@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsEqualIgnoringCase.h"
 
@@ -12,11 +12,6 @@
 
 @implementation HCIsEqualIgnoringCase
 
-+ (instancetype)isEqualIgnoringCase:(NSString *)string
-{
-    return [[self alloc] initWithString:string];
-}
-
 - (instancetype)initWithString:(NSString *)string
 {
     HCRequireNonNilObject(string);
@@ -27,7 +22,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if (![item isKindOfClass:[NSString class]])
         return NO;
@@ -46,5 +41,5 @@
 
 id HC_equalToIgnoringCase(NSString *expectedString)
 {
-    return [HCIsEqualIgnoringCase isEqualIgnoringCase:expectedString];
+    return [[HCIsEqualIgnoringCase alloc] initWithString:expectedString];
 }

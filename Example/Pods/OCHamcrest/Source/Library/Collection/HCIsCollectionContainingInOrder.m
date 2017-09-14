@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCollectionContainingInOrder.h"
 
@@ -7,14 +7,14 @@
 
 
 @interface HCMatchSequence : NSObject
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @property (nonatomic, strong, readonly) id <HCDescription> mismatchDescription;
 @property (nonatomic, assign) NSUInteger nextMatchIndex;
 @end
 
 @implementation HCMatchSequence
 
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
              mismatchDescription:(id <HCDescription>)description
 {
     self = [super init];
@@ -26,7 +26,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     return [self isNotSurplus:item] && [self isMatched:item];
 }
@@ -58,7 +58,10 @@
 {
     if (self.matchers.count <= self.nextMatchIndex)
     {
-        [[self.mismatchDescription appendText:@"not matched: "] appendDescriptionOf:item];
+        [[self.mismatchDescription
+                appendText:[NSString stringWithFormat:@"exceeded count of %lu with item ",
+                                                                (unsigned long)self.matchers.count]]
+                appendDescriptionOf:item];
         return NO;
     }
     return YES;
@@ -66,7 +69,8 @@
 
 - (void)describeMismatchOfMatcher:(id <HCMatcher>)matcher item:(id)item
 {
-    [self.mismatchDescription appendText:[NSString stringWithFormat:@"item %zi: ", (size_t)self.nextMatchIndex]];
+    [self.mismatchDescription appendText:[NSString stringWithFormat:@"item %lu: ",
+                                                               (unsigned long)self.nextMatchIndex]];
     [matcher describeMismatchOf:item to:self.mismatchDescription];
 }
 
@@ -74,17 +78,12 @@
 
 
 @interface HCIsCollectionContainingInOrder ()
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @end
 
 @implementation HCIsCollectionContainingInOrder
 
-+ (instancetype)isCollectionContainingInOrder:(NSArray *)itemMatchers
-{
-    return [[self alloc] initWithMatchers:itemMatchers];
-}
-
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
 {
     self = [super init];
     if (self)
@@ -119,12 +118,17 @@
 @end
 
 
+id HC_containsIn(NSArray *itemMatchers)
+{
+    return [[HCIsCollectionContainingInOrder alloc] initWithMatchers:HCWrapIntoMatchers(itemMatchers)];
+}
+
 id HC_contains(id itemMatchers, ...)
 {
     va_list args;
     va_start(args, itemMatchers);
-    NSArray *matchers = HCCollectMatchers(itemMatchers, args);
+    NSArray *array = HCCollectItems(itemMatchers, args);
     va_end(args);
 
-    return [HCIsCollectionContainingInOrder isCollectionContainingInOrder:matchers];
+    return HC_containsIn(array);
 }

@@ -1,18 +1,23 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCDiagnosingMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches if every item in a collection satisfies a list of nested matchers, in order.
  */
 @interface HCIsCollectionContainingInRelativeOrder : HCDiagnosingMatcher
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers;
+
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
+
 @end
 
 
-FOUNDATION_EXPORT id hc_containsInRelativeOrder(NSArray *itemMatchers);
+FOUNDATION_EXPORT id HC_containsInRelativeOrder(NSArray *itemMatchers);
 
 #ifndef HC_DISABLE_SHORT_SYNTAX
 /*!
@@ -27,16 +32,17 @@ FOUNDATION_EXPORT id hc_containsInRelativeOrder(NSArray *itemMatchers);
  * <em>equalTo</em> matcher to check for equality.
  *
  * <b>Examples</b><br />
- * <pre>assertThat(@[@1, @2, @3, @4, @5], containsInRelativeOrder(equalTo(@2), equalTo(@4)))</pre>
- *
- * <pre>assertThat(@[@1, @2, @3, @4, @5], containsInRelativeOrder(@2, @4))</pre>
+ * <pre>assertThat(\@[\@1, \@2, \@3, \@4, \@5], containsInRelativeOrder(equalTo(\@2), equalTo(\@4)))</pre>
+ * <pre>assertThat(\@[\@1, \@2, \@3, \@4, \@5], containsInRelativeOrder(\@2, \@4))</pre>
  *
  * <b>Name Clash</b><br />
  * In the event of a name clash, <code>#define HC_DISABLE_SHORT_SYNTAX</code> and use the synonym
- * hc_containsInRelativeOrder instead.
+ * HC_containsInRelativeOrder instead.
  */
 static inline id containsInRelativeOrder(NSArray *itemMatchers)
 {
-    return hc_containsInRelativeOrder(itemMatchers);
+    return HC_containsInRelativeOrder(itemMatchers);
 }
 #endif
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCollectionContaining.h"
 
@@ -14,12 +14,6 @@
 @end
 
 @implementation HCIsCollectionContaining
-
-
-+ (instancetype)isCollectionContaining:(id <HCMatcher>)elementMatcher
-{
-    return [[self alloc] initWithMatcher:elementMatcher];
-}
 
 - (instancetype)initWithMatcher:(id <HCMatcher>)elementMatcher
 {
@@ -72,15 +66,23 @@
 id HC_hasItem(id itemMatcher)
 {
     HCRequireNonNilObject(itemMatcher);
-    return [HCIsCollectionContaining isCollectionContaining:HCWrapInMatcher(itemMatcher)];
+    return [[HCIsCollectionContaining alloc] initWithMatcher:HCWrapInMatcher(itemMatcher)];
+}
+
+id HC_hasItemsIn(NSArray *itemMatchers)
+{
+    NSMutableArray *matchers = [[NSMutableArray alloc] init];
+    for (id itemMatcher in itemMatchers)
+        [matchers addObject:HC_hasItem(itemMatcher)];
+    return HC_allOfIn(matchers);
 }
 
 id HC_hasItems(id itemMatchers, ...)
 {
     va_list args;
     va_start(args, itemMatchers);
-    NSArray *matchers = HCCollectWrappedItems(itemMatchers, args, HC_hasItem);
+    NSArray *array = HCCollectItems(itemMatchers, args);
     va_end(args);
 
-    return [HCAllOf allOf:matchers];
+    return HC_hasItemsIn(array);
 }

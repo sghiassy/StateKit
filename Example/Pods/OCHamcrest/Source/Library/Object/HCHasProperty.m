@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 //  Contribution by Justin Shacklette
 
 #import "HCHasProperty.h"
@@ -16,11 +16,6 @@
 
 @implementation HCHasProperty
 
-+ (instancetype)hasProperty:(NSString *)propertyName value:(id <HCMatcher>)valueMatcher
-{
-    return [[self alloc] initWithProperty:propertyName value:valueMatcher];
-}
-
 - (instancetype)initWithProperty:(NSString *)propertyName value:(id <HCMatcher>)valueMatcher
 {
     HCRequireNonNilObject(propertyName);
@@ -34,7 +29,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item describingMismatchTo:(id <HCDescription>)mismatchDescription
+- (BOOL)matches:(nullable id)item describingMismatchTo:(id <HCDescription>)mismatchDescription
 {
     SEL propertyGetter = NSSelectorFromString(self.propertyName);
     if (![item respondsToSelector:propertyGetter])
@@ -70,7 +65,7 @@
 @end
 
 
-id HC_hasProperty(NSString *propertyName, id valueMatcher)
+id HC_hasProperty(NSString *propertyName, _Nullable id valueMatcher)
 {
-    return [HCHasProperty hasProperty:propertyName value:HCWrapInMatcher(valueMatcher)];
+    return [[HCHasProperty alloc] initWithProperty:propertyName value:HCWrapInMatcher(valueMatcher)];
 }

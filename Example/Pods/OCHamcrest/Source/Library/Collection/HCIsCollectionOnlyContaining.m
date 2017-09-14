@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCollectionOnlyContaining.h"
 
@@ -8,11 +8,6 @@
 
 
 @implementation HCIsCollectionOnlyContaining
-
-+ (instancetype)isCollectionOnlyContaining:(id <HCMatcher>)matcher
-{
-    return [[self alloc] initWithMatcher:matcher];
-}
 
 - (void)describeTo:(id <HCDescription>)description
 {
@@ -23,12 +18,17 @@
 @end
 
 
+id HC_onlyContainsIn(NSArray *itemMatchers)
+{
+    return [[HCIsCollectionOnlyContaining alloc] initWithMatcher:HC_anyOfIn(itemMatchers)];
+}
+
 id HC_onlyContains(id itemMatchers, ...)
 {
     va_list args;
     va_start(args, itemMatchers);
-    NSArray *matchers = HCCollectMatchers(itemMatchers, args);
+    NSArray *array = HCCollectItems(itemMatchers, args);
     va_end(args);
 
-    return [HCIsCollectionOnlyContaining isCollectionOnlyContaining:[HCAnyOf anyOf:matchers]];
+    return HC_onlyContainsIn(array);
 }

@@ -1,15 +1,17 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCIsAnything.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches anything, capturing all values.
  * @discussion This matcher captures all values it was given to match, and always evaluates to
  * <code>YES</code>. Use it to capture argument values for further assertions.
  *
- * Unlike other matchers which are usually transient, this matcher should be created outside of any
+ * Unlike other matchers, this matcher is not idempotent. It should be created outside of any
  * expression so that it can be queried for the items it captured.
  */
 @interface HCArgumentCaptor : HCIsAnything
@@ -22,7 +24,7 @@
  * If <code>-matches:</code> was never invoked and so no value was captured, this property returns
  * <code>nil</code>. But if <code>nil</code> was captured, this property returns NSNull.
  */
-@property (nonatomic, readonly) id value;
+@property (nullable, nonatomic, readonly) id value;
 
 /*!
  * @abstract Returns all captured values.
@@ -31,4 +33,12 @@
  */
 @property (nonatomic, readonly) NSArray *allValues;
 
+/*!
+ * @abstract Determines whether subsequent matched values are captured.
+ * @discussion <code>YES</code> by default.
+ */
+@property (nonatomic, assign) BOOL captureEnabled;
+
 @end
+
+NS_ASSUME_NONNULL_END

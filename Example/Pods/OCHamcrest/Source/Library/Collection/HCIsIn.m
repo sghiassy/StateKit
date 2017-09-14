@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsIn.h"
 
@@ -9,11 +9,6 @@
 @end
 
 @implementation HCIsIn
-
-+ (instancetype)isInCollection:(id)collection
-{
-    return [[self alloc] initWithCollection:collection];
-}
 
 - (instancetype)initWithCollection:(id)collection
 {
@@ -30,7 +25,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     return [self.collection containsObject:item];
 }
@@ -46,5 +41,5 @@
 
 id HC_isIn(id aCollection)
 {
-    return [HCIsIn isInCollection:aCollection];
+    return [[HCIsIn alloc] initWithCollection:aCollection];
 }
