@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCHasCount.h"
 
@@ -12,12 +12,7 @@
 
 @implementation HCHasCount
 
-+ (instancetype)hasCount:(id <HCMatcher>)countMatcher
-{
-    return [[self alloc] initWithCount:countMatcher];
-}
-
-- (instancetype)initWithCount:(id <HCMatcher>)countMatcher
+- (instancetype)initWithMatcher:(id <HCMatcher>)countMatcher
 {
     self = [super init];
     if (self)
@@ -25,7 +20,7 @@
     return self;
 }
 
-- (BOOL)matches:(id)item
+- (BOOL)matches:(nullable id)item
 {
     if (![self itemHasCount:item])
         return NO;
@@ -39,7 +34,7 @@
     return [item respondsToSelector:@selector(count)];
 }
 
-- (void)describeMismatchOf:(id)item to:(id <HCDescription>)mismatchDescription
+- (void)describeMismatchOf:(nullable id)item to:(nullable id <HCDescription>)mismatchDescription
 {
     [mismatchDescription appendText:@"was "];
     if ([self itemHasCount:item])
@@ -61,7 +56,7 @@
 
 id HC_hasCount(id <HCMatcher> countMatcher)
 {
-    return [HCHasCount hasCount:countMatcher];
+    return [[HCHasCount alloc] initWithMatcher:countMatcher];
 }
 
 id HC_hasCountOf(NSUInteger value)

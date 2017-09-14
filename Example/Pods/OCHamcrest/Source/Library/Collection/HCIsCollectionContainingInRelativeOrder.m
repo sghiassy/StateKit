@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import "HCIsCollectionContainingInRelativeOrder.h"
 
@@ -18,7 +18,7 @@ static void HCRequireNonEmptyArray(NSArray *array)
 
 
 @interface HCMatchSequenceInRelativeOrder : NSObject
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @property (nonatomic, strong, readonly) id <HCDescription> mismatchDescription;
 @property (nonatomic, assign) NSUInteger nextMatchIndex;
 @property (nonatomic, strong) id lastMatchedItem;
@@ -26,16 +26,9 @@ static void HCRequireNonEmptyArray(NSArray *array)
 
 @implementation HCMatchSequenceInRelativeOrder
 
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
              mismatchDescription:(id <HCDescription>)description
 {
-    if (itemMatchers.count == 0)
-    {
-        @throw [NSException exceptionWithName:@"EmptyArray"
-                                       reason:@"Must be non-empty array"
-                                     userInfo:nil];
-    }
-
     self = [super init];
     if (self)
     {
@@ -83,12 +76,12 @@ static void HCRequireNonEmptyArray(NSArray *array)
 
 
 @interface HCIsCollectionContainingInRelativeOrder ()
-@property (nonatomic, copy, readonly) NSArray *matchers;
+@property (nonatomic, copy, readonly) NSArray<id <HCMatcher>> *matchers;
 @end
 
 @implementation HCIsCollectionContainingInRelativeOrder
 
-- (instancetype)initWithMatchers:(NSArray *)itemMatchers
+- (instancetype)initWithMatchers:(NSArray<id <HCMatcher>> *)itemMatchers
 {
     HCRequireNonEmptyArray(itemMatchers);
 
@@ -124,7 +117,7 @@ static void HCRequireNonEmptyArray(NSArray *array)
 @end
 
 
-id hc_containsInRelativeOrder(NSArray *itemMatchers)
+id HC_containsInRelativeOrder(NSArray *itemMatchers)
 {
     NSArray *matchers = HCWrapIntoMatchers(itemMatchers);
     return [[HCIsCollectionContainingInRelativeOrder alloc] initWithMatchers:matchers];

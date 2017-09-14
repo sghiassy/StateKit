@@ -445,7 +445,7 @@ As mentioned previously, if you'd like to include Swift support and get access t
 Import [StateKit](https://github.com/sghiassy/StateKit) into the necessary class
 
 ```objective-c
-#import <SKStateChart.h>
+#import "SKStateChart.h"
 ```
 
 and create/instantiate your state chart

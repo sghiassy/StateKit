@@ -1,10 +1,12 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 
 #import "HCDescription.h"   // Convenience header
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract The ability of an object to describe itself.
@@ -20,3 +22,5 @@
 - (void)describeTo:(id <HCDescription>)description;
 
 @end
+
+NS_ASSUME_NONNULL_END

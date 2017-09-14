@@ -1,5 +1,5 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <Foundation/Foundation.h>
 #import <OCHamcrest/HCMatcher.h>
@@ -7,11 +7,13 @@
 #define HC_ABSTRACT_METHOD [self subclassResponsibility:_cmd]
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
- * @abstract Base class for all @ref HCMatcher implementations.
+ * @abstract Base class for all HCMatcher implementations.
  * @discussion Simple matchers can just subclass HCBaseMatcher and implement <code>-matches:</code>
  * and <code>-describeTo:</code>. But if the matching algorithm has several "no match" paths,
- * consider subclassing @ref HCDiagnosingMatcher instead.
+ * consider subclassing HCDiagnosingMatcher instead.
  */
 @interface HCBaseMatcher : NSObject <HCMatcher, NSCopying>
 
@@ -19,3 +21,5 @@
 - (void)subclassResponsibility:(SEL)command;
 
 @end
+
+NS_ASSUME_NONNULL_END

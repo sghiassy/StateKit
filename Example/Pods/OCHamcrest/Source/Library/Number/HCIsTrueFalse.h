@@ -1,8 +1,10 @@
-//  OCHamcrest by Jon Reid, http://qualitycoding.org/about/
-//  Copyright 2015 hamcrest.org. See LICENSE.txt
+//  OCHamcrest by Jon Reid, https://qualitycoding.org/
+//  Copyright 2017 hamcrest.org. See LICENSE.txt
 
 #import <OCHamcrest/HCBaseMatcher.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * @abstract Matches true values.
@@ -19,27 +21,35 @@
 
 FOUNDATION_EXPORT id HC_isTrue(void);
 
-#ifdef HC_SHORTHAND
+#ifndef HC_DISABLE_SHORT_SYNTAX
 /*!
  * @abstract Creates a matcher that matches when the examined object is an non-zero NSNumber.
  * @discussion
  * <b>Name Clash</b><br />
- * In the event of a name clash, don't <code>#define HC_SHORTHAND</code> and use the synonym
+ * In the event of a name clash, <code>#define HC_DISABLE_SHORT_SYNTAX</code> and use the synonym
  * HC_isTrue instead.
  */
-#define isTrue() HC_isTrue()
+static inline id isTrue(void)
+{
+    return HC_isTrue();
+}
 #endif
 
 
 FOUNDATION_EXPORT id HC_isFalse(void);
 
-#ifdef HC_SHORTHAND
+#ifndef HC_DISABLE_SHORT_SYNTAX
 /*!
  * @abstract Creates a matcher that matches when the examined object is NSNumber zero.
  * @discussion
  * <b>Name Clash</b><br />
- * In the event of a name clash, don't <code>#define HC_SHORTHAND</code> and use the synonym
+ * In the event of a name clash, <code>#define HC_DISABLE_SHORT_SYNTAX</code> and use the synonym
  * HC_isFalse instead.
 */
-#define isFalse() HC_isFalse()
+static inline id isFalse(void)
+{
+    return HC_isFalse();
+}
 #endif
+
+NS_ASSUME_NONNULL_END

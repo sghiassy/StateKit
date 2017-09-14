@@ -1,6 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '8.0'
+use_frameworks!
 
 target :StateKitExample do
   pod 'StateKit', :path => "../"
@@ -9,7 +10,7 @@ end
 target :Tests do
   pod 'StateKit', :path => "../"
 
-  pod 'Specta', '~> 0.2.1', :inhibit_warnings => true
+  pod 'Specta', '~> 1.0.6', :inhibit_warnings => true
   pod 'Expecta'
-  pod 'OCMockito', '~> 1.0'
+  pod 'OCMockito', '~> 5.0.0'
 end
