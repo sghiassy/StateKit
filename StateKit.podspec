@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "StateKit"
-  s.version          = "0.2.0"
+  s.version          = "0.2.1"
   s.summary          = "StateKit is a StateChart written for iOS/MacOSX/tvOS/watchOS Development"
   s.description      = <<-DESC
                        StateKit is a framework to model, capture, manipulate and interact with State.
