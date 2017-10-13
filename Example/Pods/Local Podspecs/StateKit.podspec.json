@@ -1,6 +1,6 @@
 {
   "name": "StateKit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "summary": "StateKit is a StateChart written for iOS/MacOSX/tvOS/watchOS Development",
   "description": "StateKit is a framework to model, capture, manipulate and interact with State.\n\nStateKit models state in the form of a tree.\nThis is different from a Finite State Machine (FSM) that models state as a graph",
   "homepage": "https://github.com/sghiassy/StateKit",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/sghiassy/StateKit.git",
-    "tag": "0.2.0"
+    "tag": "0.2.1"
   },
   "platforms": {
     "ios": "7.0",

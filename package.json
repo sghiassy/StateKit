@@ -4,7 +4,8 @@
   "description": "[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "pod:install": "cd Example; pod install; cd -",
+    "pod:publish": "pod repo push StateKit StateKit.podspec",
     "x": "XCODE=$(echo $(xcode-select -p) | awk 'BEGIN { FS = \".app\" } ; { print $1\".app\" }'); open \"$XCODE\" ./Example/StateKit.xcworkspace"
   },
   "repository": {
