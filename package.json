@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "pod:install": "cd Example; pod install; cd -",
-    "pod:publish": "pod repo push StateKit StateKit.podspec",
-    "x": "XCODE=$(echo $(xcode-select -p) | awk 'BEGIN { FS = \".app\" } ; { print $1\".app\" }'); open \"$XCODE\" ./Example/StateKit.xcworkspace"
+    "pod:lint": "pod lib lint --verbose",
+    "pod:publish": "pod trunk push",
+    "x": "open ./Example/StateKit.xcworkspace"
   },
   "repository": {
     "type": "git",
